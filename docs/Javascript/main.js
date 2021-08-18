@@ -1,13 +1,12 @@
 // import * as events from 'event';
 
-let path_taken = [];
+let path_taken = [["0", "Start"]];
 
 const start_button = document.querySelector(".start-button");
 start_button.addEventListener('click', function(){
     console.log("click")
     change_flex_direction_play_area("row");
-    update_play_area(Bored_At_Home);
-    path_taken.push(["1", "Bored_At_Home"]);
+    director("A");
 });
 
 function change_flex_direction_play_area (direction) {
@@ -38,7 +37,7 @@ function update_play_area (next_event) {
     const play_area = document.querySelector(".play-area");
     play_area.innerHTML = "";
     const event = document.createElement('div');
-    event.class = "event";
+    event.className = "event";
 
     const occurence = document.createElement('p');
     occurence.className = "occurence";
@@ -53,11 +52,12 @@ function update_play_area (next_event) {
 
 
     const choice_container = document.createElement('div');
-    choice_container.class = "choice_container";
+    choice_container.className = "choice-container";
     for (possible_answer of next_event.Possible_Answer_List) {
         const choice = document.createElement('a');
         const signal = possible_answer.id;
-        choice.class = "choice";
+        choice.setAttribute("href", "#");
+        choice.className = "choice";
         choice.innerHTML = possible_answer.answer;
         choice.addEventListener('click', function() {
             director(signal);
