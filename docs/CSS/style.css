@@ -25,7 +25,7 @@ body {
     text-align: center;
 }
 
-.play_area {
+.play-area {
     align-items: center;
     background-color: #fff;
     border-radius: 20px;
@@ -33,6 +33,14 @@ body {
     display: flex;
     min-height: 200px;
     text-align: center;
+}
+
+.play-area-start {
+    flex-direction: row;
+}
+
+.play-area-game {
+    flex-direction: column;
 }
 
 .button  {
