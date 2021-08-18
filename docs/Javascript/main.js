@@ -4,8 +4,10 @@ let path_taken = [["0", "Start"]];
 
 const start_button = document.querySelector(".start-button");
 start_button.addEventListener('click', function(){
-    console.log("click")
+    console.log("click");
     change_flex_direction_play_area("row");
+    const title = document.querySelector(".title");
+    title.innerHTML = "Enjoy your adventure"
     director("A");
 });
 
@@ -30,6 +32,7 @@ function director (signal) {
             update_play_area(next_event);
         }
     }
+    // generate_end_game();
 
 };
 
