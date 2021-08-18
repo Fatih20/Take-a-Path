@@ -1,15 +1,8 @@
-// import * as events from 'event';
-
-let path_taken = [["0", "Start"]];
-
-const start_button = document.querySelector(".start-button");
-start_button.addEventListener('click', function(){
-    console.log("click");
-    change_flex_direction_play_area("row");
+function change_title_to_game (){
     const title = document.querySelector(".title");
     title.innerHTML = "Enjoy your adventure";
-    director("A");
-});
+}
+
 
 function change_flex_direction_play_area (direction) {
     const play_area = document.querySelector(".play-area");
@@ -31,9 +24,9 @@ function director (signal) {
     } else {
         for (answer_for_next_event of current_event.Answers_For_Next_Event_List){
             if (signal === answer_for_next_event.trigger) {
-                const next_event = event_name_conversion[answer_for_next_event.next_event_name];
                 path_taken.push([(parseInt(nth_current_event)+1).toString(), answer_for_next_event.next_event_name]);
-                update_play_area(next_event);
+                localStorage.setItem("path_taken", path_taken);
+                update_play_area(answer_for_next_event.next_event_name);
                 break;
             }
         }
@@ -41,7 +34,9 @@ function director (signal) {
 
 };
 
-function update_play_area (next_event) {
+function update_play_area (next_event_name) {
+    const next_event = event_name_conversion[next_event_name];
+
     const play_area = document.querySelector(".play-area");
     play_area.innerHTML = "";
     const event = document.createElement('div');
@@ -98,6 +93,7 @@ function generate_end_game (){
     end_game.innerHTML = path_summation;
 
     play_area.appendChild(end_game);
+    localStorage.removeItem("path_taken");
 
 };
 
