@@ -1,6 +1,9 @@
+var is_in_game = false;
 var path_taken;
+
 if (localStorage.getItem("path_taken") !== undefined && localStorage.getItem("path_taken") !== null ) {
     continue_game ();
+	is_in_game = true;
     console.log(localStorage.getItem("path_taken"));
     path_taken = JSON.parse(localStorage.getItem("path_taken"));
     console.log(path_taken);
@@ -12,7 +15,8 @@ if (localStorage.getItem("path_taken") !== undefined && localStorage.getItem("pa
     var path_taken = [["0", "Start"]];
     const start_button = document.querySelector(".start-button");
     start_button.addEventListener('click', function(){
-        console.log("click");
+        is_in_game = true;
+		console.log("click");
         change_flex_direction_play_area("row");
         change_title_to_game();
         director("A");
@@ -48,11 +52,56 @@ function change_title_to_game (){
     title.innerHTML = "Enjoy your adventure";
 }
 
-var dark_theme = false;
+if (localStorage.getItem("dark_theme") !== undefined && localStorage.getItem("dark_theme") !== null ) {
+	var dark_theme = JSON.parse(localStorage.getItem("dark_theme"));
+} else {
+	var dark_theme = false;
+}
+
+console.log(dark_theme);
 
 const theme_toggle = document.querySelector(".theme-toggle");
-theme_toggle.addEventListener('click', toggle_theme());
+theme_toggle.addEventListener('click', function () {
+    console.log('theme switched');
+	console.log(dark_theme);
+    dark_theme = !dark_theme;
+	console.log(dark_theme);
+	localStorage.setItem("dark_theme", JSON.stringify(dark_theme));
+    const body = document.querySelector("body");
+    const theme_toggle = document.querySelector(".theme-toggle");
+    const title = document.querySelector(".title");
+    const play_area = document.querySelector(".play-area");
+    const start_button = document.querySelector(".start-button");
+    const choice = document.querySelector(".choice");
+    const attribution = document.querySelector(".attribution");
+    
+    body.classList.toggle("body-dark", dark_theme);
+    body.classList.toggle("body-light", !dark_theme);
 
+    theme_toggle.classList.toggle("theme-toggle-dark", dark_theme);
+    theme_toggle.classList.toggle("theme-toggle-light", !dark_theme);
+
+    title.classList.toggle("title-dark", dark_theme);
+    title.classList.toggle("title-light", !dark_theme);
+
+    play_area.classList.toggle("play-area-dark", dark_theme);
+    play_area.classList.toggle("play-area-light", !dark_theme);
+	
+
+    attribution.classList.toggle("attribution-dark", dark_theme);
+    attribution.classList.toggle("attribution-light", !dark_theme);
+	
+	if (is_in_game === true) {
+    choice.classList.toggle("choice-dark", dark_theme);
+    choice.classList.toggle("choice-light", !dark_theme);
+	} else {
+		start_button.classList.toggle("start-button-dark", dark_theme);
+    start_button.classList.toggle("start-button-light", !dark_theme);
+	}
+	
+});
+
+/*
 function toggle_theme () {
     console.log('theme switched');
     dark_theme = !dark_theme;
@@ -85,3 +134,4 @@ function toggle_theme () {
     start_button.classList.toggle("start-button-dark", dark_theme);
     start_button.classList.toggle("start-button-light", !dark_theme);
 }
+*/

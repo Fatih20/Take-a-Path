@@ -12,14 +12,6 @@ body {
     padding-top: 50px;
 }
 
-.body-light { 
-   background-color: #f7f7f7;
-}
-
-.body-dark {
-    background-color: #1a1a1a;
-}
-
 .content {
     margin: auto auto;
     max-width: 768px;
@@ -29,18 +21,10 @@ body {
     text-align: center;
 }
 
-.theme-toggle {
+.theme-toggle-container {
     position: absolute;
     right: 70px;
     top: 20px;
-}
-
-.theme-toggle-light a {
-    color: black;
-}
-
-.theme-toggle-dark a {
-    color: white;
 }
 
 .title {
