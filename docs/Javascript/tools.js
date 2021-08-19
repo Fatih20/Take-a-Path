@@ -62,7 +62,7 @@ function update_play_area (next_event_name) {
     play_area.appendChild(choice_container);
 };
 
-function generate_end_game (){
+function generate_end_game () {
     let path_summation = "";
     console.log(path_taken);
     for (path of path_taken) {

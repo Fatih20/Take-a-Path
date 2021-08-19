@@ -1,3 +1,5 @@
+// localStorage.removeItem("dark_theme");
+
 var is_in_game = false;
 var path_taken;
 
@@ -52,27 +54,15 @@ function change_title_to_game (){
     title.innerHTML = "Enjoy your adventure";
 }
 
-if (localStorage.getItem("dark_theme") !== undefined && localStorage.getItem("dark_theme") !== null ) {
-	var dark_theme = JSON.parse(localStorage.getItem("dark_theme"));
-} else {
-	var dark_theme = false;
-}
-
-console.log(dark_theme);
-
-const theme_toggle = document.querySelector(".theme-toggle");
-theme_toggle.addEventListener('click', function () {
-    console.log('theme switched');
+function change_theme () {
 	console.log(dark_theme);
-    dark_theme = !dark_theme;
-	console.log(dark_theme);
+	localStorage.removeItem("dark_theme");
 	localStorage.setItem("dark_theme", JSON.stringify(dark_theme));
+	console.log(localStorage.getItem("dark_theme"));
     const body = document.querySelector("body");
     const theme_toggle = document.querySelector(".theme-toggle");
     const title = document.querySelector(".title");
     const play_area = document.querySelector(".play-area");
-    const start_button = document.querySelector(".start-button");
-    const choice = document.querySelector(".choice");
     const attribution = document.querySelector(".attribution");
     
     body.classList.toggle("body-dark", dark_theme);
@@ -87,18 +77,43 @@ theme_toggle.addEventListener('click', function () {
     play_area.classList.toggle("play-area-dark", dark_theme);
     play_area.classList.toggle("play-area-light", !dark_theme);
 	
-
     attribution.classList.toggle("attribution-dark", dark_theme);
     attribution.classList.toggle("attribution-light", !dark_theme);
 	
 	if (is_in_game === true) {
-    choice.classList.toggle("choice-dark", dark_theme);
-    choice.classList.toggle("choice-light", !dark_theme);
+    	const choice_list = document.querySelectorAll(".choice");
+		for (choice of choice_list) {
+			choice.classList.toggle("choice-dark", dark_theme);
+    		choice.classList.toggle("choice-light", !dark_theme);
+		}
 	} else {
+		const start_button = document.querySelector(".start-button");
 		start_button.classList.toggle("start-button-dark", dark_theme);
-    start_button.classList.toggle("start-button-light", !dark_theme);
+    	start_button.classList.toggle("start-button-light", !dark_theme);
 	}
-	
+}
+
+function toggle_theme () {
+    console.log('theme switched');
+	console.log(dark_theme);
+    dark_theme = !dark_theme;
+	console.log(dark_theme);
+	change_theme()
+}
+
+if (localStorage.getItem("dark_theme") !== undefined && localStorage.getItem("dark_theme") !== null ) {
+	var dark_theme = JSON.parse(localStorage.getItem("dark_theme"));
+	// console.log(dark_theme);
+} else {
+	var dark_theme = false;
+}
+change_theme ();
+
+// console.log(dark_theme);
+
+const theme_toggle = document.querySelector(".theme-toggle");
+theme_toggle.addEventListener('click', function() {
+	toggle_theme();
 });
 
 /*
