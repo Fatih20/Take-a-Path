@@ -20,7 +20,7 @@ function start_game (){
     globalThis.is_in_game = false;
 
     globalThis.dark_theme = JSON.parse(localStorage.getItem("dark_theme"));
-    globalThis.path_taken = JSON.parse(localStorage.getItem("path_taken"));
+    path_taken = JSON.parse(localStorage.getItem("path_taken"));
 
     if (dark_theme === undefined || dark_theme === null ) {
         dark_theme = false;
@@ -31,7 +31,7 @@ function start_game (){
         display_attribution(true);
         is_in_game = true;
         path_taken = JSON.parse(localStorage.getItem("path_taken"));
-        update_play_area (path_taken[path_taken.length-1][1]);
+        update_play_area (path_taken);
         change_theme ();
         
     } else {
@@ -44,7 +44,7 @@ function start_game (){
             change_title_to_game();
             is_in_game = true;
             display_attribution(true);
-            director("A");
+            director(path_taken, "A");
             })
     }
 

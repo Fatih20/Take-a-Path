@@ -19,7 +19,8 @@ function display_attribution (visibility) {
     attribution.classList.toggle("attribution-game-end", visibility);
 }
 
-function update_play_area (next_event_name) {
+function update_play_area (path_taken) {
+    const next_event_name = path_taken[path_taken.length-1][1];
     const next_event = event_name_conversion[next_event_name];
 
     const play_area = document.querySelector(".play-area");
@@ -53,7 +54,7 @@ function update_play_area (next_event_name) {
         }
         choice.innerHTML = possible_answer.answer;
         choice.addEventListener('click', function() {
-            director(signal);
+            director(JSON.parse(JSON.stringify(path_taken)), signal);
         });
         choice_container.appendChild(choice);
     }
