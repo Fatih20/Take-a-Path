@@ -52,7 +52,9 @@ body {
 
 .play-area-end {
     letter-spacing: 1px;
+    line-height: 1.5;
     min-height: none;
+    padding: 25px;
 }
 
 .button  {
@@ -130,4 +132,8 @@ body {
 
 .attribution a {
     color: #abacae;;
+}
+
+.link:hover {
+    color: #7e8087;
 }
