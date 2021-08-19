@@ -1,34 +1,22 @@
-function change_flex_direction_play_area (direction) {
+function play_area_direction_row (is_row) {
     const play_area = document.querySelector(".play-area");
-    if (direction === "row"){
-        play_area.classList.toggle("play-area-start", false);
-        play_area.classList.toggle("play-area-game", true);
-    } else if (direction === "column") {
-        play_area.classList.toggle("play-area-start", true);
-        play_area.classList.toggle("play-area-game", false);
-    }
+    // Start is row, game is column
+    play_area.classList.toggle("play-area-start", is_row);
+    play_area.classList.toggle("play-area-game", !is_row);
 };
 
 function display_replay_button (visibility) {
     const replay_button = document.querySelector(".replay-button");
-    if (visibility === true){
-        replay_button.classList.toggle("replay-button-start", false);
-        replay_button.classList.toggle("replay-button-end", true);
-    } else if (visibility === false) {
-        replay_button.classList.toggle("replay-button-start", true);
-        replay_button.classList.toggle("replay-button-end", false);
-    }
+    // Start is hidden, end is shown
+    replay_button.classList.toggle("replay-button-start", !visibility);
+    replay_button.classList.toggle("replay-button-end", visibility);
 };
 
 function display_attribution (visibility) {
     const attribution = document.querySelector(".attribution");
-    if (visibility === true){
-        attribution.classList.toggle("attribution-start", false);
-        attribution.classList.toggle("attribution-game-end", true);
-    } else if (visibility === false) {
-        attribution.classList.toggle("attribution-start", true);
-        attribution.classList.toggle("attribution-game-end", false);
-    }
+    // Start is hidden, game-end is shown
+    attribution.classList.toggle("attribution-start", !visibility);
+    attribution.classList.toggle("attribution-game-end", visibility);
 }
 
 function update_play_area (next_event_name) {
