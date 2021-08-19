@@ -9,6 +9,17 @@ function change_flex_direction_play_area (direction) {
     }
 };
 
+function display_replay_button (visibility) {
+    const replay_button = document.querySelector(".replay-button");
+    if (visibility === true){
+        replay_button.classList.toggle("replay-button-start", false);
+        replay_button.classList.toggle("replay-button-end", true);
+    } else if (visibility === false) {
+        replay_button.classList.toggle("replay-button-start", true);
+        replay_button.classList.toggle("replay-button-end", false);
+    }
+};
+
 function display_attribution (visibility) {
     const attribution = document.querySelector(".attribution");
     if (visibility === true){
@@ -18,7 +29,7 @@ function display_attribution (visibility) {
         attribution.classList.toggle("attribution-start", true);
         attribution.classList.toggle("attribution-game-end", false);
     }
-};
+}
 
 function update_play_area (next_event_name) {
     const next_event = event_name_conversion[next_event_name];
@@ -83,11 +94,10 @@ function generate_end_game () {
     end_game.className = "end-game";
     end_game.innerHTML = path_summation;
 
-    const replay_button = document.querySelector(".replay-button");
-    replay_button.classList.remove("replay-button-start");
-    replay_button.classList.add("replay-button-end")
+    display_replay_button(true);
 
     play_area.appendChild(end_game);
     localStorage.removeItem("path_taken");
+    is_in_game = false;
 
 };

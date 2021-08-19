@@ -1,32 +1,56 @@
 // localStorage.removeItem("dark_theme");
 
-var is_in_game = false;
-var path_taken;
+const replay_button = document.querySelector(".replay-button");
+replay_button.addEventListener('click', function() {
+    start_game();
+});
 
-if (localStorage.getItem("path_taken") !== undefined && localStorage.getItem("path_taken") !== null ) {
-    continue_game ();
-	is_in_game = true;
-    console.log(localStorage.getItem("path_taken"));
-    path_taken = JSON.parse(localStorage.getItem("path_taken"));
-    console.log(path_taken);
-    update_play_area (path_taken[path_taken.length-1][1]);
-    display_attribution(true);
-    
-} else {
-    new_game();
-    var path_taken = [["0", "Start"]];
-    const start_button = document.querySelector(".start-button");
-    start_button.addEventListener('click', function(){
+const theme_toggle = document.querySelector(".theme-toggle");
+theme_toggle.addEventListener('click', function() {
+	toggle_theme();
+});
+
+function start_game (){
+    const play_area = document.querySelector(".play-area");
+    play_area.innerHTML = "";
+    display_replay_button(false);
+
+    globalThis.is_in_game = false;
+    globalThis.path_taken;
+    if (localStorage.getItem("path_taken") !== undefined && localStorage.getItem("path_taken") !== null ) {
+        continue_game_set_play_area ();
         is_in_game = true;
-		console.log("click");
-        change_flex_direction_play_area("row");
-        change_title_to_game();
-        director("A");
+        console.log(localStorage.getItem("path_taken"));
+        path_taken = JSON.parse(localStorage.getItem("path_taken"));
+        console.log(path_taken);
+        update_play_area (path_taken[path_taken.length-1][1]);
         display_attribution(true);
-        })
-}
+        
+    } else {
+        new_game_set_play_area();
+        path_taken = [["0", "Start"]];
+        const start_button = document.querySelector(".start-button");
+        start_button.addEventListener('click', function(){
+            is_in_game = true;
+            console.log("click");
+            change_flex_direction_play_area("row");
+            change_title_to_game();
+            director("A");
+            display_attribution(true);
+            })
+    }
 
-function new_game () {
+    if (localStorage.getItem("dark_theme") !== undefined && localStorage.getItem("dark_theme") !== null ) {
+        globalThis.dark_theme = JSON.parse(localStorage.getItem("dark_theme"));
+        // console.log(dark_theme);
+    } else {
+        globalThis.dark_theme = false;
+    }
+    change_theme ();
+
+};
+
+function new_game_set_play_area () {
     const title = document.querySelector(".title");
     title.innerHTML = "Start your adventure";
 
@@ -41,7 +65,7 @@ function new_game () {
     play_area.appendChild(start_button);
 }
 
-function continue_game () {
+function continue_game_set_play_area () {
     const title = document.querySelector(".title");
     title.innerHTML = "Enjoy your adventure";
     
@@ -55,10 +79,9 @@ function change_title_to_game (){
 }
 
 function change_theme () {
-	console.log(dark_theme);
 	localStorage.removeItem("dark_theme");
 	localStorage.setItem("dark_theme", JSON.stringify(dark_theme));
-	console.log(localStorage.getItem("dark_theme"));
+	// console.log(localStorage.getItem("dark_theme"));
 
     const body = document.querySelector("body");
     const theme_toggle = document.querySelector(".theme-toggle");
@@ -101,27 +124,9 @@ function change_theme () {
 }
 
 function toggle_theme () {
-    console.log('theme switched');
-	console.log(dark_theme);
     dark_theme = !dark_theme;
-	console.log(dark_theme);
 	change_theme()
 }
-
-if (localStorage.getItem("dark_theme") !== undefined && localStorage.getItem("dark_theme") !== null ) {
-	var dark_theme = JSON.parse(localStorage.getItem("dark_theme"));
-	// console.log(dark_theme);
-} else {
-	var dark_theme = false;
-}
-change_theme ();
-
-// console.log(dark_theme);
-
-const theme_toggle = document.querySelector(".theme-toggle");
-theme_toggle.addEventListener('click', function() {
-	toggle_theme();
-});
 
 /*
 function toggle_theme () {
