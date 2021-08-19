@@ -62,14 +62,12 @@ function update_play_area (next_event_name) {
 };
 
 function generate_end_game () {
-    let path_summation = "";
-    console.log(path_taken);
+    let path_summation_list = [];
     for (path of path_taken) {
-        path_summation += end_game_conversion[path.join(" ")];
-        if (path_taken.indexOf(path) !== path_taken.length - 1){
-            path_summation += " ";
-        }
+        path_summation_list.push(end_game_conversion[path.join(" ")]);
     }
+    let path_summation = path_summation_list.join(" ");
+
     const title = document.querySelector(".title");
     title.innerHTML = "The path you've taken";
 

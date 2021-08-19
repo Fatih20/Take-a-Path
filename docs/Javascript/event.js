@@ -13,7 +13,7 @@ const Start = new Event(
 	"Start of the game",
 	"",
 	[],
-	// The only important part of this instance is the second index of the first index of the list below, which should be filled with the name of the first event to then be triggered by the director
+	// Next_event_name should be the first event in the game
 	[{trigger : "A", next_event_name: "Bored_At_Home"}]
 )
 
