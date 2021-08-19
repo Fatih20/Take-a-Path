@@ -5,13 +5,19 @@
 }
 
 a {
-    color: #000;
     text-decoration: none;
 }
 
-body { 
+body {
+    padding-top: 50px;
+}
+
+.body-light { 
    background-color: #f7f7f7;
-   padding-top: 50px;
+}
+
+.body-dark {
+    background-color: #1a1a1a;
 }
 
 .content {
@@ -23,18 +29,50 @@ body {
     text-align: center;
 }
 
+.theme-toggle {
+    position: absolute;
+    right: 70px;
+    top: 20px;
+}
+
+.theme-toggle-light a {
+    color: black;
+}
+
+.theme-toggle-dark a {
+    color: white;
+}
+
 .title {
     font-size: 54px;
     margin-bottom: 20px;
 }
 
+.title-light {
+    color: black;
+}
+
+.title-dark {
+    color: white;
+}
+
 .play-area {
     align-items: center;
-    background-color: #fff;
     border-radius: 20px;
-    box-shadow: 0px 5px 4px 1px #d4d4d4;
     display: flex;
     text-align: center;
+}
+
+.play-area-light {
+    background-color: #fff;
+    color: black;
+    box-shadow: 0px 5px 4px 1px #d4d4d4;
+}
+
+.play-area-dark {
+    background-color: #333333;
+    color: white;
+    box-shadow: 0px 5px 4px 1px #262626;
 }
 
 .play-area-start {
@@ -62,10 +100,15 @@ body {
     transition: all 0.2s;
 }
 
-.choice, .start-button {
+.choice-light, .start-button-light {
     background-color: #a56de2;
-    /* border-color: #007367; */
     box-shadow: 0px 3px 3px 0px #9856dc;
+    color: white;
+}
+
+.choice-dark, .start-button-dark {
+    background-color: #7239b3;
+    box-shadow: 0px 3px 3px 0px #291650;
     color: white;
 }
 
@@ -73,6 +116,11 @@ body {
     border-radius: 7px;
     margin: 0 auto;
     padding: 10px;
+}
+
+.start-button-light:hover, .choice-light:hover{
+    background-color: #b07fe6;
+    color: white;
 }
 
 .start-button:hover, .choice:hover{
@@ -124,7 +172,6 @@ body {
 }
 
 .attribution h2{
-    color: #abacae;
     font-size: 14px;
     font-weight: 400;
     margin-top: 20px;
@@ -134,6 +181,30 @@ body {
     color: #abacae;;
 }
 
-.link:hover {
+.attribution .link:hover {
+    color: #7e8087;
+}
+
+.attribution-light h2{
+    color: #abacae;
+}
+
+.attribution-light a {
+    color: #abacae;;
+}
+
+.attribution-light .link:hover {
+    color: #7e8087;
+}
+
+.attribution-dark h2{
+    color: #666;
+}
+
+.attribution-dark a {
+    color: #666;;
+}
+
+.attribution-dark .link:hover {
     color: #7e8087;
 }
