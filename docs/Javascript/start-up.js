@@ -14,6 +14,7 @@ function start_game (){
     const play_area = document.querySelector(".play-area");
     play_area.innerHTML = "";
     display_replay_button(false);
+    display_attribution(false);
 
     globalThis.is_in_game = false;
     globalThis.path_taken;
