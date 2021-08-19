@@ -44,24 +44,24 @@ i.theme-toggle-dark:hover	{
     box-shadow: 0px 5px 4px 1px #262626;
 }
 
-.choice-light, .start-button-light {
+.button-light {
     background-color: #a56de2;
     box-shadow: 0px 3px 3px 0px #9856dc;
     color: white;
 }
 
-.choice-dark, .start-button-dark {
+.button-dark {
     background-color: #7239b3;
     box-shadow: 0px 3px 3px 0px #291650;
     color: white;
 }
 
-.start-button-light:hover, .choice-light:hover{
+.button-light:hover {
     background-color: #b07fe6;
     color: white;
 }
 
-.start-button:hover, .choice:hover{
+.buton:hover {
     background-color: #b07fe6;
     color: white;
 }

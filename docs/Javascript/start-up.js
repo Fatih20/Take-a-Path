@@ -64,6 +64,7 @@ function change_theme () {
     const theme_toggle = document.querySelector(".theme-toggle");
     const title = document.querySelector(".title");
     const play_area = document.querySelector(".play-area");
+    const replay_button = document.querySelector(".replay-button");
     const attribution = document.querySelector(".attribution");
     
     body.classList.toggle("body-dark", dark_theme);
@@ -79,6 +80,9 @@ function change_theme () {
 
     play_area.classList.toggle("play-area-dark", dark_theme);
     play_area.classList.toggle("play-area-light", !dark_theme);
+
+    replay_button.classList.toggle("button-dark", dark_theme);
+    replay_button.classList.toggle("button-light", !dark_theme);
 	
     attribution.classList.toggle("attribution-dark", dark_theme);
     attribution.classList.toggle("attribution-light", !dark_theme);
@@ -86,13 +90,13 @@ function change_theme () {
 	if (is_in_game === true) {
     	const choice_list = document.querySelectorAll(".choice");
 		for (choice of choice_list) {
-			choice.classList.toggle("choice-dark", dark_theme);
-    		choice.classList.toggle("choice-light", !dark_theme);
+			choice.classList.toggle("button-dark", dark_theme);
+    		choice.classList.toggle("button-light", !dark_theme);
 		}
 	} else {
 		const start_button = document.querySelector(".start-button");
-		start_button.classList.toggle("start-button-dark", dark_theme);
-    	start_button.classList.toggle("start-button-light", !dark_theme);
+		start_button.classList.toggle("button-dark", dark_theme);
+    	start_button.classList.toggle("button-light", !dark_theme);
 	}
 }
 

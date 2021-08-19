@@ -38,11 +38,11 @@ a {
     margin-bottom: 20px;
 }
 
-
 .play-area {
     align-items: center;
     border-radius: 20px;
     display: flex;
+    margin-bottom: 20px;
     text-align: center;
 }
 
@@ -67,18 +67,40 @@ a {
 }
 
 .button  {
-    display: block;
+    display: inline-block;
     transition: all 0.2s;
 }
-.start-button {
+.start-button, .replay-button {
     border-radius: 7px;
     margin: 0 auto;
+}
+
+.start-button {
     padding: 10px;
+}
+
+.start-button p, .replay-button p {
+    font-weight: 500;
 }
 
 .start-button p {
     font-size: 32px;
-    font-weight: 500;
+}
+
+.replay-button {
+    padding: 10px;
+}
+
+.replay-button-start {
+    display: none;
+}
+
+.replay-button-end {
+    display: inline-block;
+}
+
+.replay-button p {
+    font-size: 20px;
 }
 
 .occurence {
@@ -124,3 +146,4 @@ a {
     font-weight: 400;
     margin-top: 20px;
 }
+

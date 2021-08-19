@@ -46,11 +46,11 @@ function update_play_area (next_event_name) {
         const choice = document.createElement('a');
         const signal = possible_answer.id;
         choice.setAttribute("href", "#");
-        choice.className = "choice";
+        choice.className = "choice button";
         if (dark_theme === true){
-            choice.classList.add("choice-dark");
+            choice.classList.add("button-dark");
         } else {
-            choice.classList.add("choice-light");
+            choice.classList.add("button-light");
         }
         choice.innerHTML = possible_answer.answer;
         choice.addEventListener('click', function() {
@@ -82,6 +82,10 @@ function generate_end_game () {
     const end_game = document.createElement('p');
     end_game.className = "end-game";
     end_game.innerHTML = path_summation;
+
+    const replay_button = document.querySelector(".replay-button");
+    replay_button.classList.remove("replay-button-start");
+    replay_button.classList.add("replay-button-end")
 
     play_area.appendChild(end_game);
     localStorage.removeItem("path_taken");
