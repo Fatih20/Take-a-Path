@@ -1,0 +1,51 @@
+@media (max-width: 1367px) {
+    /* .title {
+        font-size: 40px;
+    }
+
+    .start-button p {
+        font-size: 24px;
+    } */
+}
+
+@media (max-width: 820px) {
+    body {
+        padding-left:10px;
+        padding-right: 10px;
+    }
+
+    .title {
+        font-size: 48px;
+    }
+
+    .start-button p {
+        font-size: 28px;
+    }
+
+    .play-area {
+        padding: 20px 10px;
+    }
+}
+
+@media (max-width: 520px) {
+    .title {
+        font-size: 40px;
+    }
+
+    .start-button p {
+        font-size: 24px;
+    }
+
+    .choice-container {
+        flex-direction: column;
+        max-width: 300px;
+    }
+
+    .choice {
+        margin-bottom: 20px;
+    }
+
+    .choice:last-child {
+        margin-bottom: 0px;
+    }
+}

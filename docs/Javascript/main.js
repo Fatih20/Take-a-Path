@@ -1,6 +1,9 @@
+// localStorage.removeItem("path_taken");
+
 var path_taken;
 if (localStorage.getItem("path_taken") !== undefined && localStorage.getItem("path_taken") !== null ) {
     continue_game ();
+    console.log(localStorage.getItem("path_taken"));
     path_taken = JSON.parse(localStorage.getItem("path_taken"));
     console.log(path_taken);
     update_play_area (path_taken[path_taken.length-1][1]);
@@ -14,6 +17,7 @@ if (localStorage.getItem("path_taken") !== undefined && localStorage.getItem("pa
         change_flex_direction_play_area("row");
         change_title_to_game();
         director("A");
+        display_attribution(true);
         })
 }
 
@@ -57,6 +61,17 @@ function change_flex_direction_play_area (direction) {
     }
 };
 
+function display_attribution (visibility) {
+    const play_area = document.querySelector(".attribution");
+    if (visibility === true){
+        play_area.classList.toggle("attribution-start", false);
+        play_area.classList.toggle("attribution-game-end", true);
+    } else if (visibility === false) {
+        play_area.classList.toggle("attribution-start", true);
+        play_area.classList.toggle("attribution-game-end", false);
+    }
+};
+
 function director (signal) {
     const current_event = event_name_conversion[path_taken[path_taken.length-1][1]];
     const nth_current_event = path_taken[path_taken.length-1][0];
@@ -67,7 +82,7 @@ function director (signal) {
         for (answer_for_next_event of current_event.Answers_For_Next_Event_List){
             if (signal === answer_for_next_event.trigger) {
                 path_taken.push([(parseInt(nth_current_event)+1).toString(), answer_for_next_event.next_event_name]);
-                localStorage.setItem("path_taken", path_taken);
+                localStorage.setItem("path_taken", JSON.stringify(path_taken));
                 update_play_area(answer_for_next_event.next_event_name);
                 break;
             }
