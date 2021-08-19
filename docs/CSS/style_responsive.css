@@ -22,9 +22,15 @@
         font-size: 28px;
     }
 
-    .play-area {
+    .play-area-start, .play-area-game {
         padding: 20px 10px;
     }
+
+    .play-area-end {
+        padding: 20px;
+    }    
+
+
 }
 
 @media (max-width: 520px) {
