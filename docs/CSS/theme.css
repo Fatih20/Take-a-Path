@@ -6,13 +6,20 @@
     background-color: #1a1a1a;
 }
 
-a.theme-toggle {
+i.theme-toggle-light {
+    color: #abacae;
+    font-size: 46px;
 }
 
-a.theme-toggle-light {
-    color: black;
+i.theme-toggle-light:hover {
+    color: #f9c440;
 }
 
-a.theme-toggle-dark	 {
-    color: white;
+i.theme-toggle-dark	 {
+    color: #666;
+    font-size: 36px;
+}
+
+i.theme-toggle-dark:hover	{
+    color: #fff394;
 }

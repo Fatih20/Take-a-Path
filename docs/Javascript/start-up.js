@@ -59,6 +59,7 @@ function change_theme () {
 	localStorage.removeItem("dark_theme");
 	localStorage.setItem("dark_theme", JSON.stringify(dark_theme));
 	console.log(localStorage.getItem("dark_theme"));
+
     const body = document.querySelector("body");
     const theme_toggle = document.querySelector(".theme-toggle");
     const title = document.querySelector(".title");
@@ -70,6 +71,8 @@ function change_theme () {
 
     theme_toggle.classList.toggle("theme-toggle-dark", dark_theme);
     theme_toggle.classList.toggle("theme-toggle-light", !dark_theme);
+    theme_toggle.classList.toggle("fa-moon", dark_theme);
+    theme_toggle.classList.toggle("fa-sun", !dark_theme);
 
     title.classList.toggle("title-dark", dark_theme);
     title.classList.toggle("title-light", !dark_theme);
