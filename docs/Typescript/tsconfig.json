@@ -1,11 +1,14 @@
 {
 	"compilerOptions": {
 		"target": "es6",
-    	"module": "commonjs",
     	"sourceMap": true,
 		"outDir": "../Javascript"
   	},
-	//"include": ["*"];
-
+	"files": [
+		"main.ts",
+		"start_up.ts",
+		"tools.ts",
+		"event.ts",
+	]
 
 }
