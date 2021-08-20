@@ -1,5 +1,5 @@
 // localStorage.removeItem("path_taken");
-localStorage.removeItem("dark_theme");
+// localStorage.removeItem("dark_theme");
 
 const replay_button = document.querySelector(".replay-button");
 replay_button.addEventListener('click', function() {
