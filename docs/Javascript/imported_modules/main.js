@@ -10,7 +10,7 @@ export function director (path_taken, signal) {
     const nth_current_event = path_taken[path_taken.length-1][0];
     path_taken[path_taken.length-1].push(signal);
     if (current_event.Answers_For_Next_Event_List.length === 0) {
-        generate_end_game(path_taken);
+        display_end_screen(path_taken);
     } else {
         for (let answer_for_next_event of current_event.Answers_For_Next_Event_List){
             if (signal === answer_for_next_event.trigger) {
@@ -67,7 +67,7 @@ export function update_play_area (path_taken, event_file) {
     play_area.appendChild(choice_container);
 };
 
-export function generate_end_game (path_taken) {
+export function display_end_screen (path_taken) {
     let path_summation_list = [];
     for (let path of path_taken) {
         path_summation_list.push(end_game_conversion[path.join(" ")]);
