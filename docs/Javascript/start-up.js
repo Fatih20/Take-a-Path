@@ -1,4 +1,5 @@
 // localStorage.removeItem("path_taken");
+localStorage.removeItem("dark_theme");
 
 const replay_button = document.querySelector(".replay-button");
 replay_button.addEventListener('click', function() {
@@ -17,8 +18,6 @@ function start_game (){
     display_replay_button(false);
     display_attribution(false);
 
-    globalThis.is_in_game = false;
-
     dark_theme_raw = localStorage.getItem("dark_theme");
     console.log(localStorage.getItem("dark_theme"));
 
@@ -31,11 +30,13 @@ function start_game (){
     localStorage.setItem("dark_theme", JSON.stringify(dark_theme));
 
     path_taken = JSON.parse(localStorage.getItem("path_taken"));
+    
+    state_of_game = 0;
+    localStorage.setItem("state_of_game", state_of_game);
 
     if (path_taken !== undefined && path_taken !== null ) {
         set_play_area_new_game (false);
         display_attribution(true);
-        is_in_game = true;
         path_taken = JSON.parse(localStorage.getItem("path_taken"));
         update_play_area (path_taken);
         change_theme (dark_theme);
@@ -48,8 +49,8 @@ function start_game (){
         start_button.addEventListener('click', function(){
             play_area_direction_row (false);
             change_title_to_game();
-            is_in_game = true;
             display_attribution(true);
+            localStorage.setItem("state_of_game", 1);
             director(path_taken, "A");
             })
     }
@@ -72,21 +73,23 @@ function set_play_area_new_game (is_new) {
         play_area.appendChild(start_button);
 
     } else {
+        localStorage.setItem("state_of_game", 1);
         const title = document.querySelector(".title");
         title.innerHTML = "Enjoy your adventure";
         
         const play_area = document.querySelector(".play-area");
         play_area.classList.add("play-area-game");
     }
-}
+};
 
 function change_title_to_game (){
     const title = document.querySelector(".title");
     title.innerHTML = "Enjoy your adventure";
-}
+};
 
 function change_theme (dark_theme) {
 	localStorage.setItem("dark_theme", JSON.stringify(dark_theme));
+    state_of_game = JSON.parse(localStorage.getItem("state_of_game"));
 
     const body = document.querySelector("body");
     const theme_toggle = document.querySelector(".theme-toggle");
@@ -114,14 +117,14 @@ function change_theme (dark_theme) {
 	
     attribution.classList.toggle("attribution-dark", dark_theme);
     attribution.classList.toggle("attribution-light", !dark_theme);
-	
-	if (is_in_game === true) {
+
+	if (state_of_game === 1) {
     	const choice_list = document.querySelectorAll(".choice");
 		for (choice of choice_list) {
 			choice.classList.toggle("button-dark", dark_theme);
     		choice.classList.toggle("button-light", !dark_theme);
 		}
-	} else {
+	} else if (state_of_game === 0) {
 		const start_button = document.querySelector(".start-button");
 		start_button.classList.toggle("button-dark", dark_theme);
     	start_button.classList.toggle("button-light", !dark_theme);

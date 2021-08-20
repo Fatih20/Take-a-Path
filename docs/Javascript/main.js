@@ -86,6 +86,6 @@ function generate_end_game (path_taken) {
 
     play_area.appendChild(end_game);
     localStorage.removeItem("path_taken");
-    is_in_game = false;
+    localStorage.setItem("state_of_game", 2);
 
 };
