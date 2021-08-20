@@ -18,20 +18,20 @@ function start_game (){
     display_replay_button(false);
     display_attribution(false);
 
-    dark_theme_raw = localStorage.getItem("dark_theme");
+    const dark_theme_raw = localStorage.getItem("dark_theme");
     console.log(localStorage.getItem("dark_theme"));
 
     if (dark_theme_raw === "undefined" || JSON.parse(dark_theme_raw) === null ) {
         var dark_theme = false;
     } else {
-        var dark_theme = JSON.parse(dark_theme_raw);
+        var dark_theme:boolean = JSON.parse(dark_theme_raw);
     }
 
     localStorage.setItem("dark_theme", JSON.stringify(dark_theme));
 
-    path_taken = JSON.parse(localStorage.getItem("path_taken"));
+    var path_taken: string[] = JSON.parse(localStorage.getItem("path_taken"));
     
-    state_of_game = 0;
+    var state_of_game = "0";
     localStorage.setItem("state_of_game", state_of_game);
 
     if (path_taken !== undefined && path_taken !== null ) {
@@ -87,7 +87,7 @@ function change_title_to_game (){
     title.innerHTML = "Enjoy your adventure";
 };
 
-function change_theme (dark_theme) {
+function change_theme (dark_theme: boolean) {
 	localStorage.setItem("dark_theme", JSON.stringify(dark_theme));
     state_of_game = JSON.parse(localStorage.getItem("state_of_game"));
 
