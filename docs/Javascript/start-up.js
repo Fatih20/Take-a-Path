@@ -19,12 +19,18 @@ function start_game (){
 
     globalThis.is_in_game = false;
 
-    globalThis.dark_theme = JSON.parse(localStorage.getItem("dark_theme"));
-    path_taken = JSON.parse(localStorage.getItem("path_taken"));
+    dark_theme_raw = localStorage.getItem("dark_theme");
+    console.log(localStorage.getItem("dark_theme"));
 
-    if (dark_theme === undefined || dark_theme === null ) {
-        dark_theme = false;
+    if (dark_theme_raw === "undefined" || JSON.parse(dark_theme_raw) === null ) {
+        var dark_theme = false;
+    } else {
+        var dark_theme = JSON.parse(dark_theme_raw);
     }
+
+    localStorage.setItem("dark_theme", JSON.stringify(dark_theme));
+
+    path_taken = JSON.parse(localStorage.getItem("path_taken"));
 
     if (path_taken !== undefined && path_taken !== null ) {
         set_play_area_new_game (false);
@@ -32,11 +38,11 @@ function start_game (){
         is_in_game = true;
         path_taken = JSON.parse(localStorage.getItem("path_taken"));
         update_play_area (path_taken);
-        change_theme ();
+        change_theme (dark_theme);
         
     } else {
         set_play_area_new_game(true);
-        change_theme ();
+        change_theme (dark_theme);
         path_taken = [["0", "Start"]];
         const start_button = document.querySelector(".start-button");
         start_button.addEventListener('click', function(){
@@ -79,8 +85,7 @@ function change_title_to_game (){
     title.innerHTML = "Enjoy your adventure";
 }
 
-function change_theme () {
-	localStorage.removeItem("dark_theme");
+function change_theme (dark_theme) {
 	localStorage.setItem("dark_theme", JSON.stringify(dark_theme));
 
     const body = document.querySelector("body");
@@ -121,9 +126,11 @@ function change_theme () {
 		start_button.classList.toggle("button-dark", dark_theme);
     	start_button.classList.toggle("button-light", !dark_theme);
 	}
-}
+};
 
 function toggle_theme () {
+    dark_theme = JSON.parse(localStorage.getItem("dark_theme"));
     dark_theme = !dark_theme;
-	change_theme();
+    localStorage.setItem("dark_theme", JSON.stringify(dark_theme));
+	change_theme(dark_theme);
 };

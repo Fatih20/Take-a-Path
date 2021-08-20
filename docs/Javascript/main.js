@@ -19,6 +19,8 @@ function director (path_taken, signal) {
 };
 
 function update_play_area (path_taken) {
+    const dark_theme = JSON.parse(localStorage.getItem("dark_theme"));
+
     const next_event_name = path_taken[path_taken.length-1][1];
     const next_event = event_name_conversion[next_event_name];
 
