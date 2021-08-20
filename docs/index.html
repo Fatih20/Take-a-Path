@@ -32,12 +32,9 @@
             <h2>Web development by <a href="https://github.com/Fatih20" class="link">@fatih20</a></h2>
         </div>
     </div>
-    <script src="Javascript/end_game.js"></script>
-    <script src="Javascript/event.js"></script>
-    <script src="Javascript/tools.js"></script>
-    <script src="Javascript/main.js"></script>
-    <script src="Javascript/start-up.js"></script>
-    <script>
+    <script type="module" src="Javascript/start-up.js"></script>
+    <script type="module">
+        import { start_game } from "./Javascript/start-up.js";
         start_game();
     </script>
 </body>

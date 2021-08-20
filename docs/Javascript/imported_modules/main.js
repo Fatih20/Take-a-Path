@@ -1,28 +1,33 @@
 // localStorage.removeItem("path_taken");
 
-function director (path_taken, signal) {
-    const current_event = event_name_conversion[path_taken[path_taken.length-1][1]];
+import { display_replay_button } from "./tools.js";
+import { end_game_conversion } from "./end_game.js";
+import * as event_file from "./event.js";
+
+
+export function director (path_taken, signal) {
+    const current_event = event_file.event_name_conversion[path_taken[path_taken.length-1][1]];
     const nth_current_event = path_taken[path_taken.length-1][0];
     path_taken[path_taken.length-1].push(signal);
     if (current_event.Answers_For_Next_Event_List.length === 0) {
         generate_end_game(path_taken);
     } else {
-        for (answer_for_next_event of current_event.Answers_For_Next_Event_List){
+        for (let answer_for_next_event of current_event.Answers_For_Next_Event_List){
             if (signal === answer_for_next_event.trigger) {
                 path_taken.push([(parseInt(nth_current_event)+1).toString(), answer_for_next_event.next_event_name]);
                 localStorage.setItem("path_taken", JSON.stringify(path_taken));
-                update_play_area(path_taken);
+                update_play_area(path_taken, event_file);
                 break;
             }
         }
     }
 };
 
-function update_play_area (path_taken) {
+export function update_play_area (path_taken, event_file) {
     const dark_theme = JSON.parse(localStorage.getItem("dark_theme"));
 
     const next_event_name = path_taken[path_taken.length-1][1];
-    const next_event = event_name_conversion[next_event_name];
+    const next_event = event_file.event_name_conversion[next_event_name];
 
     const play_area = document.querySelector(".play-area");
     play_area.innerHTML = "";
@@ -40,10 +45,9 @@ function update_play_area (path_taken) {
     event.appendChild(occurence);
     event.appendChild(question);
 
-
     const choice_container = document.createElement('div');
     choice_container.className = "choice-container";
-    for (possible_answer of next_event.Possible_Answer_List) {
+    for (let possible_answer of next_event.Possible_Answer_List) {
         const choice = document.createElement('a');
         const signal = possible_answer.id;
         choice.setAttribute("href", "#");
@@ -63,9 +67,9 @@ function update_play_area (path_taken) {
     play_area.appendChild(choice_container);
 };
 
-function generate_end_game (path_taken) {
+export function generate_end_game (path_taken) {
     let path_summation_list = [];
-    for (path of path_taken) {
+    for (let path of path_taken) {
         path_summation_list.push(end_game_conversion[path.join(" ")]);
     }
     let path_summation = path_summation_list.join(" ");
