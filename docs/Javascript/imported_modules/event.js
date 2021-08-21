@@ -6,7 +6,7 @@ export class Event {
 		this.Possible_Answer_List = Possible_Answer_List;
 		this.Answers_For_Next_Event_List = Answers_For_Next_Event_List;
 		this.Default_Ending_Bit = Default_Ending_Bit;
-		this.Conditions = Conditions
+		this.Conditions = Conditions;
     }
 }
 
