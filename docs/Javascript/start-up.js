@@ -1,4 +1,4 @@
-localStorage.removeItem("path_taken");
+// localStorage.removeItem("path_taken");
 // localStorage.removeItem("dark_theme");
 
 import { display_replay_button } from "./imported_modules/tools.js";
@@ -51,7 +51,7 @@ export function start_game (){
     } else {
         set_play_area_new_game(true);
         change_theme (dark_theme);
-        path_taken = [["0", "Start"]];
+        path_taken = [{nth_event : "0", name_of_event: "Start"}];
         const start_button = document.querySelector(".start-button");
         start_button.addEventListener('click', function(){
             play_area_direction_row (false);
