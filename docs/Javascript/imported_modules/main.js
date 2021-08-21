@@ -9,11 +9,12 @@ export function director (path_taken, signal) {
     const current_event = event_file.event_name_conversion[path_taken[path_taken.length-1][1]];
     const nth_current_event = path_taken[path_taken.length-1][0];
     path_taken[path_taken.length-1].push(signal);
-    if (current_event.Answers_For_Next_Event_List.length === 0) {
-        display_end_screen(path_taken);
-    } else {
-        for (let answer_for_next_event of current_event.Answers_For_Next_Event_List){
-            if (signal === answer_for_next_event.trigger) {
+    for (let answer_for_next_event of current_event.Answers_For_Next_Event_List){
+        if (signal === answer_for_next_event.trigger) {
+            if (answer_for_next_event.next_event_name === "End"){
+                display_end_screen(path_taken);
+                break;
+            } else {
                 path_taken.push([(parseInt(nth_current_event)+1).toString(), answer_for_next_event.next_event_name]);
                 localStorage.setItem("path_taken", JSON.stringify(path_taken));
                 update_play_area(path_taken, event_file);

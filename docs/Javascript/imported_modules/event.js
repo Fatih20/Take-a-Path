@@ -30,6 +30,7 @@ export const Restaurant = new Event(
 	"You're at a restaurant.",	
 	"What do you order?",
 	[{id : "A", answer: "Pasta" }, {id : "B", answer: "Spaghetti"}],
+	[{trigger: "A", next_event_name : "End"}, {trigger : "B", next_event_name : "End"}]
 )
 
 export const Cinema = new Event(
@@ -37,6 +38,7 @@ export const Cinema = new Event(
 	"You're at a cinema.",
 	"What movie do you want to see?",
 	[{id : "A", answer: "Jaws" }, {id : "B", answer: "Star Wars"}],
+	[{trigger: "A", next_event_name : "End"}, {trigger : "B", next_event_name : "End"}]
 )
 
 export const event_name_conversion = {
