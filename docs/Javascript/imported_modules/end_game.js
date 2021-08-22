@@ -6,4 +6,104 @@ export const end_game_conversion = {
 	"2 Restaurant B" : "You ordered a spaghetti. It arrived in about 15 minutes.",
 	"2 Cinema A" : "You decided to watch Jaws. It's a pretty thrilling and scary movie. You wound up having thalassophobia.",
 	"2 Cinema B" : "You decided to watch Star Wars. The space adventure Luke and the gang goes through keeps you at the edge of your seat. You really enjoy the movie and can't wait for the sequel.",
-}; 
+};
+
+export function display_end_screen (path_taken) {
+    const end_game_story = generate_end_story(path_taken);
+
+    const title = document.querySelector(".title");
+    title.innerHTML = "The path you've taken";
+
+    const play_area = document.querySelector(".play-area");
+    play_area.innerHTML = "";
+    play_area.classList.remove("play-area-game");
+    play_area.classList.add("play-area-end");
+
+    const end_game = document.createElement('p');
+    end_game.className = "end-game";
+    end_game.innerHTML = end_game_story;
+
+    display_replay_button(true);
+
+    play_area.appendChild(end_game);
+    localStorage.removeItem("path_taken");
+    localStorage.setItem("state_of_game", 2);
+
+};
+
+export function generate_end_story (path_taken) {
+    let examined_path_list = [];
+    let path_summation_list = [];
+    for (let path of path_taken) {
+        const examined_event = event_file.event_name_conversion[path.name_of_event];
+        if (examined_event.Conditions = {} && condition_generator(examined_path_list, path, examined_event) === null){
+            let for_key_of_ending_list = [];
+            for (const key of Object.keys(path)){
+                for_key_of_ending_list.push(path[key]); 
+            }
+            path_summation_list.push(end_game_conversion[for_key_of_ending_list.join(" ")]);
+        } else {
+        }
+
+        examined_path_list.push(path);
+    }
+    return path_summation_list.join(" ");
+};
+
+function condition_generator (previously_examined_path_list, currently_examined_path, examined_event){
+    const choice_compatible_condition_list = examined_event[currently_examined_path.choice_made];
+    if (choice_compatible_condition_list !== undefined) {
+        for (const condition of choice_compatible_condition_list){
+            if (condition.type === "if_nth_event_then_event_before") {
+                const end_game_story_bit = nth_event_checker (previously_examined_path_list, currently_examined_path, condition);
+                if (end_game_story_bit !== null) {
+                    return end_game_story_bit;
+                } 
+                    
+            } else if (condition.type === "nth_event") {
+                if (currently_examined_path.nth_event === condition.specification.nth_this_event) {
+                    return condition.end_game_story_bit;
+                }
+            } else if (condition.type === "specific_event") {
+                const end_game_story_bit = specific_event_checker (previously_examined_path_list, condition) !== null;
+                if (end_game_story_bit !== null) {
+                    return end_game_story_bit;
+                }
+                
+            } 
+        }
+    }
+    
+    else {
+        return null;
+    }
+};
+
+function specific_event_checker (previously_examined_path_list, specification) {
+    for (const previous_path of previously_examined_path_list) {
+        if (previous_path.nth_event === condition.specification.nth_event || condition.specification.nth_event === undefined ) {
+            if (previous_path.name_of_event === condition.specification.event_name || condition.specification.event_name === undefined ) {
+                if (previous_path.choice_made === condition.specification.choice || condition.specification.choice === undefined ) {
+                    return condition.end_game_story_bit;
+                }
+            }    
+        }
+    }
+
+    return null;
+};
+
+function nth_event_checker (previously_examined_path_list, currently_examined_path, condition){
+    if (condition.specification.nth_this_event === currently_examined_path.nth_event) {
+        for (const previous_path of previously_examined_path_list) {
+            if (previous_path.name_of_event === condition.specification.event_before) {
+                return condition.end_game_story_bit;
+            }
+        }
+        return null;
+    }
+
+    else {
+        return null;
+    }
+};

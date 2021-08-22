@@ -1,7 +1,7 @@
 // localStorage.removeItem("path_taken");
 
 import { display_replay_button } from "./tools.js";
-import { end_game_conversion } from "./end_game.js";
+import { display_end_screen } from "./end_game.js";
 import * as event_file from "./event.js";
 
 
@@ -66,51 +66,4 @@ export function update_play_area (path_taken, event_file) {
     }
     play_area.appendChild(event);
     play_area.appendChild(choice_container);
-};
-
-export function display_end_screen (path_taken) {
-    const end_game_story = generate_end_story(path_taken);
-
-    const title = document.querySelector(".title");
-    title.innerHTML = "The path you've taken";
-
-    const play_area = document.querySelector(".play-area");
-    play_area.innerHTML = "";
-    play_area.classList.remove("play-area-game");
-    play_area.classList.add("play-area-end");
-
-    const end_game = document.createElement('p');
-    end_game.className = "end-game";
-    end_game.innerHTML = end_game_story;
-
-    display_replay_button(true);
-
-    play_area.appendChild(end_game);
-    localStorage.removeItem("path_taken");
-    localStorage.setItem("state_of_game", 2);
-
-};
-
-export function generate_end_story (path_taken) {
-    let examined_path_list = [];
-    let path_summation_list = [];
-    for (let path of path_taken) {
-        const examined_event = event_file.event_name_conversion[path.name_of_event];
-        if (examined_event.Conditions = {} && condition_generator(examined_path_list, path, examined_event) === null){
-            let for_key_of_ending_list = [];
-            for (const key of Object.keys(path)){
-                for_key_of_ending_list.push(path[key]); 
-            }
-            path_summation_list.push(end_game_conversion[for_key_of_ending_list.join(" ")]);
-        } else {
-        }
-
-        examined_path_list.push(path);
-
-    }
-    return path_summation_list.join(" ");
-};
-
-export function condition_generator (previously_examined_path_list, currently_examined_path, examined_event){
-    return null;
 };
