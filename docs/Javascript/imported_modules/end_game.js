@@ -1,3 +1,6 @@
+import * as event_file from "./event.js";
+import { display_replay_button } from "./tools.js";
+
 export const end_game_conversion = {
     "0 Start A" : "It's your day off and you have nothing to do at home.",
 	"1 Bored_At_Home A" : "You decided to go to the restaurant to shave off some boredom, get some food, and maybe enjoy new atmosphere. It's an italian restaurant with good lighting, good music, and a good mood. The waiter come up to you and asked what you want to order.",

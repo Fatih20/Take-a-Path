@@ -1,6 +1,5 @@
 // localStorage.removeItem("path_taken");
 
-import { display_replay_button } from "./tools.js";
 import { display_end_screen } from "./end_game.js";
 import * as event_file from "./event.js";
 
