@@ -34,7 +34,7 @@ export function display_end_screen (path_taken) {
 
 };
 
-export function generate_end_story (path_taken) {
+function generate_end_story (path_taken) {
     let examined_path_list = [];
     let path_summation_list = [];
     for (let path of path_taken) {
@@ -69,13 +69,14 @@ function condition_generator (previously_examined_path_list, currently_examined_
                 const end_game_story_bit = nth_event_checker (previously_examined_path_list, currently_examined_path, condition);
                 if (end_game_story_bit !== null) {
                     return end_game_story_bit;
-                } else if (condition.type === "specific_event") {
-					const end_game_story_bit = specific_event_checker (previously_examined_path_list, condition) !== null;
-					if (end_game_story_bit !== null) {
-						return end_game_story_bit;
-					}  
-				}
-            } 
+                }
+			} else if (condition.type === "specific_event") {
+				const end_game_story_bit = specific_event_checker (previously_examined_path_list, condition) !== null;
+				if (end_game_story_bit !== null) {
+					return end_game_story_bit;
+				}  
+			}
+            
         }
     } else {
         return null;
