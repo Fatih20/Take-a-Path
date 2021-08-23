@@ -93,7 +93,7 @@ function specific_event_checker (previously_examined_path_list, specification) {
 };
 
 function nth_event_checker (previously_examined_path_list, currently_examined_path, condition){
-    if (condition.specification.nth_this_event === currently_examined_path.nth_event) {
+    if (condition.specification.nth_this_event === currently_examined_path.nth_event || condition.specification.nth_this_event === undefined) {
         if (condition.specification.event_before === undefined) {
 			return condition.end_game_story_bit;
 		} else {
