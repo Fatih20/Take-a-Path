@@ -39,13 +39,17 @@ export function generate_end_story (path_taken) {
     let path_summation_list = [];
     for (let path of path_taken) {
         const examined_event = event_file.event_name_conversion[path.name_of_event];
-        if (examined_event.Conditions = {} && condition_generator(examined_path_list, path, examined_event) === null){
-            let for_key_of_ending_list = [];
-            for (const key of Object.keys(path)){
-                for_key_of_ending_list.push(path[key]); 
-            }
-            path_summation_list.push(end_game_conversion[for_key_of_ending_list.join(" ")]);
+		const non_default_end_game_story_bit = condition_generator(examined_path_list, path, examined_event);
+        if (examined_event.Conditions = {} && non_default_end_game_story_bit === null){
+			for (const possible_end_game_story_bit of examined_event.Default_Ending_Bit) {
+				if (path.choice_made === possible_end_game_story_bit.signal) {
+					path_summation_list.push(possible_end_game_story_bit.end_game_story_bit);
+					break;
+				}
+			}
         } else {
+			path_summation_list.push(non_default_end_game_story_bit);
+
         }
 
         examined_path_list.push(path);
@@ -63,17 +67,12 @@ function condition_generator (previously_examined_path_list, currently_examined_
                     return end_game_story_bit;
                 } 
                     
-            } else if (condition.type === "nth_event") {
-                if (currently_examined_path.nth_event === condition.specification.nth_this_event) {
-                    return condition.end_game_story_bit;
-                }
-            } else if (condition.type === "specific_event") {
-                const end_game_story_bit = specific_event_checker (previously_examined_path_list, condition) !== null;
-                if (end_game_story_bit !== null) {
-                    return end_game_story_bit;
-                }
-                
-            } 
+				} else if (condition.type === "specific_event") {
+					const end_game_story_bit = specific_event_checker (previously_examined_path_list, condition) !== null;
+					if (end_game_story_bit !== null) {
+						return end_game_story_bit;
+					}
+            	} 
         }
     }
     
@@ -98,12 +97,16 @@ function specific_event_checker (previously_examined_path_list, specification) {
 
 function nth_event_checker (previously_examined_path_list, currently_examined_path, condition){
     if (condition.specification.nth_this_event === currently_examined_path.nth_event) {
-        for (const previous_path of previously_examined_path_list) {
-            if (previous_path.name_of_event === condition.specification.event_before) {
-                return condition.end_game_story_bit;
-            }
-        }
-        return null;
+        if (condition.specification.event_before === undefined) {
+			return condition.end_game_story_bit;
+		} else {
+			for (const previous_path of previously_examined_path_list) {
+				if (previous_path.name_of_event === condition.specification.event_before) {
+					return condition.end_game_story_bit;
+				}
+			}
+			return null;
+		}
     }
 
     else {
