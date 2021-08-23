@@ -40,6 +40,7 @@ export function generate_end_story (path_taken) {
     for (let path of path_taken) {
         const examined_event = event_file.event_name_conversion[path.name_of_event];
 		const non_default_end_game_story_bit = condition_generator(examined_path_list, path, examined_event);
+		console.log(non_default_end_game_story_bit);
         if (examined_event.Conditions = {} && non_default_end_game_story_bit === null){
 			for (const possible_end_game_story_bit of examined_event.Default_Ending_Bit) {
 				if (path.choice_made === possible_end_game_story_bit.signal) {
@@ -58,7 +59,10 @@ export function generate_end_story (path_taken) {
 };
 
 function condition_generator (previously_examined_path_list, currently_examined_path, examined_event){
-    const choice_compatible_condition_list = examined_event[currently_examined_path.choice_made];
+	console.log("Checking conditions");
+	console.log(examined_event.Name);
+	console.log()
+    const choice_compatible_condition_list = examined_event.Conditions[currently_examined_path.choice_made];
     if (choice_compatible_condition_list !== undefined) {
         for (const condition of choice_compatible_condition_list){
             if (condition.type === "if_nth_event_then_event_before") {

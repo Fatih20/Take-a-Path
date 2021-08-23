@@ -43,7 +43,13 @@ export const Restaurant = new Event(
 	[
 		{signal: "A", end_game_story_bit : "You ordered a pasta. It arrived in about 15 minutes. The delicious pasta and the great mood of the restaurant make you enjoy yourself very much."},
 		{signal: "B", end_game_story_bit : "You ordered a spaghetti. It arrived in about 15 minutes."}
+	],
+	{"B" : [
+		{type: "if_nth_event_then_event_before", specification : {
+			event_before : "Bored_At_Home",
+		}, end_game_story_bit : "Because you were bored at home, you decided to order a spaghetti"}
 	]
+	}
 )
 
 export const Cinema = new Event(
