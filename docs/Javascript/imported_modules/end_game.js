@@ -65,18 +65,15 @@ function condition_generator (previously_examined_path_list, currently_examined_
                 const end_game_story_bit = nth_event_checker (previously_examined_path_list, currently_examined_path, condition);
                 if (end_game_story_bit !== null) {
                     return end_game_story_bit;
-                } 
-                    
-				} else if (condition.type === "specific_event") {
+                } else if (condition.type === "specific_event") {
 					const end_game_story_bit = specific_event_checker (previously_examined_path_list, condition) !== null;
 					if (end_game_story_bit !== null) {
 						return end_game_story_bit;
-					}
-            	} 
+					}  
+				}
+            } 
         }
-    }
-    
-    else {
+    } else {
         return null;
     }
 };
