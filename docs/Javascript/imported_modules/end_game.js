@@ -64,11 +64,9 @@ function paragraph_determiner (paragraph, end_game_story_bit){
 }
 
 function paragraph_breaker (condition_apply, examined_event, end_game_story_bit, choice_made, index_of_compatible_condition) {
-    console.log(index_of_compatible_condition);
     if (condition_apply && examined_event.Conditions[choice_made][index_of_compatible_condition].paragraph !== undefined){
             return paragraph_determiner (examined_event.Conditions[choice_made][index_of_compatible_condition].paragraph, end_game_story_bit);
     } else {
-        console.log(examined_event);
         if (examined_event.Default_Paragraph !== undefined && examined_event.Default_Paragraph[choice_made] !== undefined){
             return paragraph_determiner(examined_event.Default_Paragraph[choice_made], end_game_story_bit);
         } else {
