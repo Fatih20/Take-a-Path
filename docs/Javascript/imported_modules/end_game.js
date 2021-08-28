@@ -29,29 +29,64 @@ function generate_end_story (path_taken) {
     let path_summation_list = [];
     for (let path of path_taken) {
         const examined_event = event_file.event_name_conversion[path.name_of_event];
+        let condition_apply = true;
+        let end_game_story_bit;
+        let index_of_compatible_condition = null;
+
         if (examined_event.Conditions === undefined || examined_event.Conditions[path.choice_made] === undefined){
-            path_summation_list.push(examined_event.Default_Ending_Bit[path.choice_made]);
+            end_game_story_bit = examined_event.Default_Ending_Bit[path.choice_made];
+            condition_apply = false;
         } else {
-            const non_default_end_game_story_bit = condition_generator(examined_path_list, path, examined_event.Conditions[path.choice_made]);
-            if (non_default_end_game_story_bit === undefined) {
-                path_summation_list.push(examined_event.Default_Ending_Bit[path.choice_made]);
+            const non_default = condition_generator(examined_path_list, path, examined_event.Conditions[path.choice_made]);
+            if (non_default === undefined) {
+                end_game_story_bit = examined_event.Default_Ending_Bit[path.choice_made];
+                condition_apply = false;
             }
             else {
-                path_summation_list.push(non_default_end_game_story_bit)
+                end_game_story_bit = non_default.story_bit;
+                index_of_compatible_condition = non_default.index_of_compatible_condition;
             }
         }
 
+        end_game_story_bit = paragraph_breaker (condition_apply, examined_event, end_game_story_bit, path.choice_made, index_of_compatible_condition);
+        path_summation_list.push(end_game_story_bit);
         examined_path_list.push(path);
     }
     return path_summation_list.join(" ");
 };
 
+function paragraph_determiner (paragraph, end_game_story_bit){
+    if (paragraph === "last sentence"){
+        return end_game_story_bit+"<br>";
+    } else if (paragraph === "new paragraph") {
+        return "<br>"+end_game_story_bit;
+    }
+}
+
+function paragraph_breaker (condition_apply, examined_event, end_game_story_bit, choice_made, index_of_compatible_condition) {
+    console.log(index_of_compatible_condition);
+    if (condition_apply && examined_event.Conditions[choice_made][index_of_compatible_condition].paragraph !== undefined){
+            return paragraph_determiner (examined_event.Conditions[choice_made][index_of_compatible_condition].paragraph, end_game_story_bit);
+    } else {
+        console.log(examined_event);
+        if (examined_event.Default_Paragraph !== undefined && examined_event.Default_Paragraph[choice_made] !== undefined){
+            return paragraph_determiner(examined_event.Default_Paragraph[choice_made], end_game_story_bit);
+        } else {
+            return end_game_story_bit;
+        }
+    }
+};
+
 function condition_generator (previously_examined_path_list, currently_examined_path, condition_list){
 	console.log("Checking conditions");
 	// console.log(examined_event.Name);
+    let i = 0
     for (const condition of condition_list){
         const end_game_story_bit = condition_type_conversion[condition.type](previously_examined_path_list, currently_examined_path, condition);
-        return end_game_story_bit;
+        if (end_game_story_bit !== null){
+            return {story_bit : end_game_story_bit, index_of_compatible_condition : i};
+        }
+        i += 1;
     }
 };
 

@@ -6,6 +6,7 @@ export class Event {
 		this.Possible_Answer_List = event_attribute.Possible_Answer_List;
 		this.Answers_For_Next_Event_List = event_attribute.Answers_For_Next_Event_List;
 		this.Default_Ending_Bit = event_attribute.Default_Ending_Bit;
+		this.Default_Paragraph = event_attribute.Default_Paragraph;
 		this.Conditions = event_attribute.Conditions;
     }
 };
@@ -30,6 +31,9 @@ export const Bored_At_Home = new Event({
 	Default_Ending_Bit: {
 		"A" : "You decided to go to the restaurant to shave off some boredom, get some food, and maybe enjoy new atmosphere. It's an italian restaurant with good lighting, good music, and a good mood. The waiter come up to you and asked what you want to order.",
 		"B" : "You decided to go to the cinema to watch the latest and greatest movie that people have been talking about. And also because you have nothing to do at home. In the cinema, there were barely anyone here. It is a weekday in the afternoon, so it's what you should expect. Once you go to the ticket booth, there are only 2 movies playing because not many people go to the cinema in weekday afternoon. The options are Jaws and Star Wars"},
+	Default_Paragraph : {
+		"A" : "last sentence",
+		"B" : "new paragraph"}
 });
 
 export const Restaurant = new Event({
@@ -41,13 +45,13 @@ export const Restaurant = new Event({
 	Default_Ending_Bit: {
 		"A" : "You ordered a pasta. It arrived in about 15 minutes. The delicious pasta and the great mood of the restaurant make you enjoy yourself very much.",
 		"B" : "You ordered a spaghetti. It arrived in about 15 minutes."},
+	Default_Paragraph : {"A" : "last sentence", "B" : "new paragraph"},
 	Conditions : {
 		"B" : [
 			{type: "nth_event_checker", specification : {
 				event_before : "Bored_At_Home",
-			}, end_game_story_bit : "Because you were bored at home, you decided to order a spaghetti."}
-	]
-	}
+			}, end_game_story_bit : "Because you were bored at home, you decided to order a spaghetti.", paragraph : "last sentence"}
+	]}
 });
 
 export const Cinema = new Event({
@@ -58,7 +62,10 @@ export const Cinema = new Event({
 	Answers_For_Next_Event_List : [{trigger: "A", next_event_name : "End"}, {trigger : "B", next_event_name : "End"}],
 	Default_Ending_Bit: {
 		"A" : "You decided to watch Jaws. It's a pretty thrilling and scary movie. You wound up having thalassophobia.",
-		"B" : "You decided to watch Star Wars. The space adventure Luke and the gang goes through keeps you at the edge of your seat. You really enjoy the movie and can't wait for the sequel."}
+		"B" : "You decided to watch Star Wars. The space adventure Luke and the gang goes through keeps you at the edge of your seat. You really enjoy the movie and can't wait for the sequel."},
+	Default_Paragraph : {
+		"A" : "last sentence",
+		"B" : "new paragraph"}
 });
 
 export const event_name_conversion = {
