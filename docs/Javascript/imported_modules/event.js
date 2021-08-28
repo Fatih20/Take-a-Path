@@ -18,11 +18,7 @@ export class Event {
 		this.Possible_Answer_List = event_attribute.Possible_Answer_List;
 		this.Answers_For_Next_Event_List = event_attribute.Answers_For_Next_Event_List;
 		this.Default_Ending_Bit = event_attribute.Default_Ending_Bit;
-		if (event_attribute.Conditions !== undefined){
-			this.Conditions = event_attribute.Conditions;
-		} else {
-			this.Conditions = {};
-		}
+		this.Conditions = event_attribute.Conditions;
     }
 };
 

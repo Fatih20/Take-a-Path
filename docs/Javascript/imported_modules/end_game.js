@@ -61,9 +61,8 @@ function generate_end_story (path_taken) {
 function condition_generator (previously_examined_path_list, currently_examined_path, examined_event){
 	console.log("Checking conditions");
 	console.log(examined_event.Name);
-	console.log()
-    const choice_compatible_condition_list = examined_event.Conditions[currently_examined_path.choice_made];
-    if (choice_compatible_condition_list !== undefined) {
+    if (examined_event.Conditions !== undefined){
+        const choice_compatible_condition_list = examined_event.Conditions[currently_examined_path.choice_made];
         for (const condition of choice_compatible_condition_list){
             if (condition.type === "if_nth_event_then_event_before") {
                 const end_game_story_bit = nth_event_checker (previously_examined_path_list, currently_examined_path, condition);
@@ -76,7 +75,6 @@ function condition_generator (previously_examined_path_list, currently_examined_
 					return end_game_story_bit;
 				}  
 			}
-            
         }
     } else {
         return null;
