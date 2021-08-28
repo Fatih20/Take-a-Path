@@ -39,9 +39,7 @@ function generate_end_story (path_taken) {
     let path_summation_list = [];
     for (let path of path_taken) {
         const examined_event = event_file.event_name_conversion[path.name_of_event];
-		const non_default_end_game_story_bit = condition_generator(examined_path_list, path, examined_event);
-		console.log(non_default_end_game_story_bit);
-        if (examined_event.Conditions = {} && non_default_end_game_story_bit === null){
+        if (examined_event.Conditions === undefined){
 			for (const possible_end_game_story_bit of examined_event.Default_Ending_Bit) {
 				if (path.choice_made === possible_end_game_story_bit.signal) {
 					path_summation_list.push(possible_end_game_story_bit.end_game_story_bit);
@@ -49,7 +47,7 @@ function generate_end_story (path_taken) {
 				}
 			}
         } else {
-			path_summation_list.push(non_default_end_game_story_bit);
+			path_summation_list.push(examined_event.condition_generator(examined_path_list, path));
 
         }
 

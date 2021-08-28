@@ -10,7 +10,57 @@
     }
 } */
 
-export class Event {
+const Event_Proto = {
+	condition_generator : function (previously_examined_path_list, currently_examined_path){
+		console.log("Checking conditions");
+		console.log(this.Name);
+		const choice_compatible_condition_list = this.Conditions[currently_examined_path.choice_made];
+		if (choice_compatible_condition_list !== undefined){
+			for (const condition of choice_compatible_condition_list){
+				console.log(condition);
+				return condition.type(previously_examined_path_list, currently_examined_path, condition);
+			}
+		} else {
+			return null;
+		}
+		
+	},
+	
+	specific_event_checker : function (previously_examined_path_list, currently_examined_path, condition) {
+		for (const previous_path of previously_examined_path_list) {
+			if (previous_path.nth_event === condition.specification.nth_event || condition.specification.nth_event === undefined ) {
+				if (previous_path.name_of_event === condition.specification.event_name || condition.specification.event_name === undefined ) {
+					if (previous_path.choice_made === condition.specification.choice || condition.specification.choice === undefined ) {
+						return condition.end_game_story_bit;
+					}
+				}    
+			}
+		}
+	
+		return null;
+	},
+	
+	nth_event_checker : function (previously_examined_path_list, currently_examined_path, condition){
+		if (condition.specification.nth_this_event === currently_examined_path.nth_event || condition.specification.nth_this_event === undefined) {
+			if (condition.specification.event_before === undefined) {
+				return condition.end_game_story_bit;
+			} else {
+				for (const previous_path of previously_examined_path_list) {
+					if (previous_path.name_of_event === condition.specification.event_before) {
+						return condition.end_game_story_bit;
+					}
+				}
+				return null;
+			}
+		}
+	
+		else {
+			return null;
+		}
+	}
+}
+
+/* export class Event {
     constructor(event_attribute){
         this.Name = event_attribute.Name;
 		this.Occurence = event_attribute.Occurence;
@@ -20,60 +70,106 @@ export class Event {
 		this.Default_Ending_Bit = event_attribute.Default_Ending_Bit;
 		this.Conditions = event_attribute.Conditions;
     }
-};
+}; */
 
-export const Start = new Event({
-	Name : "Start",
-	Occurence : "Start of the game",
-	Question : "",
-	Possible_Answer_List : [],
+export const Start = Object.create(Event_Proto, {
+	Name : {
+		value : "Start"},
+	Occurence : {
+		value : "Start of the game"},
+	Question : {
+		value : ""},
+	Possible_Answer_List : {
+		value : []},
 	// Next_event_name should be the first event in the game
-	Answers_For_Next_Event_List : [{trigger : "A", next_event_name: "Bored_At_Home"}],
-	Default_Ending_Bit: [
+	Answers_For_Next_Event_List : {
+		value: [
+			{trigger : "A", next_event_name: "Bored_At_Home"}
+		]},
+	Default_Ending_Bit: {
+		value : [
 		{signal: "A", end_game_story_bit : "It's your day off and you have nothing to do at home."},
-	],
+	]},
 });
 
-export const Bored_At_Home = new Event({
-	Name : "Bored_At_Home",
-	Occurence : "You're bored and hungry at home.",
-	Question : "What do you do?",
-	Possible_Answer_List : [{id : "A", answer: "Go to a restaurant" }, {id : "B", answer: "Go to the cinema"}],
-	Answers_For_Next_Event_List : [{trigger: "A", next_event_name : "Restaurant"}, {trigger : "B", next_event_name : "Cinema"}],
-	Default_Ending_Bit: [
+export const Bored_At_Home = Object.create(Event_Proto, {
+	Name : { 
+		value : "Bored_At_Home"},
+	Occurence : {
+		value : "You're bored and hungry at home." },
+	Question : {
+		value : "What do you do?" },
+	Possible_Answer_List : {
+		value : [
+			{id : "A", answer: "Go to a restaurant" }, 
+			{id : "B", answer: "Go to the cinema"}
+		]},
+	Answers_For_Next_Event_List : {
+		value : [
+			{trigger: "A", next_event_name : "Restaurant"},
+			{trigger : "B", next_event_name : "Cinema"}
+		]},
+	Default_Ending_Bit: {
+		value: [
 		{signal: "A", end_game_story_bit : "You decided to go to the restaurant to shave off some boredom, get some food, and maybe enjoy new atmosphere. It's an italian restaurant with good lighting, good music, and a good mood. The waiter come up to you and asked what you want to order."},
 		{signal: "B", end_game_story_bit : "You decided to go to the cinema to watch the latest and greatest movie that people have been talking about. And also because you have nothing to do at home. In the cinema, there were barely anyone here. It is a weekday in the afternoon, so it's what you should expect. Once you go to the ticket booth, there are only 2 movies playing because not many people go to the cinema in weekday afternoon. The options are Jaws and Star Wars"}
-	]
+	]}
 });
 
-export const Restaurant = new Event({
-	Name : "Restaurant",
-	Occurence : "You're at a restaurant.",	
-	Question : "What do you order?",
-	Possible_Answer_List : [{id : "A", answer: "Pasta" }, {id : "B", answer: "Spaghetti"}],
-	Answers_For_Next_Event_List : [{trigger: "A", next_event_name : "End"}, {trigger : "B", next_event_name : "End"}],
-	Default_Ending_Bit: [
+export const Restaurant = Object.create(Event_Proto, {
+	Name : {
+		value : "Restaurant"},
+	Occurence : {
+		value : "You're at a restaurant."},	
+	Question : {
+		value : "What do you order?"},
+	Possible_Answer_List : {
+		value : [
+			{id : "A", answer: "Pasta" }, 
+			{id : "B", answer: "Spaghetti"}
+		]},
+	Answers_For_Next_Event_List : {
+		value : [
+			{trigger: "A", next_event_name : "End"}, 
+			{trigger : "B", next_event_name : "End"}
+		]},
+	Default_Ending_Bit: {
+		value : [
 		{signal: "A", end_game_story_bit : "You ordered a pasta. It arrived in about 15 minutes. The delicious pasta and the great mood of the restaurant make you enjoy yourself very much."},
 		{signal: "B", end_game_story_bit : "You ordered a spaghetti. It arrived in about 15 minutes."}
-	],
-	Conditions : {"B" : [
-		{type: "if_nth_event_then_event_before", specification : {
-			event_before : "Bored_At_Home",
-		}, end_game_story_bit : "Because you were bored at home, you decided to order a spaghetti."}
-	]
+	]},
+	Conditions : {
+		value : 
+			{"B" : [
+				{type: if_nth_event_then_event_before, specification : {
+					event_before : "Bored_At_Home",
+				}, 
+				end_game_story_bit : "Because you were bored at home, you decided to order a spaghetti."}]}
 	}
 });
 
 export const Cinema = new Event({
-	Name : "Cinema",
-	Occurence : "You're at a cinema.",
-	Question : "What movie do you want to see?",
-	Possible_Answer_List : [{id : "A", answer: "Jaws" }, {id : "B", answer: "Star Wars"}],
-	Answers_For_Next_Event_List : [{trigger: "A", next_event_name : "End"}, {trigger : "B", next_event_name : "End"}],
-	Default_Ending_Bit: [
+	Name : {
+		value : "Cinema"},
+	Occurence : {
+		value : "You're at a cinema."},
+	Question : {
+		value : "What movie do you want to see?"},
+	Possible_Answer_List : {
+		value : [
+			{id : "A", answer: "Jaws" }, 
+			{id : "B", answer: "Star Wars"}
+		]},
+	Answers_For_Next_Event_List : {
+		value : [
+			{trigger: "A", next_event_name : "End"}, 
+			{trigger : "B", next_event_name : "End"}
+		]},
+	Default_Ending_Bit: {
+		value : [
 		{signal: "A", end_game_story_bit : "You decided to watch Jaws. It's a pretty thrilling and scary movie. You wound up having thalassophobia."},
 		{signal: "B", end_game_story_bit : "You decided to watch Star Wars. The space adventure Luke and the gang goes through keeps you at the edge of your seat. You really enjoy the movie and can't wait for the sequel."}
-	]
+	]}
 });
 
 export const event_name_conversion = {
