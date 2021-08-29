@@ -6,8 +6,8 @@ export class Event {
 		this.Possible_Answer_List = event_attribute.Possible_Answer_List;
 		this.Answers_For_Next_Event_List = event_attribute.Answers_For_Next_Event_List;
 
-		for (let choice in event_attribute.Ending) {
-			for (let ending_bit of event_attribute.Ending[choice]){
+		for (const choice in event_attribute.Ending) {
+			for (const ending_bit of event_attribute.Ending[choice]){
 				if (ending_bit.paragraph === undefined) {
 					ending_bit.paragraph = "none";
 				}
@@ -68,7 +68,7 @@ export const Restaurant = new Event({
 		"A" : [
 			{
 			type: "default_ending", 
-			story_bit : "You decided to go to the restaurant to shave off some boredom, get some food, and maybe enjoy new atmosphere. It's an italian restaurant with good lighting, good music, and a good mood. The waiter come up to you and asked what you want to order.",
+			story_bit : "You ordered a pasta. It arrived in about 15 minutes. The delicious pasta and the great mood of the restaurant make you enjoy yourself very much.",
 			paragraph : "last sentence"}
 		],
 		"B" : [
@@ -80,7 +80,7 @@ export const Restaurant = new Event({
 			paragraph : "last sentence"},
 
 			{type: "default_ending", 
-			story_bit : "You decided to go to the cinema to watch the latest and greatest movie that people have been talking about. And also because you have nothing to do at home. In the cinema, there were barely anyone here. It is a weekday in the afternoon, so it's what you should expect. Once you go to the ticket booth, there are only 2 movies playing because not many people go to the cinema in weekday afternoon. The options are Jaws and Star Wars",
+			story_bit : "You ordered a spaghetti. It arrived in about 15 minutes.",
 			paragraph : "new paragraph"}
 		],
 	}
