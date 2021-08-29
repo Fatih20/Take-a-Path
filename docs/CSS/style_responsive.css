@@ -10,7 +10,7 @@
 
 @media (max-width: 820px) {
     body {
-        padding-left:10px;
+        padding-left: 10px;
         padding-right: 10px;
     }
 
@@ -22,13 +22,9 @@
         font-size: 30px;
     }
 
-    .theme-toggle-container {
-        margin: 30px 10px 20px 0px;
-    }
-
-    .theme-toggle-container-2 {
-        height: 40px;
-    }
+    /* .theme-toggle-container {
+        margin: 30px 0px 20px 0px;
+    } */
 
     .title {
         font-size: 48px;
@@ -69,5 +65,30 @@
 
     .choice:last-child {
         margin-bottom: 0px;
+    }
+}
+
+@media (max-width: 425px) {
+    body {
+        padding-left: 7px;
+        padding-right: 7px;
+    }
+
+    .ending-option-button-container {
+        font-size: 14px;
+    }
+
+    .play-area {
+        border-radius: 5px;
+    }
+
+    .play-area-end {
+        letter-spacing: 1px;
+        line-height: 1.65;
+        padding: 10px;
+    }
+
+    .end-game {
+        font-size: 16px;
     }
 }
