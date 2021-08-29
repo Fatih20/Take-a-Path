@@ -44,13 +44,10 @@ export function start_game (){
     if (path_taken !== undefined && path_taken !== null ) {
         set_play_area_new_game (false);
         display_attribution(true);
-        path_taken = JSON.parse(localStorage.getItem("path_taken"));
         update_play_area (path_taken, event_file);
-        change_theme (dark_theme);
         
     } else {
         set_play_area_new_game(true);
-        change_theme (dark_theme);
         path_taken = [{nth_event : "0", name_of_event: "Start"}];
         const start_button = document.querySelector(".start-button");
         start_button.addEventListener('click', function(){
@@ -62,29 +59,28 @@ export function start_game (){
             })
     }
 
+    change_theme (dark_theme);
+
 };
 
 function set_play_area_new_game (is_new) {
-    if (is_new === true){
-        const title = document.querySelector(".title");
-        title.innerHTML = "Start your adventure";
+    const play_area = document.querySelector(".play-area");
+    const title = document.querySelector(".title");
 
-        const play_area = document.querySelector(".play-area");
+    if (is_new === true){
+        title.innerHTML = "Start your adventure";
         play_area.classList.add("play-area-start");
 
         const start_button = document.createElement('a');
         start_button.setAttribute("href", "#");
-        start_button.className = "start-button button start-button-light"
+        start_button.className = "start-button button start-button-light";
         start_button.innerHTML = "<p>Take your path</p>";
 
         play_area.appendChild(start_button);
 
     } else {
         localStorage.setItem("state_of_game", 1);
-        const title = document.querySelector(".title");
         title.innerHTML = "Enjoy your adventure";
-        
-        const play_area = document.querySelector(".play-area");
         play_area.classList.add("play-area-game");
     }
 };
