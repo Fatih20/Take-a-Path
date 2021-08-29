@@ -1,9 +1,7 @@
 // localStorage.removeItem("path_taken");
 // localStorage.removeItem("dark_theme");
 
-import { display_replay_button } from "./imported_modules/tools.js";
-import { play_area_direction_row } from "./imported_modules/tools.js";
-import { display_attribution } from "./imported_modules/tools.js";
+import { display_ending_option_button, display_replay_button, display_attribution, play_area_direction_row } from "./imported_modules/tools.js";
 import { director } from "./imported_modules/main.js";
 import { update_play_area } from "./imported_modules/main.js";
 import * as event_file from "./imported_modules/event.js";
@@ -19,11 +17,25 @@ theme_toggle.addEventListener('click', function() {
 });
 
 export function start_game (){
+    localStorage.removeItem("story_ending");
+
+    const ending_option_button_container = document.querySelector(".ending-option-button-container");
+    ending_option_button_container.innerHTML = "";
+
+    const ending_option_button = document.createElement('a');
+    ending_option_button.classList.add("ending-option-button");
+    ending_option_button.classList.add("ending-option-button-light");
+    ending_option_button.classList.add("ending-option-button-dark");
+    ending_option_button.setAttribute("href", "#");
+
+    ending_option_button_container.appendChild(ending_option_button);
+
     const play_area = document.querySelector(".play-area");
     play_area.innerHTML = "";
 
     display_replay_button(false);
     display_attribution(false);
+    display_ending_option_button(false);
 
     const dark_theme_raw = localStorage.getItem("dark_theme");
     // console.log(localStorage.getItem("dark_theme"));
@@ -95,6 +107,7 @@ function change_theme (dark_theme) {
     let state_of_game = JSON.parse(localStorage.getItem("state_of_game"));
 
     const body = document.querySelector("body");
+    const ending_option_button = document.querySelector(".ending-option-button");
     const theme_toggle = document.querySelector(".theme-toggle");
     const title = document.querySelector(".title");
     const play_area = document.querySelector(".play-area");
@@ -121,6 +134,9 @@ function change_theme (dark_theme) {
     attribution.classList.toggle("attribution-dark", dark_theme);
     attribution.classList.toggle("attribution-light", !dark_theme);
 
+    ending_option_button.classList.toggle("ending-option-button-dark", dark_theme);
+    ending_option_button.classList.toggle("ending-option-button-light", !dark_theme);
+
 	if (state_of_game === 1) {
     	const choice_list = document.querySelectorAll(".choice");
 		for (let choice of choice_list) {
@@ -132,6 +148,7 @@ function change_theme (dark_theme) {
 		start_button.classList.toggle("button-dark", dark_theme);
     	start_button.classList.toggle("button-light", !dark_theme);
 	}
+    
 };
 
 function toggle_theme () {

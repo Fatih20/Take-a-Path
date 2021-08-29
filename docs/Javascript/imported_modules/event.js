@@ -14,7 +14,6 @@ export class Event {
 			}
 		}
 		this.Ending = event_attribute.Ending;
-		console.log(this.Ending)
 
     }
 };
