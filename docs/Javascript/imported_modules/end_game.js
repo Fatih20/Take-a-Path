@@ -99,7 +99,7 @@ function specific_event_checker (previously_examined_path_list, currently_examin
 function nth_event_checker (previously_examined_path_list, currently_examined_path, condition){
     if (condition.specification.nth_this_event === currently_examined_path.nth_event || condition.specification.nth_this_event === undefined) {
         if (condition.specification.event_before === undefined) {
-			return condition.end_game_story_bit;
+			return condition.story_bit;
 		} else {
 			for (const previous_path of previously_examined_path_list) {
 				if (previous_path.name_of_event === condition.specification.event_before) {

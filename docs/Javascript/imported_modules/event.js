@@ -76,7 +76,7 @@ export const Restaurant = new Event({
 			type: "nth_event_checker", 
 			specification : {
 				event_before : "Bored_At_Home"}, 
-			end_game_story_bit : "Because you were bored at home, you decided to order a spaghetti.",
+			story_bit : "Because you were bored at home, you decided to order a spaghetti.",
 			paragraph : "last sentence"},
 
 			{type: "default_ending", 
