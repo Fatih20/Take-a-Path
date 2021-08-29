@@ -6,8 +6,6 @@ export function display_end_screen (path_taken) {
     let story_ending = JSON.parse(localStorage.getItem("story_ending"));
     const just_the_end = generate_ending(path_taken);
     const story = generate_end_story(path_taken);
-    console.log(just_the_end);
-    console.log(story);
 
     const title = document.querySelector(".title");
     title.innerHTML = "The path you've taken";
@@ -18,7 +16,6 @@ export function display_end_screen (path_taken) {
     play_area.classList.add("play-area-end");
 
     const ending_option_button = document.querySelector(".ending-option-button");
-    console.log(ending_option_button);
     const end_game = document.createElement('p');
     end_game.className = "end-game";
     filling_end_game (story_ending, end_game, ending_option_button, story, just_the_end);
@@ -40,7 +37,6 @@ export function display_end_screen (path_taken) {
 };
 
 function filling_end_game (story_ending, end_game, ending_option_button, story, just_the_end){
-    console.log("Filling end game");
     if (story_ending){
         ending_option_button.innerHTML = "Show me just the ending";
         end_game.innerHTML = story;
