@@ -107,6 +107,7 @@ function change_theme (dark_theme) {
     let state_of_game = JSON.parse(localStorage.getItem("state_of_game"));
 
     const body = document.querySelector("body");
+    const ending_option_button = document.querySelector(".ending-option-button");
     const theme_toggle = document.querySelector(".theme-toggle");
     const title = document.querySelector(".title");
     const play_area = document.querySelector(".play-area");
@@ -133,6 +134,9 @@ function change_theme (dark_theme) {
     attribution.classList.toggle("attribution-dark", dark_theme);
     attribution.classList.toggle("attribution-light", !dark_theme);
 
+    ending_option_button.classList.toggle("ending-option-button-dark", dark_theme);
+    ending_option_button.classList.toggle("ending-option-button-light", !dark_theme);
+
 	if (state_of_game === 1) {
     	const choice_list = document.querySelectorAll(".choice");
 		for (let choice of choice_list) {
@@ -143,11 +147,8 @@ function change_theme (dark_theme) {
 		const start_button = document.querySelector(".start-button");
 		start_button.classList.toggle("button-dark", dark_theme);
     	start_button.classList.toggle("button-light", !dark_theme);
-	} else if (state_of_game === 2) {
-        const ending_option_button = document.querySelector(".ending-option-button");
-		ending_option_button.classList.toggle("ending-option-button-dark", dark_theme);
-    	ending_option_button.classList.toggle("ending-option-button-light", !dark_theme);
-    }
+	}
+    
 };
 
 function toggle_theme () {
