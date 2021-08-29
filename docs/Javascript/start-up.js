@@ -17,6 +17,19 @@ theme_toggle.addEventListener('click', function() {
 });
 
 export function start_game (){
+    localStorage.removeItem("story_ending");
+
+    const ending_option_button_container = document.querySelector(".ending-option-button-container");
+    ending_option_button_container.innerHTML = "";
+
+    const ending_option_button = document.createElement('a');
+    ending_option_button.classList.add("ending-option-button");
+    ending_option_button.classList.add("ending-option-button-light");
+    ending_option_button.classList.add("ending-option-button-dark");
+    ending_option_button.setAttribute("href", "#");
+
+    ending_option_button_container.appendChild(ending_option_button);
+
     const play_area = document.querySelector(".play-area");
     play_area.innerHTML = "";
 
