@@ -30,19 +30,11 @@ function generate_end_story (path_taken) {
     let paragraph_type_ledger = [];
     for (let path of path_taken) {
         const examined_event = event_file.event_name_conversion[path.name_of_event];
-        let end_game_story_bit;
-        let index_of_compatible_condition;
+        const story_bit_and_paragraph_type = end_story_bit_generator(examined_path_list, path, examined_event, paragraph_type_ledger);
 
-        const ending_and_index = ending_picker(examined_path_list, path, examined_event.Ending[path.choice_made]);
-        end_game_story_bit = ending_and_index.story_bit;
-        index_of_compatible_condition = ending_and_index.index_of_compatible_condition;
-
-        const paragraph_type = examined_event.Ending[path.choice_made][index_of_compatible_condition].paragraph;
-        end_game_story_bit = paragraph_determiner(end_game_story_bit, paragraph_type, paragraph_type_ledger);
-
-        path_summation_list.push(end_game_story_bit);
-        examined_path_list.push(path);
-        paragraph_type_ledger.push(paragraph_type);
+        path_summation_list.push(story_bit_and_paragraph_type.story_bit);
+        paragraph_type_ledger.push(story_bit_and_paragraph_type.paragraph_type);
+        examined_path_list.push(path);        
     }
     return path_summation_list.join(" ");
 };
@@ -69,17 +61,21 @@ function paragraph_determiner (end_game_story_bit, paragraph_type, paragraph_typ
     return result;
 };
 
-function ending_picker (previously_examined_path_list, currently_examined_path, condition_list){
-	console.log("Checking conditions");
-	// console.log(examined_event.Name);
-    let i = 0
+function end_story_bit_generator (previously_examined_path_list, currently_examined_path, examined_event, paragraph_type_ledger){
+    const condition_list = examined_event.Ending[currently_examined_path.choice_made];
+    let end_game_story_bit;
+    let index_of_compatible_condition = 0
     for (const condition of condition_list){
-        const end_game_story_bit = condition_type_conversion[condition.type](previously_examined_path_list, currently_examined_path, condition);
+        end_game_story_bit = condition_type_conversion[condition.type](previously_examined_path_list, currently_examined_path, condition);
         if (end_game_story_bit !== null){
-            return {story_bit : end_game_story_bit, index_of_compatible_condition : i};
-        }
-        i += 1;
+            break;
+        } 
+        index_of_compatible_condition += 1;
     }
+
+    const paragraph_type = condition_list[index_of_compatible_condition].paragraph;
+    return {story_bit : paragraph_determiner(end_game_story_bit, paragraph_type, paragraph_type_ledger), paragraph_type : paragraph_type};
+
 };
 
 function specific_event_checker (previously_examined_path_list, currently_examined_path, condition) {
