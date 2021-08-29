@@ -3,7 +3,7 @@ import { display_replay_button } from "./tools.js";
 import { display_ending_option_button } from "./tools.js";
 
 export function display_end_screen (path_taken) {
-    let story_ending = localStorage.getItem("story_ending");
+    let story_ending = JSON.parse(localStorage.getItem("story_ending"));
     const just_the_end = generate_ending(path_taken);
     const story = generate_end_story(path_taken);
 
@@ -18,13 +18,7 @@ export function display_end_screen (path_taken) {
     const ending_option_button = document.querySelector(".ending-option-button");
     const end_game = document.createElement('p');
     end_game.className = "end-game";
-    if (story_ending){
-        ending_option_button.innerHTML = "Show me the story recap";
-        end_game.innerHTML = story;
-    } else {
-        ending_option_button.innerHTML = "Show me just the ending";
-        end_game.innerHTML = just_the_end;
-    }
+    filling_end_game (story_ending, end_game, ending_option_button, story, just_the_end);
 
     display_ending_option_button(true);
     display_replay_button(true);
@@ -34,20 +28,23 @@ export function display_end_screen (path_taken) {
     localStorage.setItem("state_of_game", 2);
 
     ending_option_button.addEventListener ('click', function(){
-        let story_ending = JSON.parse(localStorage.getItem("story_ending"));
-        story_ending = !story_ending;
-        localStorage.setItem("story_ending", JSON.stringify(story_ending));
+        let story_ending = !JSON.parse(localStorage.getItem("story_ending"));
         const end_game = document.querySelector(".end-game");
-        if (story_ending){
-            ending_option_button.innerHTML = "Show me just the ending";
-            end_game.innerHTML = story;
-        } else {
-            ending_option_button.innerHTML = "Show me the story recap";
-            end_game.innerHTML = just_the_end;
-        }
+        filling_end_game (story_ending, end_game, ending_option_button, story, just_the_end);
+        localStorage.setItem("story_ending", JSON.stringify(story_ending));
     })
 
 };
+
+function filling_end_game (story_ending, end_game, ending_option_button, story, just_the_end){
+    if (story_ending){
+        ending_option_button.innerHTML = "Show me just the ending";
+        end_game.innerHTML = story;
+    } else {
+        ending_option_button.innerHTML = "Show me the story recap";
+        end_game.innerHTML = just_the_end;
+    }
+}
 
 function generate_ending (path_taken){
     let path = path_taken[path_taken.length-1];
