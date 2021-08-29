@@ -57,12 +57,12 @@ function paragraph_determiner (end_game_story_bit, paragraph_type, paragraph_typ
     if (paragraph_type === "none" || paragraph_type === "new paragraph"){
         result = end_game_story_bit;
     } else if (paragraph_type === "last sentence" || paragraph_type === "standalone paragraph"){
-        result = end_game_story_bit+"<br>";
+        result = end_game_story_bit+"<br><br>";
     }
 
     if (paragraph_type === "standalone paragraph" || paragraph_type === "new paragraph"){
         if (break_before){
-            result = "<br>"+result;
+            result = "<br><br>"+result;
         }
     }
 
