@@ -43,7 +43,9 @@ a {
 }
 
 .ending-option-button {
+    border-radius: 5px;
     display: block;
+    font-weight: 500;
     padding: 10px;
 }
 

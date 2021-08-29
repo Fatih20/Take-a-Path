@@ -130,7 +130,11 @@ function change_theme (dark_theme) {
 		const start_button = document.querySelector(".start-button");
 		start_button.classList.toggle("button-dark", dark_theme);
     	start_button.classList.toggle("button-light", !dark_theme);
-	}
+	} else if (state_of_game === 2) {
+        const ending_option_button = document.querySelector(".ending-option-button");
+		ending_option_button.classList.toggle("ending-option-button-dark", dark_theme);
+    	ending_option_button.classList.toggle("ending-option-button-light", !dark_theme);
+    }
 };
 
 function toggle_theme () {
