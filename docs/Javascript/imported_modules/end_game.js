@@ -1,8 +1,11 @@
 import * as event_file from "./event.js";
 import { display_replay_button } from "./tools.js";
+import { display_ending_option_button } from "./tools.js";
 
 export function display_end_screen (path_taken) {
-    const end_game_story = generate_end_story(path_taken);
+    let story_ending = localStorage.getItem("story_ending");
+    const just_the_end = generate_ending(path_taken);
+    const story = generate_end_story(path_taken);
 
     const title = document.querySelector(".title");
     title.innerHTML = "The path you've taken";
@@ -12,17 +15,46 @@ export function display_end_screen (path_taken) {
     play_area.classList.remove("play-area-game");
     play_area.classList.add("play-area-end");
 
+    const ending_option_button = document.querySelector(".ending-option-button");
     const end_game = document.createElement('p');
     end_game.className = "end-game";
-    end_game.innerHTML = end_game_story;
+    if (story_ending){
+        ending_option_button.innerHTML = "Show me the story recap";
+        end_game.innerHTML = story;
+    } else {
+        ending_option_button.innerHTML = "Show me just the ending";
+        end_game.innerHTML = just_the_end;
+    }
 
+    display_ending_option_button(true);
     display_replay_button(true);
 
     play_area.appendChild(end_game);
     localStorage.removeItem("path_taken");
     localStorage.setItem("state_of_game", 2);
 
+    ending_option_button.addEventListener ('click', function(){
+        let story_ending = JSON.parse(localStorage.getItem("story_ending"));
+        story_ending = !story_ending;
+        localStorage.setItem("story_ending", JSON.stringify(story_ending));
+        const end_game = document.querySelector(".end-game");
+        if (story_ending){
+            ending_option_button.innerHTML = "Show me just the ending";
+            end_game.innerHTML = story;
+        } else {
+            ending_option_button.innerHTML = "Show me the story recap";
+            end_game.innerHTML = just_the_end;
+        }
+    })
+
 };
+
+function generate_ending (path_taken){
+    let path = path_taken[path_taken.length-1];
+    const examined_path_list = path_taken.slice(0, path_taken.length-1);
+    const examined_event = event_file.event_name_conversion[path.name_of_event];
+    return end_story_bit_generator(examined_path_list, path, examined_event, []).story_bit;
+}
 
 function generate_end_story (path_taken) {
     let examined_path_list = [];

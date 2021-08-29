@@ -6,6 +6,15 @@
     background-color: #1a1a1a;
 }
 
+.ending-option-button-light {
+    background-color: #abacae;
+    color: #f7f7f7;
+}
+.ending-option-button-dark {
+    background-color: #666;
+    color: #1a1a1a;
+}
+
 i.theme-toggle-light {
     color: #abacae;
     font-size: 46px;

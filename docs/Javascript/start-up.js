@@ -1,9 +1,7 @@
 // localStorage.removeItem("path_taken");
 // localStorage.removeItem("dark_theme");
 
-import { display_replay_button } from "./imported_modules/tools.js";
-import { play_area_direction_row } from "./imported_modules/tools.js";
-import { display_attribution } from "./imported_modules/tools.js";
+import { display_ending_option_button, display_replay_button, display_attribution, play_area_direction_row } from "./imported_modules/tools.js";
 import { director } from "./imported_modules/main.js";
 import { update_play_area } from "./imported_modules/main.js";
 import * as event_file from "./imported_modules/event.js";
@@ -24,6 +22,7 @@ export function start_game (){
 
     display_replay_button(false);
     display_attribution(false);
+    display_ending_option_button(false);
 
     const dark_theme_raw = localStorage.getItem("dark_theme");
     // console.log(localStorage.getItem("dark_theme"));

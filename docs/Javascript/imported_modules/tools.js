@@ -18,3 +18,11 @@ export function display_attribution (visibility) {
     attribution.classList.toggle("attribution-start", !visibility);
     attribution.classList.toggle("attribution-game-end", visibility);
 };
+
+export function display_ending_option_button (visibility) {
+    const ending_option_button_container = document.querySelector(".ending-option-button-container");
+
+    ending_option_button_container.classList.toggle("ending-option-button-container-game-start", !visibility);
+    ending_option_button_container.classList.toggle("ending-option-button-container-end", visibility);
+    
+}
