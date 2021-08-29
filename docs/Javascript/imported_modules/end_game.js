@@ -50,7 +50,7 @@ function generate_ending (path_taken){
     let path = path_taken[path_taken.length-1];
     const examined_path_list = path_taken.slice(0, path_taken.length-1);
     const examined_event = event_file.event_name_conversion[path.name_of_event];
-    return end_story_bit_generator(examined_path_list, path, examined_event, []).story_bit;
+    return end_story_bit_generator(examined_path_list, path, examined_event, [], true);
 }
 
 function generate_end_story (path_taken) {
@@ -90,7 +90,7 @@ function paragraph_determiner (end_game_story_bit, paragraph_type, paragraph_typ
     return result;
 };
 
-function end_story_bit_generator (previously_examined_path_list, currently_examined_path, examined_event, paragraph_type_ledger){
+function end_story_bit_generator (previously_examined_path_list, currently_examined_path, examined_event, paragraph_type_ledger, ignore_paragraph=false){
     const condition_list = examined_event.Ending[currently_examined_path.choice_made];
     let end_game_story_bit;
     let index_of_compatible_condition = 0
@@ -101,9 +101,12 @@ function end_story_bit_generator (previously_examined_path_list, currently_exami
         } 
         index_of_compatible_condition += 1;
     }
-
+    if (ignore_paragraph){
+        return end_game_story_bit;
+    } else {
     const paragraph_type = condition_list[index_of_compatible_condition].paragraph;
     return {story_bit : paragraph_determiner(end_game_story_bit, paragraph_type, paragraph_type_ledger), paragraph_type : paragraph_type};
+    }
 
 };
 
