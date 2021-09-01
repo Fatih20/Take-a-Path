@@ -32,6 +32,7 @@ export function start_game (){
 
     const play_area = document.querySelector(".play-area");
     play_area.innerHTML = "";
+    play_area.classList.remove("play-area-end");
 
     display_replay_button(false);
     display_attribution(false);
