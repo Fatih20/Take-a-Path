@@ -39,8 +39,20 @@ export const Bored_At_Home = new Event({
 	Name : "Bored_At_Home",
 	Occurence : "You're bored and hungry at home.",
 	Question : "What do you do?",
-	Possible_Answer_List : [{id : "A", answer: "Go to a restaurant" }, {id : "B", answer: "Go to the cinema"}],
-	Answers_For_Next_Event_List : [{trigger: "A", next_event_name : "Restaurant"}, {trigger : "B", next_event_name : "Cinema"}],
+	Possible_Answer_List : [
+		{
+			id : "A",
+			answer: "Go to a restaurant"
+		},
+		{
+			id : "B", 
+			answer: "Go to the cinema"
+		}
+	],
+	Answers_For_Next_Event_List : [
+		{trigger: "A", next_event_name : "Restaurant"},
+		{trigger : "B", next_event_name : "Cinema"}
+	],
 	Ending : {
 		"A": [
 			{
@@ -61,7 +73,21 @@ export const Restaurant = new Event({
 	Name : "Restaurant",
 	Occurence : "You're at a restaurant.",	
 	Question : "What do you order?",
-	Possible_Answer_List : [{id : "A", answer: "Pasta" }, {id : "B", answer: "Spaghetti"}],
+	Possible_Answer_List : [
+		{
+			id : "A",
+			answer: "Pasta",
+			conditions : {
+				type: "specific_event_checker", 
+				specification : {
+					event_name : "B"}
+				}
+		}, 
+		{
+			id : "B", 
+			answer: "Spaghetti"
+		}
+	],
 	Answers_For_Next_Event_List : [{trigger: "A", next_event_name : "End"}, {trigger : "B", next_event_name : "End"}],
 	Ending : {
 		"A" : [
@@ -89,7 +115,16 @@ export const Cinema = new Event({
 	Name : "Cinema",
 	Occurence : "You're at a cinema.",
 	Question : "What movie do you want to see?",
-	Possible_Answer_List : [{id : "A", answer: "Jaws" }, {id : "B", answer: "Star Wars"}],
+	Possible_Answer_List : [
+		{
+			id : "A", 
+			answer: "Jaws" 
+		}, 
+		{
+			id : "B", 
+			answer: "Star Wars"
+		}
+	],
 	Answers_For_Next_Event_List : [{trigger: "A", next_event_name : "End"}, {trigger : "B", next_event_name : "End"}],
 	Ending : {
 		"A": [

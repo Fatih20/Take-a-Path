@@ -47,9 +47,18 @@ export function update_play_area (path_taken, event_file) {
 
     const choice_container = document.createElement('div');
     choice_container.className = "choice-container";
-    for (let possible_answer of next_event.Possible_Answer_List) {
+
+    let possible_answer_shown = [];
+    for (const possible_answer of next_event.Possible_Answer_List) {
+        if (possible_answer.conditions === undefined || condition_type_conversion[possible_answer.conditions.type](path_taken, possible_answer.conditions)){
+            possible_answer_shown.push(possible_answer);
+        }
+    }
+    // console.log(possible_answer_shown);
+
+    for (let possible_choice of possible_answer_shown) {
         const choice = document.createElement('a');
-        const signal = possible_answer.id;
+        const signal = possible_choice.id;
         choice.setAttribute("href", "#");
         choice.className = "choice button";
         if (dark_theme === true){
@@ -57,7 +66,7 @@ export function update_play_area (path_taken, event_file) {
         } else {
             choice.classList.add("button-light");
         }
-        choice.innerHTML = possible_answer.answer;
+        choice.innerHTML = possible_choice.answer;
         choice.addEventListener('click', function() {
             director(JSON.parse(JSON.stringify(path_taken)), signal);
         });
@@ -65,4 +74,21 @@ export function update_play_area (path_taken, event_file) {
     }
     play_area.appendChild(event);
     play_area.appendChild(choice_container);
+};
+
+function specific_event_checker_choice (previously_examined_path_list, conditions) {
+    for (const previous_path of previously_examined_path_list) {
+        if (previous_path.nth_event === conditions.specification.nth_event || conditions.specification.nth_event === undefined ) {
+            if (previous_path.name_of_event === conditions.specification.event_name || conditions.specification.event_name === undefined ) {
+                if (previous_path.choice_made === conditions.specification.choice || conditions.specification.choice === undefined ) {
+                    return true;
+                }
+            }    
+        }
+    }
+    return false;
+};
+
+const condition_type_conversion = {
+    "specific_event_checker" : specific_event_checker_choice
 };

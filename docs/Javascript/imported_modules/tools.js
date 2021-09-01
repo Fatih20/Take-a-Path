@@ -24,5 +24,5 @@ export function display_ending_option_button (visibility) {
 
     ending_option_button_container.classList.toggle("ending-option-button-container-game-start", !visibility);
     ending_option_button_container.classList.toggle("ending-option-button-container-end", visibility);
-    
-}
+};
+
