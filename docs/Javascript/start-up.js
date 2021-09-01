@@ -64,7 +64,9 @@ export function start_game (){
         path_taken = [{nth_event : "0", name_of_event: "Start"}];
         const start_button = document.querySelector(".start-button");
         start_button.addEventListener('click', function(){
-            play_area_direction_row (false);
+            setTimeout(function(){
+                play_area_direction_row (false);
+            }, 200);
             change_title_to_game();
             display_attribution(true);
             localStorage.setItem("state_of_game", 1);

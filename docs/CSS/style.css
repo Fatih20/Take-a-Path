@@ -67,7 +67,7 @@ a {
 }
 
 .play-area-container {
-    clip-path: inset(0px 0px);
+    clip-path: inset(0 0);
     display: flex;
     flex-direction: row;
     margin-bottom: 20px;
@@ -84,15 +84,17 @@ a {
 }
 
 .play-area-coming {
-    left: 100%;
+    left: 101%;
 }
 
 .play-area-current {
     left: 0;
+    transition: all 0.2s ease-out;
 }
 
 .play-area-passing {
     left: -100%;
+    transition: all 0.2s ease-in;
 }
 
 .play-area-start {
