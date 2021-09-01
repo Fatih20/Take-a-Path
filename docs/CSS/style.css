@@ -67,6 +67,7 @@ a {
 }
 
 .play-area-container {
+    clip-path: inset(0px 0px);
     margin-bottom: 20px;
 }
 
@@ -74,7 +75,20 @@ a {
     align-items: center;
     border-radius: 15px;
     display: flex;
+    position: relative;
     text-align: center;
+}
+
+.play-area-coming {
+    left: 100%;
+}
+
+.play-area-current {
+    left: 0;
+}
+
+.play-area-passing {
+    left: -100%;
 }
 
 .play-area-start {
