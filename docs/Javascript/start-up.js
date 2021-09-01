@@ -1,4 +1,4 @@
-// localStorage.removeItem("path_taken");
+localStorage.removeItem("path_taken");
 // localStorage.removeItem("dark_theme");
 
 import { display_ending_option_button, display_replay_button, display_attribution, play_area_direction_row } from "./imported_modules/tools.js";
@@ -80,9 +80,10 @@ function set_play_area_new_game (is_new) {
     const play_area = document.querySelector(".play-area");
     const title = document.querySelector(".title");
 
-    if (is_new === true){
+    if (is_new){
         title.innerHTML = "Start your adventure";
         play_area.classList.add("play-area-start");
+        play_area.classList.add("play-area-current");
 
         const start_button = document.createElement('a');
         start_button.setAttribute("href", "#");
@@ -95,6 +96,7 @@ function set_play_area_new_game (is_new) {
         localStorage.setItem("state_of_game", 1);
         title.innerHTML = "Enjoy your adventure";
         play_area.classList.add("play-area-game");
+        play_area.classList.add("play-area-current");
     }
 };
 

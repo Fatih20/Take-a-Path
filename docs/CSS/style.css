@@ -68,6 +68,8 @@ a {
 
 .play-area-container {
     clip-path: inset(0px 0px);
+    display: flex;
+    flex-direction: row;
     margin-bottom: 20px;
 }
 
@@ -77,6 +79,8 @@ a {
     display: flex;
     position: relative;
     text-align: center;
+    transition: all 0.2s;
+    width: 100%;
 }
 
 .play-area-coming {
