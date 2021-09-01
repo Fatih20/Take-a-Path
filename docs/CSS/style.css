@@ -66,11 +66,14 @@ a {
     margin-bottom: 20px;
 }
 
+.play-area-container {
+    margin-bottom: 20px;
+}
+
 .play-area {
     align-items: center;
     border-radius: 15px;
     display: flex;
-    margin-bottom: 20px;
     text-align: center;
 }
 
