@@ -56,7 +56,6 @@ export function start_game (){
 
     if (path_taken !== undefined && path_taken !== null ) {
         set_play_area_new_game (false);
-        display_attribution(true);
         update_play_area (path_taken, event_file);
         
     } else {
@@ -68,7 +67,6 @@ export function start_game (){
                 play_area_direction_row (false);
             }, 200);
             change_title_to_game();
-            display_attribution(true);
             localStorage.setItem("state_of_game", 1);
             director(path_taken, "A");
             })

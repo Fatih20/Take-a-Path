@@ -1,6 +1,7 @@
 import * as event_file from "./event.js";
 import { display_replay_button } from "./tools.js";
 import { display_ending_option_button } from "./tools.js";
+import { display_attribution } from "./tools.js";
 
 export function display_end_screen (path_taken) {
     let story_ending = JSON.parse(localStorage.getItem("story_ending"));
@@ -22,6 +23,7 @@ export function display_end_screen (path_taken) {
 
     display_ending_option_button(true);
     display_replay_button(true);
+    display_attribution(true);
 
     play_area.appendChild(end_game);
     localStorage.removeItem("path_taken");
