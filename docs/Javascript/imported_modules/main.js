@@ -29,8 +29,17 @@ export function update_play_area (path_taken, event_file) {
     const next_event_name = path_taken[path_taken.length-1].name_of_event;
     const next_event = event_file.event_name_conversion[next_event_name];
 
-    const play_area = document.querySelector(".play-area");
-    play_area.innerHTML = "";
+    const play_area_coming = document.createElement('div');
+    play_area_coming.classList.add("play-area");
+    play_area_coming.classList.add("play-area-game");
+    play_area_coming.classList.add("play-area-coming");
+    if (dark_theme){
+        play_area_coming.classList.add("play-area-dark");
+    } else {
+        play_area_coming.classList.add("play-area-light");
+    }
+
+
     const event = document.createElement('div');
     event.className = "event";
 
@@ -72,8 +81,24 @@ export function update_play_area (path_taken, event_file) {
         });
         choice_container.appendChild(choice);
     }
-    play_area.appendChild(event);
-    play_area.appendChild(choice_container);
+    play_area_coming.appendChild(event);
+    play_area_coming.appendChild(choice_container);
+
+    const play_area_container = document.querySelector(".play-area-container");
+    const play_area_current = document.querySelector(".play-area-current");
+
+    play_area_current.classList.remove("play-area-current");
+    play_area_current.classList.add("play-area-passing");
+
+    setTimeout(function(){
+        play_area_current.remove();
+        play_area_container.appendChild(play_area_coming);
+        setTimeout(function(){
+            play_area_coming.classList.remove("play-area-coming");
+            play_area_coming.classList.add("play-area-current");
+        }, 200);
+    }, 200);
+
 };
 
 function specific_event_checker_choice (previously_examined_path_list, conditions) {
