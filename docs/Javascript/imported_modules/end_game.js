@@ -1,4 +1,4 @@
-import * as event_file from "./event.js";
+import * as event_file from "./story.js";
 import * as config from "./config.js";
 import { display_replay_button } from "./tools.js";
 import { display_ending_option_button } from "./tools.js";
