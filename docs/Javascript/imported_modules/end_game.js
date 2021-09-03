@@ -10,7 +10,7 @@ export function display_end_screen (path_taken) {
     const story = generate_end_story(path_taken);
 
     const title = document.querySelector(".title");
-    title.innerHTML = "The path you've taken";
+    title.innerHTML = config.end_game.title;
 
     const play_area = document.querySelector(".play-area");
     play_area.innerHTML = "";

@@ -83,7 +83,7 @@ function set_play_area_new_game (is_new) {
     const title = document.querySelector(".title");
 
     if (is_new){
-        title.innerHTML = "Start your adventure";
+        title.innerHTML = config.start_game.title;
         play_area.classList.add("play-area-start");
         play_area.classList.add("play-area-current");
 
@@ -96,7 +96,7 @@ function set_play_area_new_game (is_new) {
 
     } else {
         localStorage.setItem("state_of_game", 1);
-        title.innerHTML = "Enjoy your adventure";
+        title.innerHTML = config.in_game.title;
         play_area.classList.add("play-area-game");
         play_area.classList.add("play-area-current");
     }
