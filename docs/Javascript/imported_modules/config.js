@@ -13,6 +13,12 @@ export const end_game = {
     display_attribution : true
 };
 
+export const button_message = {
+    start : "Take your path",
+    replay : "Take another path"
+
+}
+
 export const animation = {
     use_animation : true,
     in_duration : 200,

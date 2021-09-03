@@ -40,6 +40,10 @@ export function start_game (){
     play_area.innerHTML = "";
     play_area.classList.remove("play-area-end");
 
+    const replay_button = document.querySelector(".replay-button");
+    replay_button.innerHTML = "<p>"+config.button_message.replay+"</p>";
+
+
     display_replay_button(false);
     display_attribution(config.start_game.display_attribution);
     display_ending_option_button(false);
@@ -99,7 +103,7 @@ function set_play_area_new_game (is_new) {
         const start_button = document.createElement('a');
         start_button.setAttribute("href", "#");
         start_button.className = "start-button button start-button-light";
-        start_button.innerHTML = "<p>Take your path</p>";
+        start_button.innerHTML = "<p>"+config.button_message.start+"</p>";
 
         play_area.appendChild(start_button);
 
