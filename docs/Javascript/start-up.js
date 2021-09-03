@@ -17,6 +17,11 @@ theme_toggle.addEventListener('click', function() {
 	toggle_theme();
 });
 
+const attribution = document.querySelector(".attribution")
+for (const credit of config.attribution) {
+    attribution.innerHTML = attribution.innerHTML + "<h2>"+credit.text+"<a href=\""+credit.link+"\" class=\"link\">"+credit.linked_text+"</a>"+"</h2>";
+};
+
 export function start_game (){
     localStorage.removeItem("story_ending");
 
