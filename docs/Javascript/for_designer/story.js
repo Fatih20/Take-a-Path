@@ -1,4 +1,4 @@
-import { Event } from "./event.js";
+import { Event } from "../imported_modules/event.js";
 
 export const Start = new Event({
 	Name : "Start",

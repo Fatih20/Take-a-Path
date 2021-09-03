@@ -1,8 +1,8 @@
 // localStorage.removeItem("path_taken");
 
 import { display_end_screen } from "./end_game.js";
-import * as event_file from "./story.js";
-import * as config from "./config.js";
+import * as event_file from "../for_designer/story.js";
+import * as config from "../for_designer/config.js";
 
 
 export function director (path_taken, signal) {

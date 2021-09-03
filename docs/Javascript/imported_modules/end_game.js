@@ -1,5 +1,5 @@
-import * as event_file from "./story.js";
-import * as config from "./config.js";
+import * as event_file from "../for_designer/story.js";
+import * as config from "../for_designer/config.js";
 import { display_replay_button } from "./tools.js";
 import { display_ending_option_button } from "./tools.js";
 import { display_attribution } from "./tools.js";
