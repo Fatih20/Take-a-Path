@@ -22,8 +22,8 @@ export function display_end_screen (path_taken) {
     end_game.className = "end-game";
     filling_end_game (story_ending, end_game, ending_option_button, story, just_the_end);
 
-    display_ending_option_button(true);
     display_replay_button(true);
+    display_ending_option_button(config.show_ending_option_button);
     display_attribution(config.end_game.display_attribution);
 
     play_area.appendChild(end_game);
@@ -47,14 +47,7 @@ function filling_end_game (story_ending, end_game, ending_option_button, story, 
         ending_option_button.innerHTML = "Show me the story recap";
         end_game.innerHTML = just_the_end;
     }
-}
-
-function generate_ending (path_taken){
-    let path = path_taken[path_taken.length-1];
-    const examined_path_list = path_taken.slice(0, path_taken.length-1);
-    const examined_event = event_file.event_name_conversion[path.name_of_event];
-    return end_story_bit_generator(examined_path_list, path, examined_event, [], true).story_bit;
-}
+};
 
 function generate_end_story (path_taken) {
     let examined_path_list = [];
@@ -74,6 +67,13 @@ function generate_end_story (path_taken) {
         examined_path_list.push(path);        
     }
     return path_summation_list.join(" ");
+};
+
+function generate_ending (path_taken){
+    let path = path_taken[path_taken.length-1];
+    const examined_path_list = path_taken.slice(0, path_taken.length-1);
+    const examined_event = event_file.event_name_conversion[path.name_of_event];
+    return end_story_bit_generator(examined_path_list, path, examined_event, [], true).story_bit;
 };
 
 function paragraph_determiner (end_game_story_bit, paragraph_type, paragraph_type_ledger){

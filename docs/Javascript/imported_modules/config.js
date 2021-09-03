@@ -9,3 +9,5 @@ export const in_game = {
 export const end_game = {
     display_attribution : true
 }
+
+export const show_ending_option_button = true;
