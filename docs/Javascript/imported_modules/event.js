@@ -6,14 +6,26 @@ export class Event {
 		this.Possible_Answer_List = event_attribute.Possible_Answer_List;
 		this.Answers_For_Next_Event_List = event_attribute.Answers_For_Next_Event_List;
 
-		for (const choice in event_attribute.Ending) {
-			for (const ending_bit of event_attribute.Ending[choice]){
-				if (ending_bit.paragraph === undefined) {
-					ending_bit.paragraph = "none";
-				}
-			}
-		}
-		this.Ending = event_attribute.Ending;
+		if (event_attribute.Lazy_Mode === true){
+            this.Ending = {};
+            for (const possible_answer of event_attribute.Possible_Answer_List){
+                this.Ending[possible_answer.id] = [
+                    {
+                        type: "default_ending",
+                        story_bit : event_attribute.Occurence + possible_answer.answer
+                    }
+                ]
+            }
+        } else {
+            for (const choice in event_attribute.Ending) {
+                for (const ending_bit of event_attribute.Ending[choice]){
+                    if (ending_bit.paragraph === undefined) {
+                        ending_bit.paragraph = "none";
+                    }
+                }
+            }
+            this.Ending = event_attribute.Ending;
+        }
 
     };
 
