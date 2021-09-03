@@ -5,7 +5,7 @@ import { display_ending_option_button } from "./tools.js";
 import { display_attribution } from "./tools.js";
 
 export function display_end_screen (path_taken) {
-    let story_ending = JSON.parse(localStorage.getItem("story_ending"));
+    let story_ending = config.default_story_ending;
     const just_the_end = generate_ending(path_taken);
     const story = generate_end_story(path_taken);
 

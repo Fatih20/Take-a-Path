@@ -11,3 +11,5 @@ export const end_game = {
 }
 
 export const show_ending_option_button = true;
+
+export const default_story_ending = false;
