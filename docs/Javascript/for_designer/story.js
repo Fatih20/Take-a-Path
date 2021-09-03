@@ -29,11 +29,16 @@ export const Bored_At_Home = new Event({
 		{
 			id : "B", 
 			answer: "Go to the cinema"
-		}
+		},
+		{
+			id : "C",
+			answer: "Stay at home"
+		},
 	],
 	Answers_For_Next_Event_List : [
 		{trigger: "A", next_event_name : "Restaurant"},
-		{trigger : "B", next_event_name : "Cinema"}
+		{trigger : "B", next_event_name : "Cinema"},
+		{trigger : "C", next_event_name : "Bored_At_Home"},
 	],
 	Ending : {
 		"A": [
@@ -46,6 +51,18 @@ export const Bored_At_Home = new Event({
 			{
 			type: "default_ending",
 			story_bit : "You decided to go to the cinema to watch the latest and greatest movie that people have been talking about. And also because you have nothing to do at home. In the cinema, there were barely anyone here. It is a weekday in the afternoon, so it's what you should expect. Once you go to the ticket booth, there are only 2 movies playing because not many people go to the cinema in weekday afternoon. The options are Jaws and Star Wars."
+			}
+		],
+		"C" : [
+			{
+			type: "specific_event_checker",
+			specification : {
+				event_before : "Bored_At_Home"}, 
+			story_bit : ""
+			},
+			{
+			type: "default_ending",
+			story_bit : "You decided to stay at home."
 			}
 		]
 	}
