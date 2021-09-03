@@ -15,134 +15,117 @@ export class Event {
 		}
 		this.Ending = event_attribute.Ending;
 
-    }
-};
+    };
 
-export const Start = new Event({
-	Name : "Start",
-	Occurence : "Start of the game",
-	Question : "",
-	Possible_Answer_List : [],
-	// Next_event_name should be the first event in the game
-	Answers_For_Next_Event_List : [{trigger : "A", next_event_name: "Bored_At_Home"}],
-	Ending : {
-		"A" : [
-			{
-			type : "default_ending",
-			story_bit : "It's your day off and you have nothing to do at home." 
-			},
-		]
-	}
-});
+    visible_choice_generator(path_taken){
+        let choice_shown = [];
+        for (const possible_answer of this.Possible_Answer_List) {
+            if (possible_answer.conditions === undefined || this.condition_type_conversion_choice[possible_answer.conditions.type](path_taken, possible_answer.conditions)){
+                choice_shown.push(possible_answer);
+            }
+        }
+        return choice_shown;
+    };
 
-export const Bored_At_Home = new Event({
-	Name : "Bored_At_Home",
-	Occurence : "You're bored and hungry at home.",
-	Question : "What do you do?",
-	Possible_Answer_List : [
-		{
-			id : "A",
-			answer: "Go to a restaurant"
-		},
-		{
-			id : "B", 
-			answer: "Go to the cinema"
-		}
-	],
-	Answers_For_Next_Event_List : [
-		{trigger: "A", next_event_name : "Restaurant"},
-		{trigger : "B", next_event_name : "Cinema"}
-	],
-	Ending : {
-		"A": [
-			{
-			type: "default_ending",
-			story_bit : "You decided to go to the restaurant to shave off some boredom, get some food, and maybe enjoy new atmosphere. It's an italian restaurant with good lighting, good music, and a good mood. The waiter come up to you and asked what you want to order.",
-			}
-		],
-		"B" : [
-			{
-			type: "default_ending",
-			story_bit : "You decided to go to the cinema to watch the latest and greatest movie that people have been talking about. And also because you have nothing to do at home. In the cinema, there were barely anyone here. It is a weekday in the afternoon, so it's what you should expect. Once you go to the ticket booth, there are only 2 movies playing because not many people go to the cinema in weekday afternoon. The options are Jaws and Star Wars."
-			}
-		]
-	}
-});
+    specific_event_checker_choice (previously_examined_path_list, conditions) {
+        for (const previous_path of previously_examined_path_list) {
+            if (previous_path.nth_event === conditions.specification.nth_event || conditions.specification.nth_event === undefined ) {
+                if (previous_path.name_of_event === conditions.specification.event_name || conditions.specification.event_name === undefined ) {
+                    if (previous_path.choice_made === conditions.specification.choice || conditions.specification.choice === undefined ) {
+                        return true;
+                    }
+                }    
+            }
+        }
+        return false;
+    };
 
-export const Restaurant = new Event({
-	Name : "Restaurant",
-	Occurence : "You're at a restaurant.",	
-	Question : "What do you order?",
-	Possible_Answer_List : [
-		{
-			id : "A",
-			answer: "Pasta",
-			conditions : {
-				type: "specific_event_checker", 
-				specification : {
-					event_name : "B"}
-				}
-		}, 
-		{
-			id : "B", 
-			answer: "Spaghetti"
-		}
-	],
-	Answers_For_Next_Event_List : [{trigger: "A", next_event_name : "End"}, {trigger : "B", next_event_name : "End"}],
-	Ending : {
-		"A" : [
-			{
-			type: "default_ending", 
-			story_bit : "You ordered a pasta. It arrived in about 15 minutes. The delicious pasta and the great mood of the restaurant make you enjoy yourself very much.",
-			paragraph : "last sentence"}
-		],
-		"B" : [
-			{
-			type: "nth_event_checker", 
-			specification : {
-				event_before : "Bored_At_Home"}, 
-			story_bit : "Because you were bored at home, you decided to order a spaghetti.",
-			paragraph : "last sentence"},
+    condition_type_conversion_choice = {
+        "specific_event_checker" : this.specific_event_checker_choice
+    };
 
-			{type: "default_ending", 
-			story_bit : "You ordered a spaghetti. It arrived in about 15 minutes.",
-			paragraph : "new paragraph"}
-		],
-	}
-});
+    end_story_bit_generator (previously_examined_path_list, currently_examined_path, paragraph_type_ledger, ignore_paragraph=false){
+        const condition_list = this.Ending[currently_examined_path.choice_made];
+        let end_game_story_bit;
+        let index_of_compatible_condition = 0;
+        for (const condition of condition_list){
+            end_game_story_bit = this.condition_type_conversion_ending[condition.type](previously_examined_path_list, currently_examined_path, condition);
+            if (end_game_story_bit !== null){
+                break;
+            } 
+            index_of_compatible_condition += 1;
+        }
+        if (ignore_paragraph){
+            return {story_bit : end_game_story_bit};
+        } else {
+            const paragraph_type = condition_list[index_of_compatible_condition].paragraph;
+            return {story_bit : paragraph_determiner(end_game_story_bit, paragraph_type, paragraph_type_ledger), paragraph_type : paragraph_type};
+        }
+    
+    };
 
-export const Cinema = new Event({
-	Name : "Cinema",
-	Occurence : "You're at a cinema.",
-	Question : "What movie do you want to see?",
-	Possible_Answer_List : [
-		{
-			id : "A", 
-			answer: "Jaws" 
-		}, 
-		{
-			id : "B", 
-			answer: "Star Wars"
-		}
-	],
-	Answers_For_Next_Event_List : [{trigger: "A", next_event_name : "End"}, {trigger : "B", next_event_name : "End"}],
-	Ending : {
-		"A": [
-			{type: "default_ending",
-			story_bit : "You decided to watch Jaws. It's a pretty thrilling and scary movie. You wound up having thalassophobia.",
-			paragraph : "last sentence"}
-		],
-		"B" : [
-			{type: "default_ending",
-			story_bit : "You decided to watch Star Wars. The space adventure Luke and the gang goes through keeps you at the edge of your seat. You really enjoy the movie and can't wait for the sequel.",
-			paragraph : "new paragraph"}
-		]
-	}
-});
+    specific_event_checker (previously_examined_path_list, currently_examined_path, condition) {
+        for (const previous_path of previously_examined_path_list) {
+    
+            if (previous_path.nth_event === condition.specification.nth_event || condition.specification.nth_event === undefined ) {
+                if (previous_path.name_of_event === condition.specification.event_name || condition.specification.event_name === undefined ) {
+                    if (previous_path.choice_made === condition.specification.choice || condition.specification.choice === undefined ) {
+                        return condition.story_bit;
+                    }
+                }    
+            }
+        }
+        return null;
+    };
+    
+    nth_event_checker (previously_examined_path_list, currently_examined_path, condition){
+        if (condition.specification.nth_this_event === currently_examined_path.nth_event || condition.specification.nth_this_event === undefined) {
+            if (condition.specification.event_before === undefined) {
+                return condition.story_bit;
+            } else {
+                for (const previous_path of previously_examined_path_list) {
+                    if (previous_path.name_of_event === condition.specification.event_before) {
+                        return condition.story_bit;
+                    }
+                }
+                return null;
+            }
+        }
+    
+        else {
+            return null;
+        }
+    };
 
-export const event_name_conversion = {
-    "Start" : Start,
-    "Bored_At_Home" : Bored_At_Home,
-    "Restaurant" : Restaurant,
-    "Cinema" : Cinema,
+    default_ending (previously_examined_path_list, currently_examined_path, condition){
+        return condition.story_bit;
+    };
+
+    condition_type_conversion_ending = {
+        "nth_event_checker" : this.nth_event_checker,
+        "specific_event_checker" : this.specific_event_checker,
+        "default_ending" : this.default_ending
+    };
+
+    paragraph_determiner (end_game_story_bit, paragraph_type, paragraph_type_ledger){
+        let result;
+        let break_before = true;
+        if (paragraph_type_ledger[paragraph_type_ledger.length-1] === "last sentence"){
+            no_break_before = false;
+        }
+    
+        if (paragraph_type === "none" || paragraph_type === "new paragraph"){
+            result = end_game_story_bit;
+        } else if (paragraph_type === "last sentence" || paragraph_type === "standalone paragraph"){
+            result = end_game_story_bit+"<br><br>";
+        }
+    
+        if (paragraph_type === "standalone paragraph" || paragraph_type === "new paragraph"){
+            if (break_before){
+                result = "<br><br>"+result;
+            }
+        }
+    
+        return result;
+    };
 };
