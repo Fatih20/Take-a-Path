@@ -1,10 +1,11 @@
-localStorage.removeItem("path_taken");
+// localStorage.removeItem("path_taken");
 // localStorage.removeItem("dark_theme");
 
 import { display_ending_option_button, display_replay_button, display_attribution, play_area_direction_row } from "./imported_modules/tools.js";
 import { director } from "./imported_modules/main.js";
 import { update_play_area } from "./imported_modules/main.js";
 import * as event_file from "./imported_modules/event.js";
+import * as config from "./imported_modules/config.js";
 
 const replay_button = document.querySelector(".replay-button");
 replay_button.addEventListener('click', function() {
@@ -35,7 +36,7 @@ export function start_game (){
     play_area.classList.remove("play-area-end");
 
     display_replay_button(false);
-    display_attribution(false);
+    display_attribution(config.start_game.display_attribution);
     display_ending_option_button(false);
 
     const dark_theme_raw = localStorage.getItem("dark_theme");
@@ -56,6 +57,7 @@ export function start_game (){
 
     if (path_taken !== undefined && path_taken !== null ) {
         set_play_area_new_game (false);
+        display_attribution(config.in_game.display_attribution);
         update_play_area (path_taken, event_file);
         
     } else {
@@ -66,7 +68,7 @@ export function start_game (){
             setTimeout(function(){
                 play_area_direction_row (false);
             }, 200);
-            change_title_to_game();
+            display_attribution(config.in_game.display_attribution);
             localStorage.setItem("state_of_game", 1);
             director(path_taken, "A");
             })
@@ -98,11 +100,6 @@ function set_play_area_new_game (is_new) {
         play_area.classList.add("play-area-game");
         play_area.classList.add("play-area-current");
     }
-};
-
-function change_title_to_game (){
-    const title = document.querySelector(".title");
-    title.innerHTML = "Enjoy your adventure";
 };
 
 function change_theme (dark_theme) {

@@ -94,7 +94,7 @@ a {
 }
 
 .play-area-passing {
-    left: -100%;
+    left: -101%;
     transition: all 0.2s ease-in;
 }
 
