@@ -80,7 +80,6 @@ a {
     display: flex;
     position: relative;
     text-align: center;
-    transition: all 0.2s;
     width: 100%;
 }
 
@@ -90,12 +89,10 @@ a {
 
 .play-area-current {
     left: 0;
-    transition: all 0.2s ease-out;
 }
 
 .play-area-passing {
     left: -101%;
-    transition: all 0.2s ease-in;
 }
 
 .play-area-start {

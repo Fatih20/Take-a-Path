@@ -65,9 +65,13 @@ export function start_game (){
         path_taken = [{nth_event : "0", name_of_event: "Start"}];
         const start_button = document.querySelector(".start-button");
         start_button.addEventListener('click', function(){
-            setTimeout(function(){
-                play_area_direction_row (false);
-            }, 200);
+            if (config.animation.use_animation){
+                setTimeout(function(){
+                    play_area_direction_row (false);
+                }, config.animation.out_duration);
+            } else {
+                play_area_direction_row(false);
+            }
             display_attribution(config.in_game.display_attribution);
             localStorage.setItem("state_of_game", 1);
             director(path_taken, "A");
