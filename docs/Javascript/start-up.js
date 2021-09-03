@@ -67,7 +67,7 @@ export function start_game (){
     if (path_taken !== undefined && path_taken !== null ) {
         set_play_area_new_game (false);
         display_attribution(config.in_game.display_attribution);
-        update_play_area (path_taken, event_file);
+        update_play_area (path_taken, event_file, false);
         
     } else {
         set_play_area_new_game(true);

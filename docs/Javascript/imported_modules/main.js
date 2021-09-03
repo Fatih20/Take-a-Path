@@ -17,19 +17,18 @@ export function director (path_taken, signal) {
             } else {
                 path_taken.push({nth_event : (parseInt(nth_current_event)+1).toString(), name_of_event : answer_for_next_event.next_event_name});
                 localStorage.setItem("path_taken", JSON.stringify(path_taken));
-                update_play_area(path_taken, event_file);
+                update_play_area(path_taken, event_file, config.animation.use_animation);
                 break;
             }
         }
     }
 };
 
-export function update_play_area (path_taken, event_file) {
+export function update_play_area (path_taken, event_file, animated) {
     const dark_theme = JSON.parse(localStorage.getItem("dark_theme"));
 
     const next_event_name = path_taken[path_taken.length-1].name_of_event;
     const next_event = event_file.event_name_conversion[next_event_name];
-
 
     const event = document.createElement('div');
     event.className = "event";
@@ -68,7 +67,7 @@ export function update_play_area (path_taken, event_file) {
         choice_container.appendChild(choice);
     }
 
-    if (config.animation.use_animation){
+    if (animated){
         const play_area_coming = document.createElement('div');
         play_area_coming.classList.add("play-area");
         play_area_coming.classList.add("play-area-game");
