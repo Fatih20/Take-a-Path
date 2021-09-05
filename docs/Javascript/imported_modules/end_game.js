@@ -50,16 +50,17 @@ function filling_end_game (story_ending, end_game, ending_option_button, story, 
 };
 
 function generate_end_story (path_taken) {
+    console.log(path_taken);
     let examined_path_list = [];
     let path_summation_list = [];
     let paragraph_type_ledger = [];
-    for (let path of path_taken) {
+    for (const path of path_taken) {
         const examined_event = event_file.event_name_conversion[path.name_of_event];
         let story_bit_and_paragraph_type;
         if (examined_path_list.length === path_taken.length-1){
-            story_bit_and_paragraph_type = examined_event.end_story_bit_generator(examined_path_list, path, examined_event, paragraph_type_ledger, true);
+            story_bit_and_paragraph_type = examined_event.end_story_bit_generator(examined_path_list, path, paragraph_type_ledger, true, config.paragraph_periodicity.periodicity, config.paragraph_periodicity.period);
         } else {
-            story_bit_and_paragraph_type = examined_event.end_story_bit_generator(examined_path_list, path, examined_event, paragraph_type_ledger);
+            story_bit_and_paragraph_type = examined_event.end_story_bit_generator(examined_path_list, path, paragraph_type_ledger, false, config.paragraph_periodicity.periodicity, config.paragraph_periodicity.period);
         }
 
         path_summation_list.push(story_bit_and_paragraph_type.story_bit);

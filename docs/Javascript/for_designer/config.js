@@ -33,6 +33,11 @@ export const attribution = [
     }
 ];
 
+export const paragraph_periodicity = {
+    periodicity : false,
+    period : 4
+}
+
 export const show_ending_option_button = true;
 
 export const default_story_ending = false;

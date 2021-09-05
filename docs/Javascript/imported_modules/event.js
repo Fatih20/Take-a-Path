@@ -5,14 +5,14 @@ export class Event {
 		this.Question = event_attribute.Question;
 		this.Possible_Answer_List = event_attribute.Possible_Answer_List;
 		this.Answers_For_Next_Event_List = event_attribute.Answers_For_Next_Event_List;
-
-		if (event_attribute.Lazy_Mode === true){
+        if (event_attribute.Lazy_Mode === true){
+            this.Lazy_Mode = event_attribute.Lazy_Mode;
             this.Ending = {};
             for (const possible_answer of event_attribute.Possible_Answer_List){
                 this.Ending[possible_answer.id] = [
                     {
                         type: "default_ending",
-                        story_bit : event_attribute.Occurence + possible_answer.answer
+                        story_bit : event_attribute.Occurence+ " " + possible_answer.answer
                     }
                 ]
             }
@@ -27,23 +27,34 @@ export class Event {
             this.Ending = event_attribute.Ending;
         }
 
+        if (event_attribute.End_Game_Event){
+            this.End_Game_Event = event_attribute.End_Game_Event
+        }
+
     };
 
     visible_choice_generator(path_taken){
         let choice_shown = [];
         for (const possible_answer of this.Possible_Answer_List) {
-            if (possible_answer.conditions === undefined || this.condition_type_conversion_choice[possible_answer.conditions.type](path_taken, possible_answer.conditions)){
+            if (possible_answer.condition_list === undefined){
                 choice_shown.push(possible_answer);
+            } else {
+                for (const condition of possible_answer.condition_list){
+                    if (this.condition_type_conversion_choice[condition.type](path_taken, condition)){
+                        choice_shown.push(possible_answer);
+                        break;
+                    }
+                }
             }
         }
         return choice_shown;
     };
 
-    specific_event_checker_choice (previously_examined_path_list, conditions) {
+    specific_event_checker_choice (previously_examined_path_list, condition) {
         for (const previous_path of previously_examined_path_list) {
-            if (previous_path.nth_event === conditions.specification.nth_event || conditions.specification.nth_event === undefined ) {
-                if (previous_path.name_of_event === conditions.specification.event_name || conditions.specification.event_name === undefined ) {
-                    if (previous_path.choice_made === conditions.specification.choice || conditions.specification.choice === undefined ) {
+            if (previous_path.nth_event === condition.specification.nth_event || condition.specification.nth_event === undefined ) {
+                if (previous_path.name_of_event === condition.specification.event_name || condition.specification.event_name === undefined ) {
+                    if (previous_path.choice_made === condition.specification.choice || condition.specification.choice === undefined ) {
                         return true;
                     }
                 }    
@@ -56,7 +67,7 @@ export class Event {
         "specific_event_checker" : this.specific_event_checker_choice
     };
 
-    end_story_bit_generator (previously_examined_path_list, currently_examined_path, paragraph_type_ledger, ignore_paragraph=false){
+    end_story_bit_generator (previously_examined_path_list, currently_examined_path, paragraph_type_ledger, ignore_paragraph=false, periodicity=false, period=undefined){
         const condition_list = this.Ending[currently_examined_path.choice_made];
         let end_game_story_bit;
         let index_of_compatible_condition = 0;
@@ -67,11 +78,19 @@ export class Event {
             } 
             index_of_compatible_condition += 1;
         }
+
         if (ignore_paragraph){
             return {story_bit : end_game_story_bit};
         } else {
-            const paragraph_type = condition_list[index_of_compatible_condition].paragraph;
-            return {story_bit : paragraph_determiner(end_game_story_bit, paragraph_type, paragraph_type_ledger), paragraph_type : paragraph_type};
+            let paragraph_type;
+            if (periodicity){
+                console.log(parseInt(currently_examined_path.nth_event));
+                if ((parseInt(currently_examined_path.nth_event)+1)% period === 0 )
+                    paragraph_type = "last sentence";
+            } else{
+                paragraph_type = condition_list[index_of_compatible_condition].paragraph;
+            }
+            return {story_bit : this.paragraph_determiner(end_game_story_bit, paragraph_type, paragraph_type_ledger), paragraph_type : paragraph_type};
         }
     
     };
@@ -123,7 +142,7 @@ export class Event {
         let result;
         let break_before = true;
         if (paragraph_type_ledger[paragraph_type_ledger.length-1] === "last sentence"){
-            no_break_before = false;
+            break_before = false;
         }
     
         if (paragraph_type === "none" || paragraph_type === "new paragraph"){

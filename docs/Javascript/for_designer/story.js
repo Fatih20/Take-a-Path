@@ -76,11 +76,13 @@ export const Restaurant = new Event({
 		{
 			id : "A",
 			answer: "Pasta",
-			conditions : {
+			condition_list : [
+				{
 				type: "specific_event_checker", 
 				specification : {
 					event_name : "B"}
 				}
+			] 
 		}, 
 		{
 			id : "B", 
