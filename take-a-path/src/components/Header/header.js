@@ -7,7 +7,7 @@ import { useGameState } from '../../context/GameStateContext';
 import { useShowRecap, useChangeShowRecap } from "../../context/ShowRecapContext";
 
 //Config
-import { showEndingOptionButton } from "../../forDesigner/config";
+import { showEndingOptionButton } from "../../forDesigner/Config";
 
 const Main = styled.div`
     display: flex;

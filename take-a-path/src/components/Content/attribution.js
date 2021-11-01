@@ -5,7 +5,7 @@ import React from "react";
 import { useTheme } from '../../context/ThemeContext';
 import { useGameState } from '../../context/GameStateContext';
 
-import { attributionList, gameStateProperty } from "../../forDesigner/config";
+import { attributionList, gameStateProperty } from "../../forDesigner/Config";
 
 const Main = styled.div`
     display: ${(props) => {

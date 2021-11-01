@@ -13,7 +13,7 @@ export const gameStateProperty = {
     }
 }
 
-export const button_message = {
+export const buttonMessage = {
     start : "Take your path",
     replay : "Take another path"
 

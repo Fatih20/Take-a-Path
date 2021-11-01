@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
-import PlayArea from "../components/Content/playArea";
 
 const PathTaken = React.createContext();
-const AppendPathTaken = React.createContext();
+const SetPathTaken = React.createContext();
 
 export function usePathTaken (){
     useContext(PathTaken);
 };
 
-export function useAppendPathTaken () {
-    useContext(AppendPathTaken);
+export function useSetPathTaken () {
+    useContext(SetPathTaken);
 };
 
 export function PathTakenProvider ({ children }){
@@ -20,7 +19,7 @@ export function PathTakenProvider ({ children }){
         if (pathTakenCandidate != undefined && pathTakenCandidate != null){
             setPathTaken(pathTakenCandidate);
         } else {
-            setPathTaken({nth_event : "0", name_of_event: "Start"});
+            setPathTaken({nthEvent : "0", nameOfEvent: "Start"});
         }
     });
 
@@ -29,11 +28,15 @@ export function PathTakenProvider ({ children }){
         localStorage.setItem("PathTaken", JSON.stringify(pathTaken));
     }
 
+    function setPathTaken (newPathTaken){
+        setPathTaken(newPathTaken);
+    }
+
     return (
         <PathTaken.Provider value={pathTaken}>
-            <AppendPathTaken.Provider value={appendPathTaken}>
+            <SetPathTaken.Provider value={setPathTaken}>
                 {children}
-            </AppendPathTaken.Provider>
+            </SetPathTaken.Provider>
         </PathTaken.Provider>
     )
 }

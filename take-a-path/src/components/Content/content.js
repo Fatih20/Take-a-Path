@@ -6,7 +6,7 @@ import { useTheme } from '../../context/ThemeContext';
 import { useGameState } from '../../context/GameStateContext';
 
 //Config
-import { gameStateProperty } from "../../forDesigner/config";
+import { gameStateProperty } from "../../forDesigner/Config";
 
 //Components
 import Attribution from './attribution';

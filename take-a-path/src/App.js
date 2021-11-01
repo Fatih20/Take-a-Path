@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { ThemeProvider } from './context/ThemeContext';
 import { GameStateProvider } from './context/GameStateContext';
 import { ShowRecapProvider } from './context/ShowRecapContext';
-import { PathTakenpProvider } from './context/PathTakenContext';
+import { PathTakenProvider } from './context/PathTakenContext';
 
 //GlobalStyles
 import { GlobalTransition } from './components/GlobalComponent';
@@ -22,7 +22,7 @@ function App() {
   return (
     <Main>
       <GlobalTransition />
-      <PathTakenpProvider>
+      <PathTakenProvider>
         <GameStateProvider>
           <ThemeProvider>
             <ShowRecapProvider> 
@@ -30,7 +30,7 @@ function App() {
             </ShowRecapProvider>
           </ThemeProvider>
         </GameStateProvider>
-      </PathTakenpProvider>
+      </PathTakenProvider>
     </Main>
     
   );
