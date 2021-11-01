@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { ThemeProvider } from './context/ThemeContext';
 import { GameStateProvider } from './context/GameStateContext';
 import { ShowRecapProvider } from './context/ShowRecapContext';
+import { PathTakenpProvider } from './context/PathTakenContext';
 
 import { GlobalTransition } from './components/GlobalComponent';
 
@@ -18,13 +19,15 @@ function App() {
   return (
     <Main>
       <GlobalTransition />
-      <GameStateProvider>
-        <ThemeProvider>
-          <ShowRecapProvider> 
-            <Wrapper />
-          </ShowRecapProvider>
-        </ThemeProvider>
-      </GameStateProvider>
+      <PathTakenpProvider>
+        <GameStateProvider>
+          <ThemeProvider>
+            <ShowRecapProvider> 
+              <Wrapper />
+            </ShowRecapProvider>
+          </ThemeProvider>
+        </GameStateProvider>
+      </PathTakenpProvider>
     </Main>
     
   );
