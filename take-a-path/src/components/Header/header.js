@@ -2,6 +2,7 @@ import styled from "styled-components";
 import React, { useState } from "react";
 import { useTheme, useToggleTheme } from '../../ThemeContext';
 import { useGameState } from '../../GameStateContext';
+import { useShowRecap, useChangeShowRecap } from "../../ShowRecapContext";
 
 const Main = styled.div`
     display: flex;
@@ -59,10 +60,11 @@ const EndingOptionButtonContainer = styled.div`
 `;
 
 function Header (){
-    const[showRecap, setShowRecap] = useState(true);
     const darkTheme = useTheme();
     const toggleTheme = useToggleTheme();
     const gameState = useGameState();
+    const showRecap = useShowRecap();
+    const toggleShowRecap = useChangeShowRecap();
 
     let themeToggleIcon;
     if (darkTheme){
@@ -83,7 +85,7 @@ function Header (){
         <Main>
             <Spacer />
             <EndingOptionButtonContainer gameState={gameState} >
-                <EndingOptionButton darkTheme={darkTheme} href="#" onClick= {()=> setShowRecap(!showRecap)}>
+                <EndingOptionButton darkTheme={darkTheme} href="#" onClick= {()=> toggleShowRecap()}>
                     {endingOptionButtonContent}
                 </EndingOptionButton>
             </EndingOptionButtonContainer>
