@@ -22,6 +22,14 @@ const Title = styled.h1`
     margin-bottom: 20px;
 `;
 
+const PlayAreaContainer = styled.div`
+    clip-path: inset(0 0);
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+    padding-bottom: 6px;
+`;
+
 function Content (){
     const gameState = useGameState();
     const darkTheme = useTheme();
@@ -41,7 +49,9 @@ function Content (){
     return(
         <Main>
             <Title darkTheme={darkTheme}>{titleContent}</Title>
-            <PlayArea></PlayArea>
+            <PlayAreaContainer>
+
+            </PlayAreaContainer>
             <Attribution />
         </Main>
     )
