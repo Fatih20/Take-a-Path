@@ -6,6 +6,8 @@ import { ThemeProvider } from './context/ThemeContext';
 import { GameStateProvider } from './context/GameStateContext';
 import { ShowRecapProvider } from './context/ShowRecapContext';
 
+import { GlobalTransition } from './components/GlobalComponent';
+
 import Wrapper from './components/Wrapper';
 
 
@@ -15,6 +17,7 @@ const Main = styled.div`
 function App() {
   return (
     <Main>
+      <GlobalTransition />
       <GameStateProvider>
         <ThemeProvider>
           <ShowRecapProvider> 

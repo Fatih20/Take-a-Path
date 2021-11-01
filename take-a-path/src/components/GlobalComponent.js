@@ -1,4 +1,10 @@
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
+
+export const GlobalTransition = createGlobalStyle`
+    * {
+        transition: all 0.25s;
+    }
+`;
 
 export const Button = styled.a`
     background-color: ${props => props.darkTheme? "#7239b3" : "#a56de2"};

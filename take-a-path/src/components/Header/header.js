@@ -26,7 +26,6 @@ const Spacer = styled.div`
 
 const ThemeToggle = styled.div`
     display: inline-block;
-    transition: all 0.25s;
 
     & i {
         color: ${props => props.darkTheme? "#666" : "#abacae"};
