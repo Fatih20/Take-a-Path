@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 import Content from './Content/content';
 import Header from './Header/header';
-import Attribution from "./Content/attribution";
 
 import { useTheme } from '../ThemeContext';
 
@@ -11,8 +10,6 @@ const Main = styled.div`
 `;
 
 function Wrapper() {
-
-  const[gameState, setGameState] = useState(2);
 
   const darkTheme = useTheme();
 
