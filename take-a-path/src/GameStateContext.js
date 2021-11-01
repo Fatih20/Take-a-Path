@@ -12,15 +12,19 @@ export function useChangeGameState(){
 }
 
 export function GameStateProvider( { children }){
+
     const[gameState, setGameState] = useState("finished");
 
-    function changeGameState (newState){
+    const possibleGameState = ["start", "in-game", "finished"];
+
+    function progressGameState (){
+        const newState = possibleGameState[((possibleGameState.indexOf(gameState) + 1) % possibleGameState.length)];
         setGameState(newState);
     }
 
     return (
         <GameStateContext.Provider value={gameState}>
-            <ChangeGameStateContext.Provider value={changeGameState}>
+            <ChangeGameStateContext.Provider value={progressGameState}>
                 {children}
             </ChangeGameStateContext.Provider>
         </GameStateContext.Provider>

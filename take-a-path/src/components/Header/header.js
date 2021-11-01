@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import React, { useState } from "react";
 import { useTheme, useToggleTheme } from '../../ThemeContext';
-import { useGameState, useChangeGameState } from '../../GameStateContext';
+import { useGameState } from '../../GameStateContext';
 
 const Main = styled.div`
     display: flex;
@@ -63,7 +63,6 @@ function Header (){
     const darkTheme = useTheme();
     const toggleTheme = useToggleTheme();
     const gameState = useGameState();
-    const changeGameState = useChangeGameState();
 
     let themeToggleIcon;
     if (darkTheme){

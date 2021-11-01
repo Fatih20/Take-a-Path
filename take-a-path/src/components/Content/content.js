@@ -4,6 +4,7 @@ import { useTheme } from '../../ThemeContext';
 import { useGameState } from '../../GameStateContext';
 
 import Attribution from './attribution';
+import PlayArea from './playArea';
 
 const Main = styled.div`
     padding-top: 0px;
@@ -40,6 +41,7 @@ function Content (){
     return(
         <Main>
             <Title darkTheme={darkTheme}>{titleContent}</Title>
+            <PlayArea></PlayArea>
             <Attribution />
         </Main>
     )
