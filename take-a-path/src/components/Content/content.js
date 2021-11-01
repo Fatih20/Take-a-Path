@@ -1,7 +1,10 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
+
 import { useTheme } from '../../context/ThemeContext';
 import { useGameState } from '../../context/GameStateContext';
+
+import { gameStateProperty } from "../../forDesigner/config";
 
 import Attribution from './attribution';
 import PlayArea from './playArea';
@@ -34,17 +37,7 @@ function Content (){
     const gameState = useGameState();
     const darkTheme = useTheme();
     
-    let titleContent;
-    if (gameState == "start"){
-        titleContent = "Start your Adventure";
-    } else if (gameState == "in-game") {
-        titleContent = "Start your Adventure";
-    } else if (gameState == "finished"){
-        titleContent = "The path you've taken";
-    }
-
-    console.log(titleContent);
-    
+    const titleContent = gameStateProperty[gameState].title;
     
     return(
         <Main>

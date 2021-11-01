@@ -3,10 +3,15 @@ import React from "react";
 import { useTheme } from '../../context/ThemeContext';
 import { useGameState } from '../../context/GameStateContext';
 
-import { attributionList } from "../../config";
+import { attributionList, gameStateProperty } from "../../forDesigner/config";
 
 const Main = styled.div`
-    display: ${props => props.gameState == "finished"? "block" : "none"};
+    display: ${(props) => {
+        if (gameStateProperty[props.gameState].displayAttribution){
+            return "block";
+        } else {
+            return "none";
+        }}};
     margin-top: 20px;
 
     & h2 {

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useTheme, useToggleTheme } from '../../context/ThemeContext';
 import { useGameState } from '../../context/GameStateContext';
 import { useShowRecap, useChangeShowRecap } from "../../context/ShowRecapContext";
+import { showEndingOptionButton } from "../../forDesigner/config";
 
 const Main = styled.div`
     display: flex;
@@ -49,8 +50,12 @@ const EndingOptionButton = styled.a`
 
 const EndingOptionButtonContainer = styled.div`
     display : ${(props) => {
-        if (props.gameState == "finished"){
+        if (showEndingOptionButton){
+            if (props.gameState == "finished"){
             return "flex";
+            } else {
+                return "none";
+            }
         } else {
             return "none";
         }
