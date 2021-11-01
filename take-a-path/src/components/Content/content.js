@@ -50,7 +50,7 @@ function Content (){
         <Main>
             <Title darkTheme={darkTheme}>{titleContent}</Title>
             <PlayAreaContainer>
-
+                <PlayArea />
             </PlayAreaContainer>
             <Attribution />
         </Main>

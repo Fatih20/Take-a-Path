@@ -13,7 +13,7 @@ export function useChangeGameState(){
 
 export function GameStateProvider( { children }){
 
-    const[gameState, setGameState] = useState("finished");
+    const[gameState, setGameState] = useState("start");
 
     const possibleGameState = ["start", "in-game", "finished"];
 

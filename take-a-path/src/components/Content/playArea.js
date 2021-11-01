@@ -5,7 +5,10 @@ import { useGameState, progressGameState  } from '../../GameStateContext';
 
 const Main = styled.div`
     align-items: center;
+    background-color: ${({ darkTheme }) => darkTheme? "#333333" : "#fff"};
     border-radius: 15px;
+    box-shadow: 0px 5px 4px 1px ${({ darkTheme }) => darkTheme? "#262626" : "#d4d4d4"};
+    color: ${({ darkTheme }) => darkTheme? "black" : "white"};
     display: flex;
     flex-direction: ${({ gameState }) => {
         if (gameState == "start"){
