@@ -1,11 +1,14 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
 
+//Context
 import { useTheme } from '../../context/ThemeContext';
 import { useGameState } from '../../context/GameStateContext';
 
+//Config
 import { gameStateProperty } from "../../forDesigner/config";
 
+//Components
 import Attribution from './attribution';
 import PlayArea from './playArea';
 

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
 
+//Context
 import Content from './Content/content';
 import Header from './Header/header';
-
 import { useTheme } from '../context/ThemeContext';
 
 const Main = styled.div`

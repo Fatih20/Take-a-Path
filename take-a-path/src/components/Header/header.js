@@ -1,8 +1,12 @@
 import styled from "styled-components";
 import React, { useState } from "react";
+
+//Context
 import { useTheme, useToggleTheme } from '../../context/ThemeContext';
 import { useGameState } from '../../context/GameStateContext';
 import { useShowRecap, useChangeShowRecap } from "../../context/ShowRecapContext";
+
+//Config
 import { showEndingOptionButton } from "../../forDesigner/config";
 
 const Main = styled.div`

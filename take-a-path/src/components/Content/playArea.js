@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import React from "react";
+
+//Context
 import { useTheme } from '../../context/ThemeContext';
 import { useGameState, progressGameState  } from '../../context/GameStateContext';
 
