@@ -6,6 +6,7 @@ import { useGameState } from '../../GameStateContext';
 import { attributionList } from "../../config";
 
 const Main = styled.div`
+    display: ${props => props.gameState == "finished"? "block" : "none"};
     margin-top: 20px;
 
     & h2 {
@@ -29,7 +30,7 @@ function Attribution () {
     const gameState = useGameState();
 
     return (
-        <Main darkTheme={darkTheme}>
+        <Main darkTheme={darkTheme} gameState={gameState}>
             {attributionList.map(function(attribution){
                 return <h2>{attribution.text} <a href={attribution.link}>{attribution.linked_text}</a></h2>
             })}

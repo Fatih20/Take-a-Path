@@ -16,8 +16,6 @@ export function GameStateProvider( { children }){
 
     function changeGameState (newState){
         setGameState(newState);
-        console.log(gameState);
-        console.log("Changed");
     }
 
     return (
