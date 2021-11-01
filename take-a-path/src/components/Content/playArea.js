@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import React from "react";
-import { useTheme } from '../../ThemeContext';
-import { useGameState, progressGameState  } from '../../GameStateContext';
+import { useTheme } from '../../context/ThemeContext';
+import { useGameState, progressGameState  } from '../../context/GameStateContext';
 
 const Main = styled.div`
     align-items: center;

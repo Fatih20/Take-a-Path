@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import React, { useState } from "react";
-import { useTheme, useToggleTheme } from '../../ThemeContext';
-import { useGameState } from '../../GameStateContext';
-import { useShowRecap, useChangeShowRecap } from "../../ShowRecapContext";
+import { useTheme, useToggleTheme } from '../../context/ThemeContext';
+import { useGameState } from '../../context/GameStateContext';
+import { useShowRecap, useChangeShowRecap } from "../../context/ShowRecapContext";
 
 const Main = styled.div`
     display: flex;

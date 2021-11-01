@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
-import { useTheme } from '../../ThemeContext';
-import { useGameState } from '../../GameStateContext';
+import { useTheme } from '../../context/ThemeContext';
+import { useGameState } from '../../context/GameStateContext';
 
 import Attribution from './attribution';
 import PlayArea from './playArea';

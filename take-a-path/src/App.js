@@ -1,10 +1,10 @@
 import './App.css';
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from 'styled-components';
 
-import { ThemeProvider } from './ThemeContext';
-import { GameStateProvider } from './GameStateContext';
-import { ShowRecapProvider } from './ShowRecapContext';
+import { ThemeProvider } from './context/ThemeContext';
+import { GameStateProvider } from './context/GameStateContext';
+import { ShowRecapProvider } from './context/ShowRecapContext';
 
 import Wrapper from './components/Wrapper';
 
