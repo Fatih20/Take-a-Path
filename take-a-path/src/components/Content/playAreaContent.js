@@ -1,10 +1,11 @@
 import styled from "styled-components";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 //Context
 import { useTheme } from '../../context/ThemeContext';
 import { useGameState, useChangeGameState, useSetGameState } from '../../context/GameStateContext';
 import { usePathTaken, useUpdatePathTaken } from "../../context/PathTakenContext";
+import { useShowRecap } from "../../context/ShowRecapContext";
 
 //Config
 import { buttonMessage } from '../../forDesigner/Config';
@@ -13,7 +14,7 @@ import { buttonMessage } from '../../forDesigner/Config';
 import { Button } from "../GlobalComponent";
 
 //Game Logic
-import { Director } from "../../Logic/Main";
+import { Director, generateEndStory, generateEnding } from "../../Logic/Main";
 import { EventNameConversion } from "../../forDesigner/Story";
 
 const StartButton = styled(Button)`
@@ -60,14 +61,14 @@ function PlayAreaContent(){
     const pathTaken = usePathTaken();
     const updatePathTaken = useUpdatePathTaken();
     const setGameState = useSetGameState();
-
-    // const currentEvent = EventNameConversion[pathTaken[pathTaken.length-1].nameOfEvent];
-    // const choiceShown = currentEvent.visibleChoiceGenerator(pathTaken);
+    const showRecap = useShowRecap();
 
     const [currentEvent, setCurrentEvent] = useState({});
+    const endStory = useRef("");
+    const ending = useRef("");
 
     useEffect(()=>{
-        // console.log("Bruh");
+        console.log("Bruh");
         if (pathTaken.length > 1){
             if (pathTaken[pathTaken.length-1].nameOfEvent === "End"){
                 setGameState("finished");
@@ -76,6 +77,16 @@ function PlayAreaContent(){
             }
         }
     }, [pathTaken]);
+
+    useEffect (()=> {
+        if (currentEvent === "End"){
+            endStory.current = generateEndStory(pathTaken);
+            ending.current = generateEnding(pathTaken);
+            progressGameState();
+        }
+
+        return;
+    }, [currentEvent])
 
     function progressThroughChoice (id){
         updatePathTaken(Director(pathTaken, id));
@@ -105,7 +116,7 @@ function PlayAreaContent(){
                 <p>{buttonMessage.start}</p>
             </StartButton>
         )
-    } else {
+    } else if (gameState === "in-game") {
         return(
             <>
             <div>
@@ -117,6 +128,16 @@ function PlayAreaContent(){
             </ChoiceContainer>
             </>
         )
+    } else if (gameState === "finished"){
+        if (showRecap){
+            return (
+                <p>{endStory}</p>
+            )
+        } else {
+            return (
+                <p>{ending}</p>
+            )
+        }
     }
 }
 

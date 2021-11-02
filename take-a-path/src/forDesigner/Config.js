@@ -33,7 +33,7 @@ export const attributionList = [
     }
 ];
 
-export const paragraph_periodicity = {
+export const paragraphPeriodicity = {
     periodicity : false,
     period : 4
 }
