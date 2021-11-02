@@ -18,7 +18,7 @@ function Wrapper() {
   } else {document.body.style.backgroundColor = "#f7f7f7";}
 
     return () => {document.body.style.backgroundColor = null;}
-  });
+  }, [darkTheme]);
 
   return (
     <Main>
