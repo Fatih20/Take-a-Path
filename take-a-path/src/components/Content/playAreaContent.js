@@ -76,7 +76,7 @@ function PlayAreaContent(){
 
     function choiceMaker (choice){
         console.log(choice.id);
-        const choiceObject = <Choice key={choice.id} darkTheme={darkTheme} OnClick={()=> {
+        const choiceObject = <Choice key={choice.id} darkTheme={darkTheme} onClick={()=> {
             console.log("Click");
             updatePathTaken(Director(pathTaken, choice.id));
             }}>{choice.answer}</Choice>;
@@ -87,6 +87,7 @@ function PlayAreaContent(){
     if (gameState === "start"){
         return(
             <StartButton darkTheme={darkTheme} href="#" onClick={() => {
+                // progressGameState();
                 updatePathTaken(Director(pathTaken, "A"));
                 console.log(pathTaken);
                 console.log(gameState);
