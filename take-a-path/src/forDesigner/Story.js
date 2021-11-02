@@ -55,7 +55,7 @@ export const Bored_At_Home = new Event({
 		],
 		"C" : [
 			{
-			type: "specific_event_checker",
+			type: "specificEventChecker",
 			specification : {
 				eventBefore : "Bored_At_Home"}, 
 			storyBit : ""
@@ -78,7 +78,7 @@ export const Restaurant = new Event({
 			answer: "Pasta",
 			conditionList : [
 				{
-				type: "specific_event_checker", 
+				type: "specificEventChecker", 
 				specification : {
 					eventName : "B"}
 				}

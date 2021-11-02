@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 //Context
 import { useTheme } from '../../context/ThemeContext';
@@ -61,10 +61,13 @@ function PlayAreaContent(){
     const updatePathTaken = useUpdatePathTaken();
     const setGameState = useSetGameState();
 
-    const currentEvent = EventNameConversion[pathTaken[pathTaken.length-1].nameOfEvent];
-    const choiceShown = currentEvent.visibleChoiceGenerator(pathTaken);
+    // const currentEvent = EventNameConversion[pathTaken[pathTaken.length-1].nameOfEvent];
+    // const choiceShown = currentEvent.visibleChoiceGenerator(pathTaken);
+
+    const [currentEvent, setCurrentEvent] = useState({});
 
     useEffect(()=>{
+        // console.log("Bruh");
         if (pathTaken.length > 1){
             if (pathTaken[pathTaken.length-1].nameOfEvent === "End"){
                 setGameState("finished");
@@ -74,24 +77,31 @@ function PlayAreaContent(){
         }
     }, [pathTaken]);
 
+    function progressThroughChoice (id){
+        updatePathTaken(Director(pathTaken, id));
+        setCurrentEvent(EventNameConversion[pathTaken[pathTaken.length-1].nameOfEvent]);
+    }
+
+    function startGame (){
+        progressThroughChoice("A");
+        progressGameState();
+    };
+
     function choiceMaker (choice){
-        console.log(choice.id);
-        const choiceObject = <Choice key={choice.id} darkTheme={darkTheme} onClick={()=> {
-            console.log("Click");
-            updatePathTaken(Director(pathTaken, choice.id));
+        return <Choice key={choice.id} darkTheme={darkTheme} onClick={()=> {
+            // updatePathTaken(Director(pathTaken, choice.id));
+            // setCurrentEvent(EventNameConversion[pathTaken[pathTaken.length-1].nameOfEvent]);
+            // console.log(currentEvent);
+            progressThroughChoice(choice.id);
             }}>{choice.answer}</Choice>;
-        console.log(choiceObject);
-        return choiceObject;
     };
 
     if (gameState === "start"){
         return(
             <StartButton darkTheme={darkTheme} href="#" onClick={() => {
-                // progressGameState();
-                updatePathTaken(Director(pathTaken, "A"));
-                console.log(pathTaken);
-                console.log(gameState);
-                }}>
+                startGame();
+                }
+                }>
                 <p>{buttonMessage.start}</p>
             </StartButton>
         )
@@ -103,7 +113,7 @@ function PlayAreaContent(){
                 <Question>{currentEvent.Question}</Question>
             </div>
             <ChoiceContainer>
-                {choiceShown.map(choiceMaker)}
+                {currentEvent.visibleChoiceGenerator(pathTaken).map(choiceMaker)}
             </ChoiceContainer>
             </>
         )
