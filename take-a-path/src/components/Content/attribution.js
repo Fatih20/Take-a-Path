@@ -39,7 +39,7 @@ function Attribution () {
     return (
         <Main darkTheme={darkTheme} gameState={gameState}>
             {attributionList.map(function(attribution){
-                return <h2>{attribution.text} <a href={attribution.link}>{attribution.linked_text}</a></h2>
+                return <h2 key={attributionList.indexOf(attribution)}>{attribution.text} <a href={attribution.link}>{attribution.linked_text}</a></h2>
             })}
         </Main>
     )

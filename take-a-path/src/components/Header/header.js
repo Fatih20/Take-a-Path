@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { useState } from "react";
+import React from "react";
 
 //Context
 import { useTheme, useToggleTheme } from '../../context/ThemeContext';
@@ -55,7 +55,7 @@ const EndingOptionButton = styled.a`
 const EndingOptionButtonContainer = styled.div`
     display : ${(props) => {
         if (showEndingOptionButton){
-            if (props.gameState == "finished"){
+            if (props.gameState === "finished"){
             return "flex";
             } else {
                 return "none";

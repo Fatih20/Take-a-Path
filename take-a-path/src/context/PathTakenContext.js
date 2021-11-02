@@ -1,42 +1,45 @@
 import React, { useState, useEffect, useContext } from "react";
 
 const PathTaken = React.createContext();
-const SetPathTaken = React.createContext();
+const UpdatePathTaken = React.createContext();
 
 export function usePathTaken (){
-    useContext(PathTaken);
+    return useContext(PathTaken);
 };
 
-export function useSetPathTaken () {
-    useContext(SetPathTaken);
+export function useUpdatePathTaken () {
+    return useContext(UpdatePathTaken);
 };
 
 export function PathTakenProvider ({ children }){
-    const[pathTaken, setPathTaken] = useState([]);
+    const[pathTaken, setPathTaken] = useState([{nthEvent : "0", nameOfEvent: "Start"}]);
 
     useEffect (() => {
         const pathTakenCandidate = JSON.parse(localStorage.getItem("PathTaken"))
-        if (pathTakenCandidate != undefined && pathTakenCandidate != null){
+        if (pathTakenCandidate !== undefined && pathTakenCandidate !== null){
             setPathTaken(pathTakenCandidate);
-        } else {
-            setPathTaken({nthEvent : "0", nameOfEvent: "Start"});
         }
-    });
 
-    function appendPathTaken (newPath){
-        setPathTaken(pathTaken.append(newPath));
+        return;
+    }, []);
+
+    // function appendPathTaken (newPath){
+    //     setPathTaken(pathTaken.append(newPath));
+    //     localStorage.setItem("PathTaken", JSON.stringify(pathTaken));
+    // }
+
+    function updatePathTaken (newPathTaken){
+        setPathTaken(newPathTaken);
         localStorage.setItem("PathTaken", JSON.stringify(pathTaken));
     }
 
-    function setPathTaken (newPathTaken){
-        setPathTaken(newPathTaken);
-    }
+    console.log(pathTaken);
 
     return (
         <PathTaken.Provider value={pathTaken}>
-            <SetPathTaken.Provider value={setPathTaken}>
+            <UpdatePathTaken.Provider value={updatePathTaken}>
                 {children}
-            </SetPathTaken.Provider>
+            </UpdatePathTaken.Provider>
         </PathTaken.Provider>
     )
 }

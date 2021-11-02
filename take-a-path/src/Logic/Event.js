@@ -1,60 +1,61 @@
 export class Event {
-    constructor(event_attribute){
-        this.Name = event_attribute.Name;
-		this.Occurence = event_attribute.Occurence;
-		this.Question = event_attribute.Question;
-		this.Possible_Answer_List = event_attribute.Possible_Answer_List;
-		this.Answers_For_Next_Event_List = event_attribute.Answers_For_Next_Event_List;
-        if (event_attribute.Lazy_Mode === true){
-            this.Lazy_Mode = event_attribute.Lazy_Mode;
+    constructor(eventAttribute){
+        this.Name = eventAttribute.Name;
+		this.Occurence = eventAttribute.Occurence;
+		this.Question = eventAttribute.Question;
+		this.PossibleAnswerList = eventAttribute.PossibleAnswerList;
+		this.AnswersForNextEventList = eventAttribute.AnswersForNextEventList;
+        if (eventAttribute.Lazy_Mode === true){
+            this.Lazy_Mode = eventAttribute.Lazy_Mode;
             this.Ending = {};
-            for (const possible_answer of event_attribute.Possible_Answer_List){
-                this.Ending[possible_answer.id] = [
+            for (const possibleAnswer of eventAttribute.PossibleAnswerList){
+                this.Ending[possibleAnswer.id] = [
                     {
-                        type: "default_ending",
-                        story_bit : event_attribute.Occurence+ " " + possible_answer.answer
+                        type: "defaultEnding",
+                        storyBit : eventAttribute.Occurence+ " " + possibleAnswer.answer
                     }
                 ]
             }
         } else {
-            for (const choice in event_attribute.Ending) {
-                for (const ending_bit of event_attribute.Ending[choice]){
-                    if (ending_bit.paragraph === undefined) {
-                        ending_bit.paragraph = "none";
+            for (const choice in eventAttribute.Ending) {
+                for (const endingBit of eventAttribute.Ending[choice]){
+                    if (endingBit.paragraph === undefined) {
+                        endingBit.paragraph = "none";
                     }
                 }
             }
-            this.Ending = event_attribute.Ending;
+            this.Ending = eventAttribute.Ending;
         }
 
-        if (event_attribute.End_Game_Event){
-            this.End_Game_Event = event_attribute.End_Game_Event
+        //Attribute below is deprecated
+        if (eventAttribute.End_Game_Event){
+            this.End_Game_Event = eventAttribute.End_Game_Event
         }
 
     };
 
-    visible_choice_generator(path_taken){
-        let choice_shown = [];
-        for (const possible_answer of this.Possible_Answer_List) {
-            if (possible_answer.condition_list === undefined){
-                choice_shown.push(possible_answer);
+    visibleChoiceGenerator(pathTaken){
+        let choiceShown = [];
+        for (const possibleAnswer of this.PossibleAnswerList) {
+            if (possibleAnswer.conditionList === undefined){
+                choiceShown.push(possibleAnswer);
             } else {
-                for (const condition of possible_answer.condition_list){
-                    if (this.condition_type_conversion_choice[condition.type](path_taken, condition)){
-                        choice_shown.push(possible_answer);
+                for (const condition of possibleAnswer.conditionList){
+                    if (this.conditionTypeConversionChoice[condition.type](pathTaken, condition)){
+                        choiceShown.push(possibleAnswer);
                         break;
                     }
                 }
             }
         }
-        return choice_shown;
+        return choiceShown;
     };
 
-    specific_event_checker_choice (previously_examined_path_list, condition) {
-        for (const previous_path of previously_examined_path_list) {
-            if (previous_path.nth_event === condition.specification.nth_event || condition.specification.nth_event === undefined ) {
-                if (previous_path.name_of_event === condition.specification.event_name || condition.specification.event_name === undefined ) {
-                    if (previous_path.choice_made === condition.specification.choice || condition.specification.choice === undefined ) {
+    specificEventCheckerChoice (previouslyExaminedPathList, condition) {
+        for (const previousPath of previouslyExaminedPathList) {
+            if (previousPath.nthEvent === condition.specification.nthEvent || condition.specification.nthEvent === undefined ) {
+                if (previousPath.nameOfEvent === condition.specification.eventName || condition.specification.eventName === undefined ) {
+                    if (previousPath.choiceMade === condition.specification.choice || condition.specification.choice === undefined ) {
                         return true;
                     }
                 }    
@@ -63,45 +64,45 @@ export class Event {
         return false;
     };
 
-    condition_type_conversion_choice = {
-        "specific_event_checker" : this.specific_event_checker_choice
+    conditionTypeConversionChoice = {
+        "specificEventChecker" : this.specificEventCheckerChoice
     };
 
-    end_story_bit_generator (previously_examined_path_list, currently_examined_path, paragraph_type_ledger, ignore_paragraph=false, periodicity=false, period=undefined){
-        const condition_list = this.Ending[currently_examined_path.choice_made];
-        let end_game_story_bit;
-        let index_of_compatible_condition = 0;
-        for (const condition of condition_list){
-            end_game_story_bit = this.condition_type_conversion_ending[condition.type](previously_examined_path_list, currently_examined_path, condition);
-            if (end_game_story_bit !== null){
+    end_storyBit_generator (previouslyExaminedPathList, currentlyExaminedPath, paragraphTypeLedger, ignoreParagraph=false, periodicity=false, period=undefined){
+        const conditionList = this.Ending[currentlyExaminedPath.choiceMade];
+        let endGameStoryBit;
+        let indexOfCompatibleCondition = 0;
+        for (const condition of conditionList){
+            endGameStoryBit = this.conditionTypeConversionEnding[condition.type](previouslyExaminedPathList, currentlyExaminedPath, condition);
+            if (endGameStoryBit !== null){
                 break;
             } 
-            index_of_compatible_condition += 1;
+            indexOfCompatibleCondition += 1;
         }
 
-        if (ignore_paragraph){
-            return {story_bit : end_game_story_bit};
+        if (ignoreParagraph){
+            return {storyBit : endGameStoryBit};
         } else {
-            let paragraph_type;
+            let paragraphType;
             if (periodicity){
-                console.log(parseInt(currently_examined_path.nth_event));
-                if ((parseInt(currently_examined_path.nth_event)+1)% period === 0 )
-                    paragraph_type = "last sentence";
+                console.log(parseInt(currentlyExaminedPath.nthEvent));
+                if ((parseInt(currentlyExaminedPath.nthEvent)+1)% period === 0 )
+                    paragraphType = "last sentence";
             } else{
-                paragraph_type = condition_list[index_of_compatible_condition].paragraph;
+                paragraphType = conditionList[indexOfCompatibleCondition].paragraph;
             }
-            return {story_bit : this.paragraph_determiner(end_game_story_bit, paragraph_type, paragraph_type_ledger), paragraph_type : paragraph_type};
+            return {storyBit : this.paragraphDeterminer(endGameStoryBit, paragraphType, paragraphTypeLedger), paragraphType : paragraphType};
         }
     
     };
 
-    specific_event_checker (previously_examined_path_list, currently_examined_path, condition) {
-        for (const previous_path of previously_examined_path_list) {
+    specificEventChecker (previouslyExaminedPathList, currentlyExaminedPath, condition) {
+        for (const previousPath of previouslyExaminedPathList) {
     
-            if (previous_path.nth_event === condition.specification.nth_event || condition.specification.nth_event === undefined ) {
-                if (previous_path.name_of_event === condition.specification.event_name || condition.specification.event_name === undefined ) {
-                    if (previous_path.choice_made === condition.specification.choice || condition.specification.choice === undefined ) {
-                        return condition.story_bit;
+            if (previousPath.nthEvent === condition.specification.nthEvent || condition.specification.nthEvent === undefined ) {
+                if (previousPath.nameOfEvent === condition.specification.eventName || condition.specification.eventName === undefined ) {
+                    if (previousPath.choiceMade === condition.specification.choice || condition.specification.choice === undefined ) {
+                        return condition.storyBit;
                     }
                 }    
             }
@@ -109,14 +110,14 @@ export class Event {
         return null;
     };
     
-    nth_event_checker (previously_examined_path_list, currently_examined_path, condition){
-        if (condition.specification.nth_this_event === currently_examined_path.nth_event || condition.specification.nth_this_event === undefined) {
-            if (condition.specification.event_before === undefined) {
-                return condition.story_bit;
+    nthEventChecker (previouslyExaminedPathList, currentlyExaminedPath, condition){
+        if (condition.specification.nth_this_event === currentlyExaminedPath.nthEvent || condition.specification.nth_this_event === undefined) {
+            if (condition.specification.eventBefore === undefined) {
+                return condition.storyBit;
             } else {
-                for (const previous_path of previously_examined_path_list) {
-                    if (previous_path.name_of_event === condition.specification.event_before) {
-                        return condition.story_bit;
+                for (const previousPath of previouslyExaminedPathList) {
+                    if (previousPath.nameOfEvent === condition.specification.eventBefore) {
+                        return condition.storyBit;
                     }
                 }
                 return null;
@@ -128,31 +129,31 @@ export class Event {
         }
     };
 
-    default_ending (previously_examined_path_list, currently_examined_path, condition){
-        return condition.story_bit;
+    defaultEnding (previouslyExaminedPathList, currentlyExaminedPath, condition){
+        return condition.storyBit;
     };
 
-    condition_type_conversion_ending = {
-        "nth_event_checker" : this.nth_event_checker,
-        "specific_event_checker" : this.specific_event_checker,
-        "default_ending" : this.default_ending
+    conditionTypeConversionEnding = {
+        "nthEventChecker" : this.nthEventChecker,
+        "specificEventChecker" : this.specificEventChecker,
+        "defaultEnding" : this.defaultEnding
     };
 
-    paragraph_determiner (end_game_story_bit, paragraph_type, paragraph_type_ledger){
+    paragraphDeterminer (endGameStoryBit, paragraphType, paragraphTypeLedger){
         let result;
-        let break_before = true;
-        if (paragraph_type_ledger[paragraph_type_ledger.length-1] === "last sentence"){
-            break_before = false;
+        let breakBefore = true;
+        if (paragraphTypeLedger[paragraphTypeLedger.length-1] === "last sentence"){
+            breakBefore = false;
         }
     
-        if (paragraph_type === "none" || paragraph_type === "new paragraph"){
-            result = end_game_story_bit;
-        } else if (paragraph_type === "last sentence" || paragraph_type === "standalone paragraph"){
-            result = end_game_story_bit+"<br><br>";
+        if (paragraphType === "none" || paragraphType === "new paragraph"){
+            result = endGameStoryBit;
+        } else if (paragraphType === "last sentence" || paragraphType === "standalone paragraph"){
+            result = endGameStoryBit+"<br><br>";
         }
     
-        if (paragraph_type === "standalone paragraph" || paragraph_type === "new paragraph"){
-            if (break_before){
+        if (paragraphType === "standalone paragraph" || paragraphType === "new paragraph"){
+            if (breakBefore){
                 result = "<br><br>"+result;
             }
         }

@@ -1,5 +1,5 @@
 import './App.css';
-import React from "react";
+import React, { useEffect } from "react";
 import styled from 'styled-components';
 
 //Context
@@ -19,6 +19,9 @@ const Main = styled.div`
 `;
 
 function App() {
+  useEffect (() => {
+    localStorage.removeItem("PathTaken");
+  }, []);
   return (
     <Main>
       <GlobalTransition />
