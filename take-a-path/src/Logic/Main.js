@@ -21,8 +21,15 @@ export function generateEndStory (pathTaken) {
     let examinedPathList = [];
     let pathSummationList = [];
     let paragraphTypeLedger = [];
+
+    for (const path of pathTaken){
+        console.log(path);
+        console.log(path.choiceMade);
+    }
     for (const path of pathTaken) {
         const examinedEvent = EventFile.EventNameConversion[path.nameOfEvent];
+        console.log(path);
+        // console.log(pathTaken);
         let storyBitAndParagraphType;
         if (examinedPathList.length === pathTaken.length-1){
             storyBitAndParagraphType = examinedEvent.endStoryBitGenerator(examinedPathList, path, paragraphTypeLedger, true, config.paragraphPeriodicity.periodicity, config.paragraphPeriodicity.period);

@@ -68,11 +68,15 @@ export class Event {
         "specificEventChecker" : this.specificEventCheckerChoice
     };
 
-    end_storyBit_generator (previouslyExaminedPathList, currentlyExaminedPath, paragraphTypeLedger, ignoreParagraph=false, periodicity=false, period=undefined){
+    endStoryBitGenerator (previouslyExaminedPathList, currentlyExaminedPath, paragraphTypeLedger, ignoreParagraph=false, periodicity=false, period=undefined){
+        // console.log(this.Ending);
+        console.log(currentlyExaminedPath);
+        console.log(currentlyExaminedPath.choiceMade);
         const conditionList = this.Ending[currentlyExaminedPath.choiceMade];
         let endGameStoryBit;
         let indexOfCompatibleCondition = 0;
         for (const condition of conditionList){
+            // console.log(this.conditionTypeConversionEnding[condition.type]);
             endGameStoryBit = this.conditionTypeConversionEnding[condition.type](previouslyExaminedPathList, currentlyExaminedPath, condition);
             if (endGameStoryBit !== null){
                 break;

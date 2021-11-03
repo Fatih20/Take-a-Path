@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 //Context
 import { useTheme } from '../../context/ThemeContext';
 import { useGameState, useChangeGameState, useSetGameState } from '../../context/GameStateContext';
-import { usePathTaken, useUpdatePathTaken } from "../../context/PathTakenContext";
+import { usePathTaken, useUpdatePathTaken, useAppendPathTaken, useAppendChoice } from "../../context/PathTakenContext";
 import { useShowRecap } from "../../context/ShowRecapContext";
 
 //Config
@@ -16,6 +16,9 @@ import { Button } from "../GlobalComponent";
 //Game Logic
 import { Director, generateEndStory, generateEnding } from "../../Logic/Main";
 import { EventNameConversion } from "../../forDesigner/Story";
+
+//Hooks
+import { endText } from './endText';
 
 const StartButton = styled(Button)`
     border-radius: 7px;
@@ -56,37 +59,64 @@ const Question = styled.p`
 
 function PlayAreaContent(){
     const darkTheme = useTheme();
+
     const gameState = useGameState();
     const progressGameState = useChangeGameState();
+    const setGameState = useSetGameState();
+
     const pathTaken = usePathTaken();
     const updatePathTaken = useUpdatePathTaken();
-    const setGameState = useSetGameState();
+    const appendPathTaken = useAppendPathTaken();
+    const appendChoice = useAppendChoice();
+
     const showRecap = useShowRecap();
 
     const [currentEvent, setCurrentEvent] = useState({});
     const endStory = useRef("");
     const ending = useRef("");
 
-    useEffect(()=>{
-        console.log("Bruh");
-        if (pathTaken.length > 1){
-            if (pathTaken[pathTaken.length-1].nameOfEvent === "End"){
-                setGameState("finished");
-            } else {
-                setGameState("in-game");
+    // useEffect(()=>{
+    //     console.log("Bruh");
+    //     if (pathTaken.length > 1){
+    //         if (pathTaken[pathTaken.length-1].nameOfEvent === "End"){
+    //             setGameState("finished");
+    //         } else {
+    //             setGameState("in-game");
+    //         }
+    //     }
+    // }, [pathTaken]);
+
+    // useEffect (()=> {
+    //     console.log("Bruh");
+    //     if (currentEvent === "End"){
+    //         endStory.current = generateEndStory(pathTaken);
+    //         ending.current = generateEnding(pathTaken);
+    //         progressGameState();
+    //     }
+
+    //     return;
+    // }, [currentEvent])
+
+    function Director (signal) {
+        const EventPresent = EventNameConversion[pathTaken[pathTaken.length-1].nameOfEvent];
+        const nthCurrentEvent = pathTaken[pathTaken.length-1].nthEvent;
+        console.log(EventPresent);
+        console.log(signal);
+        appendChoice(signal);
+        for (let answerForNextEvent of EventPresent.AnswersForNextEventList){
+            if (signal === answerForNextEvent.trigger) {
+                if (answerForNextEvent.nextEventName === "End"){
+                    console.log(pathTaken);
+                    endStory.current = generateEndStory(pathTaken);
+                    ending.current = generateEnding(pathTaken);
+                    progressGameState();
+                } else {
+                    appendPathTaken({nthEvent : (parseInt(nthCurrentEvent)+1).toString(), nameOfEvent : answerForNextEvent.nextEventName});
+                    setCurrentEvent(EventNameConversion[answerForNextEvent.nextEventName]);
+                }
             }
         }
-    }, [pathTaken]);
-
-    useEffect (()=> {
-        if (currentEvent === "End"){
-            endStory.current = generateEndStory(pathTaken);
-            ending.current = generateEnding(pathTaken);
-            progressGameState();
-        }
-
-        return;
-    }, [currentEvent])
+    };
 
     function progressThroughChoice (id){
         updatePathTaken(Director(pathTaken, id));
@@ -94,25 +124,17 @@ function PlayAreaContent(){
     }
 
     function startGame (){
-        progressThroughChoice("A");
+        Director("A");
         progressGameState();
     };
 
     function choiceMaker (choice){
-        return <Choice key={choice.id} darkTheme={darkTheme} onClick={()=> {
-            // updatePathTaken(Director(pathTaken, choice.id));
-            // setCurrentEvent(EventNameConversion[pathTaken[pathTaken.length-1].nameOfEvent]);
-            // console.log(currentEvent);
-            progressThroughChoice(choice.id);
-            }}>{choice.answer}</Choice>;
+        return <Choice key={choice.id} darkTheme={darkTheme} onClick={()=> Director(choice.id)}>{choice.answer}</Choice>;
     };
 
     if (gameState === "start"){
         return(
-            <StartButton darkTheme={darkTheme} href="#" onClick={() => {
-                startGame();
-                }
-                }>
+            <StartButton darkTheme={darkTheme} href="#" onClick={startGame}>
                 <p>{buttonMessage.start}</p>
             </StartButton>
         )
@@ -129,15 +151,15 @@ function PlayAreaContent(){
             </>
         )
     } else if (gameState === "finished"){
-        if (showRecap){
-            return (
-                <p>{endStory}</p>
-            )
-        } else {
-            return (
-                <p>{ending}</p>
-            )
-        }
+        return (
+            <endText typeOfEnd={()=> {
+                if (showRecap){
+                    return endStory;
+                } else {
+                    return ending;
+                }}} />
+
+        )
     }
 }
 
