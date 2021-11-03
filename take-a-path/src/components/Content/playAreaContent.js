@@ -107,6 +107,7 @@ function PlayAreaContent(){
             if (signal === answerForNextEvent.trigger) {
                 if (answerForNextEvent.nextEventName === "End"){
                     console.log(pathTaken);
+                    console.log(pathTaken[pathTaken.length-1]);
                     endStory.current = generateEndStory(pathTaken);
                     ending.current = generateEnding(pathTaken);
                     progressGameState();
@@ -117,11 +118,6 @@ function PlayAreaContent(){
             }
         }
     };
-
-    function progressThroughChoice (id){
-        updatePathTaken(Director(pathTaken, id));
-        setCurrentEvent(EventNameConversion[pathTaken[pathTaken.length-1].nameOfEvent]);
-    }
 
     function startGame (){
         Director("A");
