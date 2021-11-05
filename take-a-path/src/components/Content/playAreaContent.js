@@ -20,6 +20,19 @@ const StartButton = styled(Button)`
         font-size: 32px;
         font-weight: 500;
     }
+
+    @media (max-width: 820px) {
+        & p {
+            font-size: 28px;
+        }
+    }
+    
+    @media (max-width: 520px) {
+        & p {
+            font-size: 24px;
+        }
+    }
+
 `;
 
 const ChoiceContainer = styled.div`
@@ -30,6 +43,12 @@ const ChoiceContainer = styled.div`
     margin-top: 20px;
     font-size: 20px;
     width: 100%;
+
+    @media (max-width: 520px) {
+        flex-direction: column;
+        font-size: 18px;
+        max-width: 300px;
+    }
 `;
 
 const Choice = styled(Button)`
@@ -37,6 +56,15 @@ const Choice = styled(Button)`
     display: inline-block;
     margin-bottom: 25px;
     padding: 10px;
+
+    @media (max-width: 520px) {
+        margin-bottom: 20px;
+        padding: 7px;
+
+        &:last-child{
+            margin-bottom: 23px;
+        }
+    }
 `;
 
 const Occurence = styled.p`
@@ -51,6 +79,10 @@ const Question = styled.p`
 const EndGame = styled.p`
     font-size: 20px;
     text-align: left;
+
+    @media (max-width: 425px) {
+        font-size: 20px;
+    }
 `;
 
 function PlayAreaContent({ director, currentEvent, endingContent, pathTaken }){

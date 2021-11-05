@@ -34,6 +34,14 @@ const Title = styled.h1`
     color: ${props => props.darkTheme? "white":"black"};
     font-size: 54px;
     margin-bottom: 20px;
+
+    @media (max-width: 820px) {
+        font-size: 48px;
+    }
+
+    @media (max-width: 520px) {
+        font-size: 40px;
+    }
 `;
 
 const PlayAreaContainer = styled.div`
@@ -91,6 +99,39 @@ const PlayArea = styled.div`
     position: relative;
     text-align: center;
     width: 100%;
+
+    @media (max-width: 820px) {
+        padding: ${({ gameState })=> {
+            if (gameState === "start" || gameState === "in-game"){
+                return "20px 10px"
+            } else if (gameState === "finished"){
+                return "20px"
+            }
+        }};
+    }
+
+    @media (max-width: 520px) {
+        padding-bottom: ${({ gameState })=> {
+            if (gameState === "start" || gameState === "in-game"){
+                return "0px"
+            }
+        }};
+    }
+
+    @media (max-width: 425px) {
+        border-radius: 10px;
+
+        ${({ gameState }) => {
+            if (gameState === "finished"){
+                return (
+                    "letter-spacing: 1px;\nline-height: 1.65;\npadding: 7px 10px;"
+                )
+            } else {
+                return("")
+            }
+        }};
+
+    }
 `;
 
 const ReplayButton = styled(Button)`

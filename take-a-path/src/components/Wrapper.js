@@ -7,6 +7,15 @@ import Header from './Header/header';
 import { useTheme } from '../context/ThemeContext';
 
 const Main = styled.div`
+  @media (max-width: 820px) {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  @media (max-width: 425px) {
+    padding-left: 7px;
+    padding-right: 7px;
+  }
 `;
 
 function Wrapper() {

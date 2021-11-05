@@ -40,6 +40,12 @@ const ThemeToggle = styled.div`
     & i:hover{
         color: ${props => props.darkTheme? "#fff394" : "#f9c440"};
     }
+
+    @media (max-width: 820px) {
+        & i {
+            font-size: ${props => props.darkTheme? "30px" : "36px"};
+        }
+    }
 `;
 
 const EndingOptionButton = styled.a`
@@ -65,6 +71,10 @@ const EndingOptionButtonContainer = styled.div`
         }
     }};
     flex-direction: column;
+
+    @media (max-width: 425px) {
+        font-size: 14px;
+    }
 `;
 
 function Header (){
