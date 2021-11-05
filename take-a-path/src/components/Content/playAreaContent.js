@@ -65,7 +65,7 @@ function PlayAreaContent({ director, currentEvent, endingContent, pathTaken }){
     };
 
     function choiceMaker (choice){
-        return <Choice key={choice.id} darkTheme={darkTheme} onClick={()=> director(choice.id)}>{choice.answer}</Choice>;
+        return <Choice href="#" key={choice.id} darkTheme={darkTheme} onClick={()=> director(choice.id)}>{choice.answer}</Choice>;
     };
 
     if (gameState === "start"){

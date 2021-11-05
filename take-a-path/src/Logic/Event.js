@@ -72,9 +72,11 @@ export class Event {
         // console.log(this.Ending);
         // console.log(currentlyExaminedPath);
         // console.log(currentlyExaminedPath.choiceMade);
+        console.log(currentlyExaminedPath);
         const conditionList = this.Ending[currentlyExaminedPath.choiceMade];
         let endGameStoryBit;
         let indexOfCompatibleCondition = 0;
+        console.log(conditionList)
         for (const condition of conditionList){
             // console.log(this.conditionTypeConversionEnding[condition.type]);
             endGameStoryBit = this.conditionTypeConversionEnding[condition.type](previouslyExaminedPathList, currentlyExaminedPath, condition);

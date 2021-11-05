@@ -17,6 +17,9 @@ import PlayAreaContent from './playAreaContent';
 import { generateEndStory, generateEnding } from "../../Logic/Main";
 import { EventNameConversion } from "../../forDesigner/Story";
 
+//Styles
+import { Button } from "../GlobalComponent";
+
 const Main = styled.div`
     padding-top: 0px;
     margin: auto auto;
@@ -90,6 +93,21 @@ const PlayArea = styled.div`
     width: 100%;
 `;
 
+const ReplayButton = styled(Button)`
+    display:${({gameState}) => {
+        if (gameState === "start" || gameState === "in-game"){
+            return "none";
+        } else if (gameState === "finished"){
+            return "inline-block";
+        }
+    }};
+    padding: 10px;
+
+    & p {
+        font-size: 20px;
+    }
+`;
+
 function Content (){
     const darkTheme = useTheme();
 
@@ -99,7 +117,9 @@ function Content (){
 
     const showRecap = useShowRecap();
 
-    const[pathTaken, setPathTaken] = useState([{nthEvent : "0", nameOfEvent: "Start"}]);
+    const initialPathTaken = [{nthEvent : "0", nameOfEvent: "Start"}];
+
+    const[pathTaken, setPathTaken] = useState(initialPathTaken);
     const [currentEvent, setCurrentEvent] = useState({});
     const endStory = useRef("");
     const ending = useRef("");
@@ -110,33 +130,38 @@ function Content (){
         if (pathTakenCandidate !== undefined && pathTakenCandidate !== null){
             setPathTaken(pathTakenCandidate);
         }
-
         return;
     }, []);
 
     // localStorage.removeItem("PathTaken");
 
-    useEffect(()=>{
-        localStorage.removeItem("PathTaken");
-    }, []);
-
-    useEffect(() => {
-        setCurrentEvent(EventNameConversion[pathTaken[pathTaken.length-1].nameOfEvent]);
-    });
-
     useEffect(() => {
         localStorage.setItem("PathTaken", JSON.stringify(pathTaken));
     }, [pathTaken]);
 
-    useEffect(()=>{
-        if (pathTaken.length > 1 && gameState === "start"){
-            setGameState("in-game");
-        }
-    });
+    useEffect(() => {
+        setCurrentEvent(EventNameConversion[pathTaken[pathTaken.length-1].nameOfEvent]);
+    }, [pathTaken]);
+
+    // useEffect(()=>{
+    //     if (pathTaken.length > 1 && gameState === "start"){
+    //         setGameState("in-game");
+    //     }
+    //     // console.log(gameState);
+    // });
+
+    // console.log(gameState);
+
+    // useEffect(()=>{
+    //     console.log(gameState);
+    //     if (gameState === "start"){
+    //         localStorage.removeItem("PathTaken");
+    //         setPathTaken(initialPathTaken);
+    //     }
+    // }, []);
 
     function appendPathTaken (newPath){
         setPathTaken(prevPathTaken => prevPathTaken.concat([newPath]));
-        localStorage.setItem("PathTaken", JSON.stringify(pathTaken));
     }
 
     function appendChoice (signal){
@@ -145,19 +170,17 @@ function Content (){
             newPathTaken[newPathTaken.length-1].choiceMade = signal; 
             return newPathTaken;
         });
-        localStorage.setItem("PathTaken", JSON.stringify(pathTaken));
     }
 
     function updatePathTaken (newPathTaken){
         setPathTaken(newPathTaken);
-        localStorage.setItem("PathTaken", JSON.stringify(pathTaken));
     }
 
     function Director (signal) {
         const EventPresent = EventNameConversion[pathTaken[pathTaken.length-1].nameOfEvent];
         const nthCurrentEvent = pathTaken[pathTaken.length-1].nthEvent;
-        console.log(EventPresent);
-        console.log(signal);
+        // console.log(EventPresent);
+        // console.log(signal);
         appendChoice(signal);
         for (let answerForNextEvent of EventPresent.AnswersForNextEventList){
             if (signal === answerForNextEvent.trigger) {
@@ -172,12 +195,21 @@ function Content (){
             }
         }
     };
+
+    function restart(){
+        localStorage.removeItem("PathTaken");
+        setPathTaken(initialPathTaken);
+        progressGameState();
+    };
     
     const titleContent = gameStateProperty[gameState].title;
 
     if (gameState === "finished"){
-        endStory.current = generateEndStory(pathTaken);
-        ending.current = generateEnding(pathTaken);
+        localStorage.removeItem("PathTaken");
+        if (endStory.current === "" && endStory.current === ""){
+            endStory.current = generateEndStory(pathTaken);
+            ending.current = generateEnding(pathTaken);   
+        }
     }
 
     if (showRecap){
@@ -185,6 +217,8 @@ function Content (){
     } else {
         endingContent.current = ending.current;
     }
+
+    // console.log(gameState);
     
     return(
         <Main>
@@ -194,6 +228,9 @@ function Content (){
                     <PlayAreaContent director={Director} currentEvent={currentEvent} endingContent={endingContent.current} pathTaken={pathTaken}/>
                 </PlayArea>
             </PlayAreaContainer>
+            <div>
+                <ReplayButton href="#" gameState={gameState} darkTheme={darkTheme} onClick={restart}><p>Start Again</p></ReplayButton>
+            </div>
             <Attribution />
         </Main>
     )

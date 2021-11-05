@@ -21,9 +21,23 @@ export function useSetGameState(){
 
 export function GameStateProvider( { children }){
     const[gameState, setGameState] = useState("start");
-    const pathTaken = usePathTaken();
 
     const possibleGameState = ["start", "in-game", "finished"];
+
+    useEffect (() => {
+        const gameStateCandidate = JSON.parse(localStorage.getItem("GameState"))
+        if (gameStateCandidate !== undefined && gameStateCandidate !== null){
+            if (gameStateCandidate !== "finished"){
+                setGameState(gameStateCandidate);
+            }
+        }
+        return;
+    }, []);
+
+    useEffect(()=>{
+        localStorage.setItem("GameState", JSON.stringify(gameState));
+    }, [gameState]);
+
 
     function progressGameState (){
         const newState = possibleGameState[((possibleGameState.indexOf(gameState) + 1) % possibleGameState.length)];
