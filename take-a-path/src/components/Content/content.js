@@ -169,6 +169,8 @@ function Content (){
     const ending = useRef("");
     const endingContent = useRef("");
 
+    // localStorage.removeItem("PathTaken");
+
     useEffect (() => {
         const pathTakenCandidate = JSON.parse(localStorage.getItem("PathTaken"))
         if (pathTakenCandidate !== undefined && pathTakenCandidate !== null){
@@ -177,8 +179,6 @@ function Content (){
         return;
     }, []);
 
-    // localStorage.removeItem("PathTaken");
-
     useEffect(() => {
         localStorage.setItem("PathTaken", JSON.stringify(pathTaken));
     }, [pathTaken]);
@@ -186,23 +186,6 @@ function Content (){
     useEffect(() => {
         setCurrentEvent(EventNameConversion[pathTaken[pathTaken.length-1].nameOfEvent]);
     }, [pathTaken]);
-
-    // useEffect(()=>{
-    //     if (pathTaken.length > 1 && gameState === "start"){
-    //         setGameState("in-game");
-    //     }
-    //     // console.log(gameState);
-    // });
-
-    // console.log(gameState);
-
-    // useEffect(()=>{
-    //     console.log(gameState);
-    //     if (gameState === "start"){
-    //         localStorage.removeItem("PathTaken");
-    //         setPathTaken(initialPathTaken);
-    //     }
-    // }, []);
 
     function appendPathTaken (newPath){
         setPathTaken(prevPathTaken => prevPathTaken.concat([newPath]));
@@ -223,14 +206,10 @@ function Content (){
     function Director (signal) {
         const EventPresent = EventNameConversion[pathTaken[pathTaken.length-1].nameOfEvent];
         const nthCurrentEvent = pathTaken[pathTaken.length-1].nthEvent;
-        // console.log(EventPresent);
-        // console.log(signal);
         appendChoice(signal);
         for (let answerForNextEvent of EventPresent.AnswersForNextEventList){
             if (signal === answerForNextEvent.trigger) {
                 if (answerForNextEvent.nextEventName === "End"){
-                    // console.log(pathTaken);
-                    // console.log(pathTaken[pathTaken.length-1]);
                     progressGameState();
                 } else {
                     appendPathTaken({nthEvent : (parseInt(nthCurrentEvent)+1).toString(), nameOfEvent : answerForNextEvent.nextEventName});
@@ -261,8 +240,6 @@ function Content (){
     } else {
         endingContent.current = ending.current;
     }
-
-    // console.log(gameState);
     
     return(
         <Main>
