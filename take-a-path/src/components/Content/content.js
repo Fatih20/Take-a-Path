@@ -7,7 +7,7 @@ import { useGameState, useChangeGameState, useSetGameState } from '../../context
 import { useShowRecap } from "../../context/ShowRecapContext";
 
 //Config
-import { gameStateProperty } from "../../forDesigner/Config";
+import { gameStateProperty, buttonMessage } from "../../forDesigner/Config";
 
 //Components
 import Attribution from './attribution';
@@ -250,7 +250,7 @@ function Content (){
                 </PlayArea>
             </PlayAreaContainer>
             <div>
-                <ReplayButton href="#" gameState={gameState} darkTheme={darkTheme} onClick={restart}><p>Take Another Path</p></ReplayButton>
+                <ReplayButton href="#" gameState={gameState} darkTheme={darkTheme} onClick={restart}><p>{buttonMessage.replay}</p></ReplayButton>
             </div>
             <Attribution />
         </Main>
