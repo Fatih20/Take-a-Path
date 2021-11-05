@@ -120,7 +120,7 @@ function PlayAreaContent(){
     };
 
     function startGame (){
-        Director("A");
+        // Director("A");
         progressGameState();
     };
 
@@ -145,6 +145,7 @@ function PlayAreaContent(){
                 {currentEvent.visibleChoiceGenerator(pathTaken).map(choiceMaker)}
             </ChoiceContainer>
             </>
+            // <p>Bruh</p>
         )
     } else if (gameState === "finished"){
         return (
