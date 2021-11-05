@@ -7,7 +7,7 @@ import { useGameState, useChangeGameState, useSetGameState } from '../../context
 import { useShowRecap } from "../../context/ShowRecapContext";
 
 //Config
-import { gameStateProperty, buttonMessage } from "../../forDesigner/Config";
+import { gameStateProperty, buttonMessage, animation } from "../../forDesigner/Config";
 
 //Components
 import Attribution from './attribution';
@@ -75,6 +75,15 @@ const PlayArea = styled.div`
             return "none"
         }
     }};
+    left: ${({ position }) => {
+        if (position === "passing"){
+            return("-101%")
+        } else if (position === "current"){
+            return ("0")
+        } else if (position === "coming"){
+            return ("101%")
+        }
+    }};
     letter-spacing: ${ ({ gameState })=> {
         if (gameState === "finished"){
             return "1px";
@@ -98,6 +107,15 @@ const PlayArea = styled.div`
     }};
     position: relative;
     text-align: center;
+    transition: left ${({ position }) => {
+        if (position === "passing"){
+            return(`${(animation.outDuration/1000).toString()}s`);
+        } else if (position === "current"){
+            return(`${(animation.inDuration/1000).toString()}s`);
+        } else if (position === "coming"){
+            return ("0s");
+        }
+    }};
     width: 100%;
 
     @media (max-width: 820px) {
@@ -165,9 +183,13 @@ function Content (){
 
     const[pathTaken, setPathTaken] = useState(initialPathTaken);
     const [currentEvent, setCurrentEvent] = useState({});
+
     const endStory = useRef("");
     const ending = useRef("");
     const endingContent = useRef("");
+
+    const previousEvent = useRef("");
+    const previousGameState = useRef("");
 
     // localStorage.removeItem("PathTaken");
 
