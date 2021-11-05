@@ -94,6 +94,7 @@ const PlayArea = styled.div`
 `;
 
 const ReplayButton = styled(Button)`
+    border-radius: 7px;
     display:${({gameState}) => {
         if (gameState === "start" || gameState === "in-game"){
             return "none";
@@ -101,10 +102,12 @@ const ReplayButton = styled(Button)`
             return "inline-block";
         }
     }};
+    margin: 0 auto;
     padding: 10px;
 
     & p {
         font-size: 20px;
+        font-weight: 500;
     }
 `;
 
@@ -229,7 +232,7 @@ function Content (){
                 </PlayArea>
             </PlayAreaContainer>
             <div>
-                <ReplayButton href="#" gameState={gameState} darkTheme={darkTheme} onClick={restart}><p>Start Again</p></ReplayButton>
+                <ReplayButton href="#" gameState={gameState} darkTheme={darkTheme} onClick={restart}><p>Take Another Path</p></ReplayButton>
             </div>
             <Attribution />
         </Main>
