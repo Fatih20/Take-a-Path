@@ -56,7 +56,7 @@ export function PathTakenProvider ({ children }){
         localStorage.setItem("PathTaken", JSON.stringify(pathTaken));
     }
 
-    console.log(pathTaken);
+    // console.log(pathTaken);
 
     return (
         <PathTaken.Provider value={pathTaken}>

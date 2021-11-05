@@ -70,8 +70,8 @@ export class Event {
 
     endStoryBitGenerator (previouslyExaminedPathList, currentlyExaminedPath, paragraphTypeLedger, ignoreParagraph=false, periodicity=false, period=undefined){
         // console.log(this.Ending);
-        console.log(currentlyExaminedPath);
-        console.log(currentlyExaminedPath.choiceMade);
+        // console.log(currentlyExaminedPath);
+        // console.log(currentlyExaminedPath.choiceMade);
         const conditionList = this.Ending[currentlyExaminedPath.choiceMade];
         let endGameStoryBit;
         let indexOfCompatibleCondition = 0;
