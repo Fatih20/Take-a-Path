@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 
 const ThemeContext = React.createContext();
 const ChangeThemeContext = React.createContext();
@@ -14,9 +14,19 @@ export function useToggleTheme(){
 export function ThemeProvider( { children }){
     const[darkTheme, setDarkTheme] = useState(true);
 
+    useEffect(()=>{
+        const darkThemeCandidate = JSON.parse(localStorage.getItem("DarkTheme"));
+        console.log(darkThemeCandidate);
+        if (darkThemeCandidate !== undefined && darkThemeCandidate !== null){
+            setDarkTheme(darkThemeCandidate);
+        }
+        return;
+    }, [])
+
     function toggleTheme (){
         setDarkTheme(!darkTheme);
-    }
+        localStorage.setItem("DarkTheme", JSON.stringify(!darkTheme));
+    };
 
     return (
         <ThemeContext.Provider value={darkTheme}>
