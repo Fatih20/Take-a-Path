@@ -229,10 +229,8 @@ function Content (){
 
     if (gameState === "finished"){
         localStorage.removeItem("PathTaken");
-        if (endStory.current === "" && endStory.current === ""){
-            endStory.current = generateEndStory(pathTaken);
-            ending.current = generateEnding(pathTaken);   
-        }
+        endStory.current = generateEndStory(pathTaken);
+        ending.current = generateEnding(pathTaken);   
     }
 
     if (showRecap){
