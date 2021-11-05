@@ -2,7 +2,7 @@ import styled, { createGlobalStyle } from "styled-components";
 
 export const GlobalTransition = createGlobalStyle`
     * {
-        transition: all 0.25s;
+        transition: color 0.25s, background-color 0.25s, box-shadow 0.25s, font-size 0.25s;
     }
 `;
 
