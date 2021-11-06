@@ -267,9 +267,11 @@ function Content (){
                 )
             }
             return (
+                <>
                 <PlayArea position={"current"} darkTheme={darkTheme} gameState={gameState}>
                     <PlayAreaContent director={Director} currentEvent={getLatestEvent(pathTaken)} endingContent={endingContent.current} pathTaken={pathTaken} startGame={startGame} gameState={gameState}/>
                 </PlayArea>
+                </>
             ) 
         } else {
             return (
