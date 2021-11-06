@@ -190,7 +190,7 @@ function Content (){
 
     const previousEvent = useRef(EventNameConversion[initialPathTaken[0].nameOfEvent]);
     const previousGameState = useRef(gameState);
-    const previousPathTaken = useRef([]);
+    const previousPathTaken = useRef(initialPathTaken);
     const positionCurrent = useRef("current");
     const positionComing = useRef("coming");
 
@@ -233,8 +233,12 @@ function Content (){
         setPathTaken(newPathTaken);
     }
 
+    function getLatestEvent(pathTaken){
+        return EventNameConversion[pathTaken[pathTaken.length-1].nameOfEvent]
+    }
+
     function Director (signal) {
-        const EventPresent = EventNameConversion[pathTaken[pathTaken.length-1].nameOfEvent];
+        const EventPresent = getLatestEvent(pathTaken);
         const nthCurrentEvent = pathTaken[pathTaken.length-1].nthEvent;
         previousPathTaken.current = pathTaken;
         appendChoice(signal);
@@ -254,7 +258,7 @@ function Content (){
     function animatedPlayArea (){
         if (animation.useAnimation){
             console.log("Bruh");
-            if (previousEvent.current !== currentEvent){
+            if (previousPathTaken.current !== pathTaken){
                 console.log("Bruh 2");
                 positionComing.current = "current";
                 positionCurrent.current = "passing";
@@ -263,13 +267,8 @@ function Content (){
                     positionCurrent.current = "current";
                     previousGameState.current = gameState;
                     previousEvent.current = currentEvent;
+                    previousPathTaken.current = pathTaken;
                     console.log("Bruh3");
-                    return (
-                        // <PlayArea position={"current"} darkTheme={darkTheme} gameState={previousGameState.current}>
-                        //     <PlayAreaContent director={Director} currentEvent={currentEvent} endingContent={endingContent.current} pathTaken={pathTaken} startGame={startGame}/>
-                        // </PlayArea>
-                        <p>Bruh</p>
-                    )
                 }, /*animation.inDuration*/1000);
                 return (
                     <>
@@ -299,6 +298,7 @@ function Content (){
     function restart(){
         localStorage.removeItem("PathTaken");
         setPathTaken(initialPathTaken);
+        previousPathTaken.current = initialPathTaken;
         progressGameState();
         previousGameState.current = "start";
     };
