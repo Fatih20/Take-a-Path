@@ -190,6 +190,7 @@ function Content (){
 
     const previousEvent = useRef("");
     const previousGameState = useRef("");
+    const previousPathTaken = useRef([]);
     const positionCurrent = useRef("current");
     const positionComing = useRef("coming");
 
@@ -230,12 +231,14 @@ function Content (){
     function Director (signal) {
         const EventPresent = EventNameConversion[pathTaken[pathTaken.length-1].nameOfEvent];
         const nthCurrentEvent = pathTaken[pathTaken.length-1].nthEvent;
+        previousPathTaken.current = pathTaken;
         appendChoice(signal);
         for (let answerForNextEvent of EventPresent.AnswersForNextEventList){
             if (signal === answerForNextEvent.trigger) {
                 if (answerForNextEvent.nextEventName === "End"){
                     previousGameState.current = progressGameState(true);
                 } else {
+                    previousEvent.current = currentEvent;
                     appendPathTaken({nthEvent : (parseInt(nthCurrentEvent)+1).toString(), nameOfEvent : answerForNextEvent.nextEventName});
                     setCurrentEvent(EventNameConversion[answerForNextEvent.nextEventName]);
                 }
