@@ -85,10 +85,10 @@ const EndGame = styled.p`
     }
 `;
 
-function PlayAreaContent({ director, currentEvent, endingContent, pathTaken, startGame }){
+function PlayAreaContent({ director, currentEvent, endingContent, pathTaken, startGame, gameState }){
     const darkTheme = useTheme();
+    console.log(gameState);
 
-    const gameState = useGameState();
     const progressGameState = useChangeGameState();
 
     function choiceMaker (choice){
