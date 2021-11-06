@@ -85,16 +85,11 @@ const EndGame = styled.p`
     }
 `;
 
-function PlayAreaContent({ director, currentEvent, endingContent, pathTaken }){
+function PlayAreaContent({ director, currentEvent, endingContent, pathTaken, startGame }){
     const darkTheme = useTheme();
 
     const gameState = useGameState();
     const progressGameState = useChangeGameState();
-
-    function startGame (){
-        director("A");
-        progressGameState();
-    };
 
     function choiceMaker (choice){
         return <Choice href="#" key={choice.id} darkTheme={darkTheme} onClick={()=> director(choice.id)}>{choice.answer}</Choice>;

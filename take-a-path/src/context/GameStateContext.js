@@ -39,9 +39,13 @@ export function GameStateProvider( { children }){
     }, [gameState]);
 
 
-    function progressGameState (){
+    function progressGameState (returnPrevious = false){
+        const oldState = gameState;
         const newState = possibleGameState[((possibleGameState.indexOf(gameState) + 1) % possibleGameState.length)];
         setGameState(newState);
+        if (returnPrevious){
+            return oldState;
+        }
     }
 
     return (

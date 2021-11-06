@@ -190,6 +190,8 @@ function Content (){
 
     const previousEvent = useRef("");
     const previousGameState = useRef("");
+    const positionCurrent = useRef("current");
+    const positionComing = useRef("coming");
 
     // localStorage.removeItem("PathTaken");
 
@@ -232,7 +234,7 @@ function Content (){
         for (let answerForNextEvent of EventPresent.AnswersForNextEventList){
             if (signal === answerForNextEvent.trigger) {
                 if (answerForNextEvent.nextEventName === "End"){
-                    progressGameState();
+                    previousGameState.current = progressGameState(true);
                 } else {
                     appendPathTaken({nthEvent : (parseInt(nthCurrentEvent)+1).toString(), nameOfEvent : answerForNextEvent.nextEventName});
                     setCurrentEvent(EventNameConversion[answerForNextEvent.nextEventName]);
@@ -245,6 +247,11 @@ function Content (){
         localStorage.removeItem("PathTaken");
         setPathTaken(initialPathTaken);
         progressGameState();
+    };
+
+    function startGame (){
+        Director("A");
+        previousGameState.current = progressGameState(true);
     };
     
     const titleContent = gameStateProperty[gameState].title;
@@ -266,7 +273,7 @@ function Content (){
             <Title darkTheme={darkTheme}>{titleContent}</Title>
             <PlayAreaContainer>
                 <PlayArea darkTheme={darkTheme} gameState={gameState}>
-                    <PlayAreaContent director={Director} currentEvent={currentEvent} endingContent={endingContent.current} pathTaken={pathTaken}/>
+                    <PlayAreaContent director={Director} currentEvent={currentEvent} endingContent={endingContent.current} pathTaken={pathTaken} startGame={startGame}/>
                 </PlayArea>
             </PlayAreaContainer>
             <div>
