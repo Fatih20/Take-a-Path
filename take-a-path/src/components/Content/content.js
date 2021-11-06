@@ -187,7 +187,7 @@ function Content (){
     const[previousPathTaken, setPreviousPathTaken] = useState(initialPathTaken);
     const[positionCurrent, setPositionCurrent] = useState("current");
     const[positionComing, setPositionComing] = useState("coming");
-    const[previousGameState, setPreviousGameState] = useState("in-game");
+    const[previousGameState, setPreviousGameState] = useState(gameState);
     const[previousEvent, setPreviousEvent] = useState(EventNameConversion[initialPathTaken[0].nameOfEvent])
 
     const endStory = useRef("");
@@ -240,7 +240,7 @@ function Content (){
     function Director (signal) {
         const EventPresent = getLatestEvent(pathTaken);
         const nthCurrentEvent = pathTaken[pathTaken.length-1].nthEvent;
-        previousPathTaken.current = pathTaken;
+        setPreviousPathTaken(pathTaken);
         appendChoice(signal);
         for (let answerForNextEvent of EventPresent.AnswersForNextEventList){
             if (signal === answerForNextEvent.trigger) {
@@ -258,11 +258,12 @@ function Content (){
     function animatedPlayArea (){
         if (animation.useAnimation){
             console.log("Bruh");
-            console.log(gameState);
             if (previousPathTaken !== pathTaken){
                 console.log("Bruh 2");
-                setPositionComing("current");
-                setPositionCurrent("passing");
+                if (positionComing !== "current" && positionCurrent !== "passing"){
+                    setPositionComing("current");
+                    setPositionCurrent("passing");
+                }
                 setTimeout(()=>{
                     setPositionComing("coming");
                     setPositionCurrent("current");
@@ -270,7 +271,7 @@ function Content (){
                     setPreviousEvent(currentEvent);
                     setPreviousPathTaken(pathTaken);
                     console.log("Bruh3");
-                }, /*animation.inDuration*/1000);
+                }, /*animation.inDuration*/250);
                 return (
                     <>
                     <PlayArea position={positionCurrent} darkTheme={darkTheme} gameState={previousGameState}>

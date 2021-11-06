@@ -87,7 +87,6 @@ const EndGame = styled.p`
 
 function PlayAreaContent({ director, currentEvent, endingContent, pathTaken, startGame, gameState }){
     const darkTheme = useTheme();
-    console.log(gameState);
 
     const progressGameState = useChangeGameState();
 

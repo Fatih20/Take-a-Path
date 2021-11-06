@@ -38,6 +38,8 @@ export function GameStateProvider( { children }){
         localStorage.setItem("GameState", JSON.stringify(gameState));
     }, [gameState]);
 
+    localStorage.removeItem("GameState");
+
 
     function progressGameState (returnPrevious = false){
         const oldState = gameState;
