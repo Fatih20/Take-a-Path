@@ -21,7 +21,7 @@ export const buttonMessage = {
 
 export const animation = {
     useAnimation : true,
-    inDuration : 200,
+    inDuration : 1000,
     outDuration : 200
 };
 

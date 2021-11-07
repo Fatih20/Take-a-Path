@@ -307,7 +307,7 @@ function Content (){
         Director("A");
         previousGameState.current = progressGameState(true)
         // setPreviousGameState(progressGameState(true));
-        console.log(previousGameState);
+        // console.log(previousGameState);
     };
     
     const titleContent = gameStateProperty[gameState].title;
