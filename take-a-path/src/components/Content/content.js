@@ -192,7 +192,7 @@ function Content (){
 
     const[previousPathTaken, setPreviousPathTaken] = useState(initialPathTaken);
     const[playAreaProperty, setPlayAreaProperty] = useState({current : { position : "current", visible : true}, coming : { position : "current", visible : false}});
-    const[previousGameState, setPreviousGameState] = useState(gameState);
+    const previousGameState = useRef(gameState);
 
     const endStory = useRef("");
     const ending = useRef("");
@@ -241,7 +241,8 @@ function Content (){
             if (signal === answerForNextEvent.trigger) {
                 if (answerForNextEvent.nextEventName === "End"){
                     progressGameState();
-                    setPreviousGameState("finished");
+                    previousGameState.current = "finished";
+                    // setPreviousGameState("finished");
                 } else {
                     appendPathTaken({nthEvent : (parseInt(nthCurrentEvent)+1).toString(), nameOfEvent : answerForNextEvent.nextEventName});
                 }
@@ -249,7 +250,7 @@ function Content (){
         }
     };
 
-    function animatedPlayArea (){
+    /* function animatedPlayArea (){
         if (animation.useAnimation){
             console.log("Bruh");
             if (previousPathTaken !== pathTaken){
@@ -285,10 +286,11 @@ function Content (){
                 </PlayArea>
             )
         }
-    }
+    } */
 
     function synchronize(){
-        setPreviousGameState(gameState);
+        // setPreviousGameState(gameState);
+        previousGameState.current = gameState;
         setPreviousPathTaken(pathTaken);
     }
 
@@ -297,12 +299,14 @@ function Content (){
         setPathTaken(initialPathTaken);
         setPreviousPathTaken(initialPathTaken);
         progressGameState();
-        setPreviousGameState("start");
+        previousGameState.current = "start";
+        // setPreviousGameState("start");
     };
 
     function startGame (){
         Director("A");
-        setPreviousGameState(progressGameState(true));
+        previousGameState.current = progressGameState(true)
+        // setPreviousGameState(progressGameState(true));
         console.log(previousGameState);
     };
     
@@ -324,7 +328,7 @@ function Content (){
         <Main>
             <Title darkTheme={darkTheme}>{titleContent}</Title>
             <PlayAreaContainer>
-                <AnimatedPlayArea pathTaken={pathTaken} previousPathTaken={previousPathTaken} synchronize={synchronize} getLatestEvent={getLatestEvent} director={Director} gameState={gameState} previousGameState={previousGameState} startGame={startGame} endingContent={endingContent}/>
+                <AnimatedPlayArea pathTaken={pathTaken} previousPathTaken={previousPathTaken} synchronize={synchronize} getLatestEvent={getLatestEvent} director={Director} gameState={gameState} previousGameState={previousGameState.current} startGame={startGame} endingContent={endingContent}/>
             </PlayAreaContainer>
             <div>
                 <ReplayButton href="#" gameState={gameState} darkTheme={darkTheme} onClick={restart}><p>{buttonMessage.replay}</p></ReplayButton>

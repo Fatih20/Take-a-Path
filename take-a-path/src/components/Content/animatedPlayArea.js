@@ -116,39 +116,40 @@ const PlayArea = styled.div`
 function AnimatedPlayArea ({ pathTaken, previousPathTaken, synchronize, getLatestEvent, director, gameState, previousGameState, startGame, endingContent }){
     const darkTheme = useTheme();
 
-    const[playAreaProperty, setPlayAreaProperty] = useState({current : { position : "current", visible : true}, coming : { position : "current", visible : false}});
+    const playAreaProperty = useRef({current : { position : "current", visible : true}, coming : { position : "current", visible : false}});
 
+    // console.log("Bruh original");
 
     if (animation.useAnimation){
         console.log("Bruh");
         if (previousPathTaken !== pathTaken){
-            if (JSON.stringify(playAreaProperty) !== JSON.stringify({current : { position : "passing", visible : true}, coming : { position : "coming", visible : false}})){
-                setPlayAreaProperty({current : { position : "passing", visible : true}, coming : { position : "coming", visible : false}});
+            if (JSON.stringify(playAreaProperty.current) !== JSON.stringify({current : { position : "passing", visible : true}, coming : { position : "coming", visible : false}})){
+                playAreaProperty.current = {current : { position : "passing", visible : true}, coming : { position : "coming", visible : false}};
                 console.log("Bruh Special");
             }
             console.log("Bruh 2");
             setTimeout(()=>{
-                setPlayAreaProperty({current : { position : "passing", visible : false}, coming : { position : "current", visible : true}});
+                playAreaProperty.current = {current : { position : "passing", visible : false}, coming : { position : "current", visible : true}};
                 setTimeout(()=>{
                     synchronize();
-                    setPlayAreaProperty({current : { position : "current", visible : true}, coming : { position : "coming", visible : false}});
+                    playAreaProperty.current = {current : { position : "current", visible : true}, coming : { position : "coming", visible : false}};
                 }, animation.outDuration)
                 console.log("Bruh3");   
             }, animation.inDuration);
         }
         return (
             <>
-            <PlayArea position={playAreaProperty.current.position} darkTheme={darkTheme} gameState={previousGameState} visible={playAreaProperty.current.visible} style={{ transition: `transform ${animation.outDuration/1000}s`}}>
+            <PlayArea position={playAreaProperty.current.current.position} darkTheme={darkTheme} gameState={previousGameState} visible={playAreaProperty.current.current.visible} style={{ transition: `transform ${animation.outDuration/1000}s`}}>
                 <PlayAreaContent director={director} currentEvent={getLatestEvent(previousPathTaken)} endingContent={endingContent.current} pathTaken={pathTaken} startGame={startGame} gameState={previousGameState}/>
             </PlayArea>
-            <PlayArea position={playAreaProperty.coming.position} darkTheme={darkTheme} gameState={gameState} visible={playAreaProperty.coming.visible} style={{ transition: `transform ${animation.inDuration/1000}s`}}>
+            <PlayArea position={playAreaProperty.current.coming.position} darkTheme={darkTheme} gameState={gameState} visible={playAreaProperty.current.coming.visible} style={{ transition: `transform ${animation.inDuration/1000}s`}}>
                 <PlayAreaContent director={director} currentEvent={getLatestEvent(pathTaken)} endingContent={endingContent.current} pathTaken={pathTaken} startGame={startGame} gameState={gameState}/>
             </PlayArea>
             </>
         ) 
     } else {
         return (
-            <PlayArea position={"current"} darkTheme={darkTheme} gameState={gameState}>
+            <PlayArea position={"current"} darkTheme={darkTheme} gameState={gameState} visible={true}>
                 <PlayAreaContent director={director} currentEvent={getLatestEvent(pathTaken)} endingContent={endingContent.current} pathTaken={pathTaken} startGame={startGame} gameState={gameState}/>
             </PlayArea>
         )
