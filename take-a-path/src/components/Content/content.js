@@ -12,6 +12,7 @@ import { gameStateProperty, buttonMessage, animation } from "../../forDesigner/C
 //Components
 import Attribution from './attribution';
 import PlayAreaContent from './playAreaContent';
+import AnimatedPlayArea from "./animatedPlayArea";
 
 //Logic
 import { generateEndStory, generateEnding } from "../../Logic/Main";
@@ -286,6 +287,11 @@ function Content (){
         }
     }
 
+    function synchronize(){
+        setPreviousGameState(gameState);
+        setPreviousPathTaken(pathTaken);
+    }
+
     function restart(){
         localStorage.removeItem("PathTaken");
         setPathTaken(initialPathTaken);
@@ -318,10 +324,7 @@ function Content (){
         <Main>
             <Title darkTheme={darkTheme}>{titleContent}</Title>
             <PlayAreaContainer>
-                {/* <PlayArea darkTheme={darkTheme} gameState={gameState}>
-                    <PlayAreaContent director={Director} currentEvent={currentEvent} endingContent={endingContent.current} pathTaken={pathTaken} startGame={startGame}/>
-                </PlayArea> */}
-                { animatedPlayArea() }
+                <AnimatedPlayArea pathTaken={pathTaken} previousPathTaken={previousPathTaken} synchronize={synchronize} getLatestEvent={getLatestEvent} director={Director} gameState={gameState} previousGameState={previousGameState} startGame={startGame} endingContent={endingContent}/>
             </PlayAreaContainer>
             <div>
                 <ReplayButton href="#" gameState={gameState} darkTheme={darkTheme} onClick={restart}><p>{buttonMessage.replay}</p></ReplayButton>
