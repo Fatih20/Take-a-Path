@@ -19,9 +19,11 @@ const Main = styled.div`
 `;
 
 function App() {
+
   useEffect (() => {
     localStorage.removeItem("PathTaken");
   }, []);
+
   return (
     <Main>
       <GlobalTransition />

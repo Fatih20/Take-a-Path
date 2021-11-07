@@ -58,7 +58,13 @@ const PlayArea = styled.div`
     border-radius: 15px;
     box-shadow: 0px 5px 4px 1px ${({ darkTheme }) => darkTheme? "#262626" : "#d4d4d4"};
     color: ${({ darkTheme }) => darkTheme? "white" : "black"};
-    display: flex;
+    display: ${({ visible }) => {
+        if (visible){
+            return "flex";
+        } else {
+            return "none";
+        }
+    }};
     flex-direction: ${({ gameState }) => {
         if (gameState === "start"){
             return "row";
@@ -77,7 +83,7 @@ const PlayArea = styled.div`
     }};
     left: ${({ position }) => {
         if (position === "passing"){
-            return("0")
+            return("-101%")
         } else if (position === "current"){
             return ("0")
         } else if (position === "coming"){
@@ -107,7 +113,7 @@ const PlayArea = styled.div`
     }};
     position: relative;
     text-align: center;
-    transition: left ${({ position }) => {
+    transition: transform ${({ position }) => {
         if (position === "passing"){
             return(`${(animation.outDuration/1000).toString()}s`);
         } else if (position === "current"){
@@ -184,7 +190,7 @@ function Content (){
     const[pathTaken, setPathTaken] = useState(initialPathTaken);
 
     const[previousPathTaken, setPreviousPathTaken] = useState(initialPathTaken);
-    const[position, setPosition] = useState({current : "current", coming : "coming"});
+    const[playAreaProperty, setPlayAreaProperty] = useState({current : { position : "current", visible : true}, coming : { position : "current", visible : false}});
     const[previousGameState, setPreviousGameState] = useState(gameState);
 
     const endStory = useRef("");
@@ -233,7 +239,8 @@ function Content (){
         for (let answerForNextEvent of EventPresent.AnswersForNextEventList){
             if (signal === answerForNextEvent.trigger) {
                 if (answerForNextEvent.nextEventName === "End"){
-                    setPreviousGameState(progressGameState(true));
+                    progressGameState();
+                    setPreviousGameState("finished");
                 } else {
                     appendPathTaken({nthEvent : (parseInt(nthCurrentEvent)+1).toString(), nameOfEvent : answerForNextEvent.nextEventName});
                 }
@@ -245,30 +252,27 @@ function Content (){
         if (animation.useAnimation){
             console.log("Bruh");
             if (previousPathTaken !== pathTaken){
-                console.log("Bruh 2");
-                if (position.coming !== "current" && position.current !== "passing"){
-                    setPosition({current : "passing", coming : "current" })
+                if (JSON.stringify(playAreaProperty) !== JSON.stringify({current : { position : "passing", visible : true}, coming : { position : "coming", visible : false}})){
+                    setPlayAreaProperty({current : { position : "passing", visible : true}, coming : { position : "coming", visible : false}});
+                    console.log("Bruh Special");
                 }
+                console.log("Bruh 2");
                 setTimeout(()=>{
-                    setPosition({current : "current", coming : "coming"});
-                    setPreviousGameState(gameState);
-                    setPreviousPathTaken(pathTaken);
+                    setPlayAreaProperty({current : { position : "passing", visible : false}, coming : { position : "current", visible : true}});
+                    setTimeout(()=>{
+                        setPreviousGameState(gameState);
+                        setPreviousPathTaken(pathTaken);
+                        setPlayAreaProperty({current : { position : "current", visible : true}, coming : { position : "coming", visible : false}});
+                    }, animation.outDuration)
                     console.log("Bruh3");
-                }, /*animation.inDuration*/250);
-                return (
-                    <>
-                    <PlayArea position={position.current} darkTheme={darkTheme} gameState={previousGameState}>
-                        <PlayAreaContent director={Director} currentEvent={getLatestEvent(previousPathTaken)} endingContent={endingContent.current} pathTaken={pathTaken} startGame={startGame} gameState={previousGameState}/>
-                    </PlayArea>
-                    <PlayArea position={position.coming} darkTheme={darkTheme} gameState={gameState}>
-                        <PlayAreaContent director={Director} currentEvent={getLatestEvent(pathTaken)} endingContent={endingContent.current} pathTaken={pathTaken} startGame={startGame} gameState={gameState}/>
-                    </PlayArea>
-                </>
-                )
+                }, animation.inDuration);
             }
             return (
                 <>
-                <PlayArea position={"current"} darkTheme={darkTheme} gameState={gameState}>
+                <PlayArea position={playAreaProperty.current.position} darkTheme={darkTheme} gameState={previousGameState} visible={playAreaProperty.current.visible} style={{ transition: `transform ${animation.outDuration/1000}s`}}>
+                    <PlayAreaContent director={Director} currentEvent={getLatestEvent(previousPathTaken)} endingContent={endingContent.current} pathTaken={pathTaken} startGame={startGame} gameState={previousGameState}/>
+                </PlayArea>
+                <PlayArea position={playAreaProperty.coming.position} darkTheme={darkTheme} gameState={gameState} visible={playAreaProperty.coming.visible} style={{ transition: `transform ${animation.inDuration/1000}s`}}>
                     <PlayAreaContent director={Director} currentEvent={getLatestEvent(pathTaken)} endingContent={endingContent.current} pathTaken={pathTaken} startGame={startGame} gameState={gameState}/>
                 </PlayArea>
                 </>
