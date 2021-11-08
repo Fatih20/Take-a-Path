@@ -20,9 +20,9 @@ export const buttonMessage = {
 }
 
 export const animation = {
-    useAnimation : true,
+    useAnimation : false,
     inDuration : 1000,
-    outDuration : 200
+    outDuration : 1000
 };
 
 export const attributionList = [
